@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Information Form</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+          {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show">
+              <button type="button" class="close" data-bs-dismiss="alert"> 
+                &times;
+              </button>
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      </header>
+      <main>
+        <form method="POST">
+          {{form.hidden_tag()}}
+    
+          {{form.firstName.label}}
+          {{form.firstName()}}
+          <br>
+          {{form.lastName.label}}
+          {{form.lastName()}}
+          <br>
+          {{form.phoneNumber.label}}
+          {{form.phoneNumber()}}
+          <br>
+          {{form.email.label}}
+          {{form.email()}}
+          <br>
+          {{form.homeAdress.label}}
+          {{form.homeAdress()}}
+          <br>
+          {{form.about.label}}
+          {{form.about()}}
+          <br>
+          {{form.submit()}}
+        </form>
+      </main>
+</body>
+</html>

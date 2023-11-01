@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Major Information Form</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+          {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show">
+              <button type="button" class="close" data-bs-dismiss="alert"> 
+                &times;
+              </button>
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      </header>
+      <main>
+        <form method="POST">
+          {{form.hidden_tag()}}
+    
+          {{form.college.label}}
+          {{form.college()}}
+          <br>
+          {{form.major.label}}
+          {{form.major()}}
+          <br>
+          {{form.concentration.label}}
+          {{form.concentration()}}
+          <br>
+          {{form.minors.label}}
+          {{form.minors()}}
+          <br>
+          {{form.classes.label}}
+          {{form.classes()}}
+          <br>
+          {{form.tools.label}}
+          {{form.tools()}}
+          <br>
+          {{form.languages.label}}
+          {{form.languages()}}
+          <br>
+          {{form.submit()}}
+        </form>
+      </main>
+</body>
+</html>

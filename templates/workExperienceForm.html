@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Experience Form</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+          {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show">
+              <button type="button" class="close" data-bs-dismiss="alert"> 
+                &times;
+              </button>
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      </header>
+      <main>
+        <form method="POST">
+          {{form.hidden_tag()}}
+    
+          {{form.company1.label}}
+          {{form.company1()}}
+          <br>
+          {{form.position1.label}}
+          {{form.position1()}}
+          <br>
+          {{form.typeOfWork1.label}}
+          {{form.typeOfWork1()}}
+          <br>
+          {{form.work1Discription.label}}
+          {{form.work1Discription()}}
+          <br>
+          {{form.submit()}}
+        </form>
+      </main>
+</body>
+</html>
