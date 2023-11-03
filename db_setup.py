@@ -52,6 +52,7 @@ def setup_web_builder_tables(
         __tablename__ = "Websites"
         id = db.Column(db.Integer, primary_key=True)
         userId = db.Column(db.Integer)  # TODO: FK User
+        websiteLink = db.Column(db.Unicode, unique=True)
         homePage = db.Column(db.Unicode, nullable=False)
         aboutPage = db.Column(db.Unicode, nullable=True)
         workPage = db.Column(db.Unicode, nullable=True)
