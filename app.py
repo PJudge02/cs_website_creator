@@ -4,33 +4,31 @@ from flask_login import UserMixin, LoginManager, login_required
 from flask_login import login_user, logout_user, current_user
 import os, sys
 from forms import PersonalInformation, MajorRelated, Projcts, WorkExperience, VolunteerWork, Extracurricular 
-
+from db_setup import setup_web_builder_tables
 from hashing_examples import UpdatedHasher
 
-# script_dir = os.path.abspath(os.path.dirname(__file__))
-# sys.path.append(script_dir)
+script_dir = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(script_dir)
 
-# scriptdir = os.path.abspath(os.path.dirname(__file__))
-# dbpath = os.path.join(scriptdir, 'WebsiteCreator.sqlite3')
-# pepfile = os.path.join(script_dir, "pepper.bin")
+dbpath = os.path.join(script_dir, 'WebsiteCreator.sqlite3')
+pepfile = os.path.join(script_dir, "pepper.bin")
 
-# with open(pepfile, 'rb') as fin:
-#     pepper_key = fin.read()
+with open(pepfile, 'rb') as fin:
+    pepper_key = fin.read()
 
-# pwd_hasher = UpdatedHasher(pepper_key)
-
-# Configure the Flask App
-# app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{dbpath}"
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-# app.config['SECRET_KEY'] = 'correcthorsebatterystaple'
-
-# db = SQLAlchemy(app)
+pwd_hasher = UpdatedHasher(pepper_key)
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['SECRET_KEY'] = 'correcthorsebatterystaple'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{dbpath}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+# Creates db tables, set reinitialize to false if saving data, add data to false if dont need dummy data
+User, Project, Project_Image, Club, Experience, Website = setup_web_builder_tables(app, db, reinitialize=True, add_data=True)
 
 @app.get("/")
 def getLandingPage():
