@@ -5,8 +5,9 @@ from wtforms.fields import (
     IntegerField,
     SelectField,
     EmailField,
+    PasswordField,
 )
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, Length, Email, EqualTo
 
 
 class PersonalInformation(FlaskForm):
@@ -60,3 +61,18 @@ class Extracurricular(FlaskForm):
     activity1 = StringField("Activity/Club?", validators=[InputRequired()])
     leadership1 = StringField("Leadership Position:", validators=[InputRequired()])
     submit = SubmitField("Submit")
+
+class RegisterForm(FlaskForm):
+    email = EmailField("Email: ", validators=[InputRequired(), Email()])
+    password = PasswordField("Password: ", 
+        validators=[InputRequired(), Length(min=8, max=256)])
+    confirm_password = PasswordField("Confirm Password: ", 
+        validators=[EqualTo('password')])
+    submit = SubmitField("Register")
+
+# define our own FlaskForm subclass for our form
+class LoginForm(FlaskForm):
+    email = EmailField("Email: ", validators=[InputRequired(), Email()])
+    password = PasswordField("Password: ", 
+        validators=[InputRequired(), Length(min=8, max=256)])
+    submit = SubmitField("Login")
