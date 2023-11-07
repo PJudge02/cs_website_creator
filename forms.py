@@ -1,14 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import (
-    SubmitField,
-    StringField,
-    IntegerField,
-    SelectField,
-    EmailField,
-    PasswordField,
-)
-from wtforms.validators import InputRequired, Length, Email, EqualTo
-
+from wtforms.fields import SubmitField, StringField, IntegerField, SelectField, EmailField
+from wtforms.validators import InputRequired
 
 class PersonalInformation(FlaskForm):
     title = "Personal Information"
@@ -19,7 +11,6 @@ class PersonalInformation(FlaskForm):
     homeAdress = StringField("Home Address")
     about = StringField("About you",  validators=[InputRequired()])
     submit = SubmitField("Next")
-
 
 class MajorRelated(FlaskForm):
     title = "Major Related Information"

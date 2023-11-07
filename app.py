@@ -18,12 +18,14 @@ from forms import (
     Projcts,
     WorkExperience,
     VolunteerWork,
-    Extracurricular,
-    RegisterForm,
-    LoginForm
+    Extracurricular
+    # ,
+    # RegisterForm,
+    # LoginForm
 )
 from db_setup import setup_web_builder_tables
 from hashing_examples import UpdatedHasher
+from flask_bootstrap import Bootstrap
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(script_dir)
@@ -31,12 +33,14 @@ sys.path.append(script_dir)
 dbpath = os.path.join(script_dir, "WebsiteCreator.sqlite3")
 pepfile = os.path.join(script_dir, "pepper.bin")
 
-with open(pepfile, "rb") as fin:
-    pepper_key = fin.read()
+# with open(pepfile, "rb") as fin:
+#     pepper_key = fin.read()
 
-pwd_hasher = UpdatedHasher(pepper_key)
+# pwd_hasher = UpdatedHasher(pepper_key)
 
 app = Flask(__name__)
+app.secret_key = 'secret'
+bootstrap = Bootstrap(app)
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["SECRET_KEY"] = "correcthorsebatterystaple"
 
@@ -63,167 +67,56 @@ def load_user(uid: int) -> User:
 ##############################################################################################################
 # Forms
 ##############################################################################################################
-
-@app.get("/personal-information-form/")
-def getPersonal():
-    form = PersonalInformation()
-    return render_template("personalInformationForm.html", form=form)
-
-
-@app.post("/personal-information-form/")
-def postPersonal():
-    form = PersonalInformation()
-    if form.validate():
-        return redirect(url_for("getMajor"))
-    for field, msg in form.errors.items():
-        flash(f"{field}: {msg}")
-    return redirect(url_for("getPersonal"))
-
-
-@app.get("/major-form/")
-def getMajor():
-    form = MajorRelated()
-    return render_template("majorForm.html", form=form)
-
-
-@app.post("/major-form/")
-def postMajor():
-    form = MajorRelated()
-    if form.validate():
-        return redirect(url_for("getProject"))
-    for field, msg in form.errors.items():
-        flash(f"{field}: {msg}")
-    return redirect(url_for("getMajor"))
-
-
-@app.get("/project-form/")
-def getProject():
-    form = Projcts()
-    return render_template("projectForm.html", form=form)
-
-
-@app.post("/project-form/")
-def postProject():
-    form = Projcts()
-    if form.validate():
-        return redirect(url_for("getWorkExperience"))
-    for field, msg in form.errors.items():
-        flash(f"{field}: {msg}")
-    return redirect(url_for("getProject"))
-
-
-@app.get("/work-experience-form/")
-def getWorkExperience():
-    form = WorkExperience()
-    return render_template("workExperienceForm.html", form=form)
-
-
-@app.post("/work-experience-form/")
-def postWorkExperience():
-    form = Projcts()
-    if form.validate():
-        return redirect(url_for("getVolunteerWork"))
-    for field, msg in form.errors.items():
-        flash(f"{field}: {msg}")
-    return redirect(url_for("getWorkExperience"))
-
-
-@app.get("/volunteer-work-form/")
-def getVolunteerWork():
-    form = VolunteerWork()
-    return render_template("volunteerWorkForm.html", form=form)
-
-
-@app.post("/volunteer-work-form/")
-def postVolunteerWork():
-    form = Projcts()
-    if form.validate():
-        return redirect(url_for("getExtracurricular"))
-    for field, msg in form.errors.items():
-        flash(f"{field}: {msg}")
-    return redirect(url_for("getVolunteerWork"))
-
-
-@app.get("/extracurricular-form/")
-def getExtracurricular():
-    form = Extracurricular()
-    return render_template("volunteerWorkForm.html", form=form)
-
-
-@app.post("/extracurricular-form/")
-def postExtracurricular():
-    form = Projcts()
-    if form.validate():
-        return redirect(url_for("getExtracurricular"))
-    for field, msg in form.errors.items():
-        flash(f"{field}: {msg}")
-    return redirect(url_for("getExtracurricular"))
-
-##############################################################################################################
-# Site-Wide Pages
-##############################################################################################################
-
-
-@app.get("/")
+@app.route('/')
 def index():
-    return render_template("landingPage.html")
+    return redirect(url_for('step', step=1))
 
-@app.get('/register/')
-def get_register():
-    form = RegisterForm()
-    return render_template('Login/register.html', form=form)
 
-@app.post('/register/')
-def post_register():
-    form = RegisterForm()
-    if form.validate():
-        # check if there is already a user with this email address
-        user = User.query.filter_by(email=form.email.data).first()
-        # if the email address is free, create a new user and send to login
-        if user is None:
-            user = User(email=form.email.data, password=form.password.data) # type:ignore
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('getPersonal'))
-        else: # if the user already exists
-            # flash a warning message and redirect to get registration form
-            flash('There is already an account with that email address')
-            return redirect(url_for('get_register'))
-    else: # if the form was invalid
-        # flash error messages and redirect to get registration form again
-        for field, error in form.errors.items():
-            flash(f"{field}: {error}")
-        return redirect(url_for('get_register'))
+@app.route('/step/<int:step>', methods=['GET', 'POST'])
+def step(step):
+    forms = {
+        1: PersonalInformation(),
+        2: MajorRelated(),
+        3: Projcts(),
+        4: WorkExperience(),
+        5: VolunteerWork(),
+        6: Extracurricular()
+    }
 
-@app.get('/login/')
-def get_login():
-    form = LoginForm()
-    return render_template("Login/login.html", form=form)
+    form = forms.get(step, 1)
 
-@app.post('/login/')
-def post_login():
-    form = LoginForm()
-    if form.validate():
-        # try to get the user associated with this email address
-        user = User.query.filter_by(email=form.email.data).first()
-        # if this user exists and the password matches
-        if user is not None and user.verify_password(form.password.data):
-            # log this user in through the login_manager
-            login_user(user)
-            # redirect the user to the page they wanted or the home page
-            next = request.args.get('next')
-            if next is None or not next.startswith('/'):
-                next = url_for('index')
-            return redirect(next)
-        else: # if the user does not exist or the password is incorrect
-            # flash an error message and redirect to login form
-            flash('Invalid email address or password')
-            return redirect(url_for('get_login'))
-    else: # if the form was invalid
-        # flash error messages and redirect to get login form again
-        for field, error in form.errors.items():
-            flash(f"{field}: {error}")
-        return redirect(url_for('get_login'))
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            # Save form data to session
+            session['step{}'.format(step)] = form.data
+            if step < len(forms):
+                # Redirect to next step
+                return redirect(url_for('step', step=step+1))
+            else:
+                # Redirect to finish
+                return redirect(url_for('finish'))
+
+    # If form data for this step is already in the session, populate the form with it
+    if 'step{}'.format(step) in session:
+        form.process(data=session['step{}'.format(step)])
+
+    content = {
+        'progress': int(step / len(forms) * 100),
+        'step': step, 
+        'form': form,
+    }
+    return render_template('step.html', **content)
+
+
+@app.route('/finish')
+def finish():
+    data = {}
+    for key in session.keys():
+        if key.startswith('step'):
+            data.update(session[key])
+    session.clear()
+    return render_template('finish.html', data=data)
+
 
 
 ##############################################################################################################
