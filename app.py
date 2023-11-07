@@ -313,3 +313,4 @@ def view_projects(userId:int):
 def view_work(userId:int):
     user: User = User.query.filter_by(id=userId).first_or_404()
     return render_template("WebsiteViews/work.html", user=user)
+
