@@ -8,6 +8,7 @@ from flask import (
     session,
     flash,
 )
+#ethan made a comment here
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_required
 from flask_login import login_user, logout_user, current_user
