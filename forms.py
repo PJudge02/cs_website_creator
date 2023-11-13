@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import SubmitField, StringField, IntegerField, SelectField, EmailField
-from wtforms.validators import InputRequired
+from wtforms.fields import SubmitField, StringField, IntegerField, SelectField, EmailField, PasswordField
+from wtforms.validators import InputRequired, Length
 
 class PersonalInformation(FlaskForm):
     title = "Personal Information"
@@ -48,3 +48,9 @@ class Extracurricular(FlaskForm):
     activity1 = StringField("Activity/Club?",  validators=[InputRequired()])
     leadership1 = StringField("Leadership Position:",  validators=[InputRequired()])
     submit = SubmitField("Finish")
+
+class LoginForm(FlaskForm):
+    email = StringField("Username", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[
+        InputRequired(), Length(min=12, max=255)])
+    submit = SubmitField("Login")

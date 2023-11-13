@@ -19,10 +19,8 @@ from forms import (
     Projcts,
     WorkExperience,
     VolunteerWork,
-    Extracurricular
-    # ,
-    # RegisterForm,
-    # LoginForm
+    Extracurricular,
+    LoginForm
 )
 from db_setup import setup_web_builder_tables
 from hashing_examples import UpdatedHasher
@@ -73,7 +71,7 @@ def index():
     return redirect(url_for('step', step=1))
 
 
-@app.route('/step/<int:step>', methods=['GET', 'POST'])
+@app.route('/step/<int:step>/', methods=['GET', 'POST'])
 def step(step):
     forms = {
         1: PersonalInformation(),
@@ -109,7 +107,7 @@ def step(step):
     return render_template('step.html', **content)
 
 
-@app.route('/finish')
+@app.route('/finish/')
 def finish():
     data = {}
     for key in session.keys():
@@ -117,6 +115,36 @@ def finish():
             data.update(session[key])
     session.clear()
     return render_template('finish.html', data=data)
+
+@app.get('/login/')
+def get_login():
+    form = LoginForm()
+    return render_template('login.html', form=form)
+
+@app.post('/login/')
+def post_login():
+    form = LoginForm()
+    if form.validate():
+        # try to get the user associated with this email address
+        user = User.query.filter_by(email=form.email.data).first()
+        # if this user exists and the password matches
+        if user is not None and user.verify_password(form.password.data):
+            # log this user in through the login_manager
+            login_user(user)
+            # redirect the user to the page they wanted or the home page
+            next = request.args.get('next')
+            if next is None or not next.startswith('/'):
+                next = url_for('index')
+            return redirect(next)
+        else: # if the user does not exist or the password is incorrect
+            # flash an error message and redirect to login form
+            flash('Invalid email address or password')
+            return redirect(url_for('get_login'))
+    else: # if the form was invalid
+        # flash error messages and redirect to get login form again
+        for field, error in form.errors.items():
+            flash(f"{field}: {error}")
+        return redirect(url_for('get_login'))
 
 
 
@@ -129,7 +157,7 @@ def finish():
 @login_required
 def userHome(userId: int):
     user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:
+    if current_user.id == userId: # type: ignore
         # render editor for page
         return render_template("UserPages/home.html", user=user)
     else:
@@ -139,7 +167,7 @@ def userHome(userId: int):
 @login_required
 def userAbout(userId: int):
     user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:
+    if current_user.id == userId: # type: ignore
         # render editor for page
         return render_template("UserPages/about.html", user=user)
     else:
@@ -149,7 +177,7 @@ def userAbout(userId: int):
 @login_required
 def userEducation(userId: int):
     user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:
+    if current_user.id == userId: # type: ignore
         # render editor for page
         return render_template("UserPages/education.html", user=user)
     else:
@@ -160,7 +188,7 @@ def userEducation(userId: int):
 @login_required
 def userProjects(userId: int):
     user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:
+    if current_user.id == userId: # type: ignore
         # render editor for page
         return render_template("UserPages/projects.html", user=user)
     else:
@@ -171,7 +199,7 @@ def userProjects(userId: int):
 @login_required
 def userWork(userId: int):
     user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:
+    if current_user.id == userId: # type: ignore
         # render editor for page
         return render_template("UserPages/work.html", user=user)
     else:

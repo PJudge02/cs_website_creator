@@ -8,6 +8,7 @@ def setup_web_builder_tables(
     class User(db.Model):
         __tablename__ = "Users"
         id = db.Column(db.Integer, primary_key=True)
+        passwordHash = db.Column(db.Unicode, nullable=False)
         firstName = db.Column(db.Unicode, nullable=False)
         lastName = db.Column(db.Unicode, nullable=False)
         email = db.Column(db.Unicode, nullable=False, unique=True)
