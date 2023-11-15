@@ -40,7 +40,7 @@ def setup_web_builder_tables(
     class Club(db.Model):
         __tablename__ = "Clubs"
         id = db.Column(db.Integer, primary_key=True)
-        userId = db.Column(db.Integer, db.ForeginKey('Users.id'), nullable=False)
+        userId = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
         title = db.Column(db.Unicode, nullable=False)
         description = db.Column(db.Unicode, nullable=False)
         position = db.Column(db.Unicode, nullable=True)
@@ -48,7 +48,7 @@ def setup_web_builder_tables(
     class Experience(db.Model):
         __tablename__ = "Experiences"
         id = db.Column(db.Integer, primary_key=True)
-        userId = db.Column(db.Integer, db.ForeginKey('Users.id'), nullable=False)
+        userId = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
         company = db.Column(db.Unicode, nullable=False)
         description = db.Column(db.Unicode, nullable=False)
         position = db.Column(db.Unicode, nullable=False)
@@ -57,7 +57,7 @@ def setup_web_builder_tables(
     class Website(db.Model):
         __tablename__ = "Websites"
         id = db.Column(db.Integer, primary_key=True)
-        userId = db.Column(db.Integer, db.ForeginKey('Users.id'), nullable=False)
+        userId = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
         websiteLink = db.Column(db.Unicode, unique=True)
         homePage = db.Column(db.Unicode, nullable=False)
         aboutPage = db.Column(db.Unicode, nullable=True)
