@@ -29,7 +29,7 @@ def setup_web_builder_tables(
         title = db.Column(db.Unicode, nullable=False)
         description = db.Column(db.Unicode, nullable=False)
         repositoryLink = db.Column(db.Unicode, nullable=True)
-        images = db.relationship('Poject_Image', backref='project')
+        images = db.relationship('Project_Image', backref='project')
 
     class Project_Image(db.Model):
         __tablename__ = "Project_Images"
