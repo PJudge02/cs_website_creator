@@ -32,11 +32,6 @@ sys.path.append(script_dir)
 dbpath = os.path.join(script_dir, "WebsiteCreator.sqlite3")
 pepfile = os.path.join(script_dir, "pepper.bin")
 
-# with open(pepfile, "rb") as fin:
-#     pepper_key = fin.read()
-
-# pwd_hasher = UpdatedHasher(pepper_key)
-
 app = Flask(__name__)
 app.secret_key = 'secret'
 bootstrap = Bootstrap(app)
@@ -69,43 +64,6 @@ def load_user(uid: int) -> User:
 @app.route('/')
 def index():
     return redirect(url_for('get_register', step=1))
-
-
-@app.route('/step/<int:step>/', methods=['GET', 'POST'])
-def step(step):
-    forms = {
-        1: PersonalInformation(),
-        2: MajorRelated(),
-        3: Projcts(),
-        4: WorkExperience(),
-        5: VolunteerWork(),
-        6: Extracurricular()
-    }
-
-    form = forms.get(step, 1)
-
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            # Save form data to session
-            session['step{}'.format(step)] = form.data
-            if step < len(forms):
-                # Redirect to next step
-                return redirect(url_for('step', step=step+1))
-            else:
-                # Redirect to finish
-                return redirect(url_for('finish'))
-
-    # If form data for this step is already in the session, populate the form with it
-    if 'step{}'.format(step) in session:
-        form.process(data=session['step{}'.format(step)])
-
-    content = {
-        'progress': int(step / len(forms) * 100),
-        'step': step, 
-        'form': form,
-    }
-    return render_template('step.html', **content)
-
 
 @app.route('/finish/')
 def finish():
