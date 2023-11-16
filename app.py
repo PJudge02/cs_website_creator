@@ -37,7 +37,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 # Creates db tables, set reinitialize to false if saving data, add data to false if dont need dummy data
-User, Project, Project_Image, Club, Experience, Website = setup_web_builder_tables(
+User, Project, Project_Image, Club, Experience, Website, Programming_Language = setup_web_builder_tables(
     app, db, reinitialize=True, add_data=True
 )
 

@@ -25,20 +25,22 @@ def setup_web_builder_tables(
         clubs = db.relationship("Club", backref="user")
         experiences = db.relationship("Experience", backref="user")
         website = db.relationship("Website", backref="user")
+        languages = db.relationship("Programming_Language", backref="user")
 
         def __str__(self):
             return f"{self.firstName=} {self.lastName=}\n{self.email=} | {self.phone=}\n{self.major=}, {self.college=}\n{self.about=}\n{self.github=} {self.linkedIn=}"
-        
+
         def __repr__(self):
             return str(self)
 
         @property
         def password(self):
             raise AttributeError("password is a write-only attribute")
+
         @password.setter
         def password(self, pwd: str) -> None:
             self.password_hash = pwd_hasher.hash(pwd)
-    
+
         # add a verify_password convenience method
         def verify_password(self, pwd: str) -> bool:
             return pwd_hasher.check(pwd, self.password_hash)
@@ -54,7 +56,7 @@ def setup_web_builder_tables(
 
         def __str__(self):
             return f"{self.userId=}\n{self.title=}\n{self.description=}\n{self.repositoryLink=}"
-        
+
         def __repr__(self) -> str:
             return str(self)
 
@@ -73,8 +75,10 @@ def setup_web_builder_tables(
         position = db.Column(db.Unicode, nullable=True)
 
         def __str__(self) -> str:
-            return f"{self.userId=}\n{self.title=}\n{self.description=}\n{self.position=}"
-        
+            return (
+                f"{self.userId=}\n{self.title=}\n{self.description=}\n{self.position=}"
+            )
+
         def __repr__(self) -> str:
             return str(self)
 
@@ -89,7 +93,7 @@ def setup_web_builder_tables(
 
         def __str__(self) -> str:
             return f"{self.userId=}\n{self.company=}\n{self.description=}\n{self.position=}"
-        
+
         def __repr__(self) -> str:
             return str(self)
 
@@ -113,10 +117,9 @@ def setup_web_builder_tables(
 
         def __str__(self) -> str:
             return f"{self.userId=}\n{self.language=}\n{self.proficiency=}"
-        
+
         def __repr__(self) -> str:
             return str(self)
-    
 
     with app.app_context():
         if reinitialize:
@@ -131,16 +134,48 @@ def setup_web_builder_tables(
 
             pwd_hasher = UpdatedHasher(pepper_key)
 
-            user: User = User(password = "testingpassword",
-                              firstName = "John",
-                              lastName = "Doe",
-                              email = "DoeJoh @gsail.com",
-                              phone = "111-111-1111",
-                              major = "Computer Science",
-                              college = "Grove City",
-                              about = "This is my cool about description") #type: ignore
-            
-            db.session.add(user)
+            user: User = User(
+                password="testingpassword",
+                firstName="John",
+                lastName="Doe",
+                email="DoeJoh @gsail.com",
+                phone="111-111-1111",
+                major="Computer Science",
+                college="Grove City",
+                about="This is my cool about description",
+            )  # type: ignore
+
+            project: Project = Project(
+                userId=1,
+                title="My First Project",
+                description="Little Project I made",
+                repositoryLink="https://github.com/facebook/react",
+            )  # type: ignore
+
+            club: Club = Club(
+                userId=1,
+                title="Fun Club",
+                description="Can't talk about it",
+                position="Grunt",
+            )  # type: ignore
+
+            work_experience: Experience = Experience(
+                userId=1,
+                company="Grove City",
+                description="Made my.gcc.edu worse",
+                position="Software Developer?",
+                isWork=True,
+            ) # type: ignore
+
+            db.session.add_all((user, project, club, work_experience))
             db.session.commit()
 
-        return (User, Project, Project_Image, Club, Experience, Website)
+        return (
+            User,
+            Project,
+            Project_Image,
+            Club,
+            Experience,
+            Website,
+            Programming_Language,
+        )
