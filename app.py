@@ -59,8 +59,7 @@ def load_user(uid: int) -> User:
 ##############################################################################################################
 @app.route("/")
 def index():
-    return redirect(url_for("get_register", step=1))
-
+    return redirect(url_for('get_login', step=1))
 
 @app.route("/finish/")
 def finish():
