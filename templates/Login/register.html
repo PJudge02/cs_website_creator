@@ -33,9 +33,6 @@
           <hr />
           {{ wtf.quick_form(form) }}
           <br />
-          {% if step > 1 %}
-          <a href="{{ url_for('step', step=step-1) }}" class="btn btn-default">Previous</a>
-          {% endif %}
         </div>
       </div>
     </div>
