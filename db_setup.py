@@ -19,6 +19,7 @@ def setup_web_builder_tables(
         college = db.Column(db.Unicode, nullable=True)  # maybe enum?
         about = db.Column(db.Unicode, nullable=True)
         github = db.Column(db.Unicode, nullable=True)
+        linkedIn = db.Column(db.Unicode, nullable=True)
         projects = db.relationship("Project", backref="user")
         clubs = db.relationship("Club", backref="user")
         experiences = db.relationship("Experience", backref="user")

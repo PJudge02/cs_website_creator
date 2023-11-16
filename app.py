@@ -246,11 +246,15 @@ def view_work(userId:int):
 
 @app.put("/api/project/")
 @app.put("/api/project/<int:projectId>/")
-def add_Project(projectId = None):
+def put_Project(projectId: int | None = None):
     info = request.get_json()
     title = info['title']
     description = info['description']
     repositoryLink = info['repositoryLink']
+    userId = info['userId']
+
+    if(userId != current_user.id): #type: ignore
+        return "", 403
 
     if(projectId):
         # update 
@@ -266,8 +270,7 @@ def add_Project(projectId = None):
         else:
             return "", 404
 
-    userId = info['userId']
-
+    # create new
     project_new = Project(userId = userId,
                           title=title,
                           description=description,
@@ -276,3 +279,35 @@ def add_Project(projectId = None):
     db.session.add(project_new)
     db.sessnion.commit()
     return "", 200
+
+@app.put("/api/about/<int:userId>/")
+def put_about(userId:int):
+    info = request.get_json()
+    description = info['description']
+    college = info['college']
+    major = info['major']
+    phone = info['phone']
+    email = info['email']
+    github = info['github']
+    linkedIn = info['linkedIn']
+
+    if(userId != current_user.id): #type: ignore
+        return "", 403
+    
+    user = User.query.get(userId)
+
+    if not user:
+        return "", 404
+
+    
+    user.about = description
+    user.college = college
+    user.major = major
+    user.phone = phone
+    user.email = email
+    user.github = github
+    user.linkedIn = linkedIn
+
+    db.session.commit()
+    return "", 200
+
