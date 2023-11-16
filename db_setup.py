@@ -10,7 +10,7 @@ def setup_web_builder_tables(
     class User(db.Model):
         __tablename__ = "Users"
         id = db.Column(db.Integer, primary_key=True)
-        passwordHash = db.Column(db.Unicode, nullable=False)
+        password_hash = db.Column(db.LargeBinary)
         firstName = db.Column(db.Unicode, nullable=False)
         lastName = db.Column(db.Unicode, nullable=False)
         email = db.Column(db.Unicode, nullable=False, unique=True)
@@ -24,6 +24,17 @@ def setup_web_builder_tables(
         clubs = db.relationship("Club", backref="user")
         experiences = db.relationship("Experience", backref="user")
         website = db.relationship("Website", backref="user")
+
+        @property
+        def password(self):
+            raise AttributeError("password is a write-only attribute")
+        @password.setter
+        def password(self, pwd: str) -> None:
+            self.password_hash = pwd_hasher.hash(pwd)
+    
+        # add a verify_password convenience method
+        def verify_password(self, pwd: str) -> bool:
+            return pwd_hasher.check(pwd, self.password_hash)
 
     class Project(db.Model):
         __tablename__ = "Projects"

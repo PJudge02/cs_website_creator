@@ -68,7 +68,7 @@ def load_user(uid: int) -> User:
 ##############################################################################################################
 @app.route('/')
 def index():
-    return redirect(url_for('step', step=1))
+    return redirect(url_for('get_register', step=1))
 
 
 @app.route('/step/<int:step>/', methods=['GET', 'POST'])
@@ -150,6 +150,42 @@ def post_login():
 def get_logout():
     login_user(current_user)
     return redirect(url_for('get_login'))
+
+@app.get('/register/')
+def get_register():
+    form = PersonalInformation()
+    return render_template('register.html', form=form)
+
+@app.post('/register/')
+def post_register():
+    form = PersonalInformation()
+    if form.validate():
+        # check if there is already a user with this email address
+        user = User.query.filter_by(email=form.email.data).first()
+        # if the email address is free, create a new user and send to login
+        if user is None:
+            user = User(email=form.email.data, 
+                        password=form.password.data,
+                        firstName=form.firstName.data,
+                        lastName=form.lastName.data,
+                        phone=form.phoneNumber.data,
+                        about=form.about.data,
+                        college=form.college.data,
+                        major=form.major.data,
+                        github=form.github.data,
+                        linkedIn=form.linkedIn.data) # type:ignore
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('get_login'))
+        else: # if the user already exists
+            # flash a warning message and redirect to get registration form
+            flash('There is already an account with that email address')
+            return redirect(url_for('get_register'))
+    else: # if the form was invalid
+        # flash error messages and redirect to get registration form again
+        for field, error in form.errors.items():
+            flash(f"{field}: {error}")
+        return redirect(url_for('get_register'))
 
 ##############################################################################################################
 # User Specific Pages Editor
