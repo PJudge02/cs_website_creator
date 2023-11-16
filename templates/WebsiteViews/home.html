@@ -30,22 +30,16 @@
       <div class="card-body">
          <h5 class="card-title">Projects</h5>
       </div>
+      {% for project in user.projects %}
       <div>
          <img class="card-img-top" src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"style="width:300px;height:200px;" alt="Card image cap">
          <div class="card-body">
-            <h5 class="card-title">Super Maurice Bros</h5>
-            <p class="card-text">2D shooter game made using unity, during a college 2D games class</p>
-            <a href="https://www.coolmathgames.com/0-kitty-scramble" class="btn btn-primary">Try it out</a>
+            <h5 class="card-title">{{project.title}}</h5>
+            <p class="card-text">{{project.description}}</p>
+            <a href="{{project.repositoryLink}}" class="btn btn-primary">Try it out</a>
          </div>
       </div>
-      <div>
-         <img class="card-img-top" src="https://dzcmdx9wf5y9q.cloudfront.net/images/presets/product_page_normal/psg/products/non-rx/seal-kids-2022_2.jpg"style="width:300px;height:200px;" alt="Card image cap">
-         <div class="card-body">
-            <h5 class="card-title">Goggle</h5>
-            <p class="card-text">Search engine that I built using a HTML backend</p>
-            <a href="https://google.com" class="btn btn-primary">Try it out</a>
-         </div>
-      </div>
+      {%endfor%}
    </div>
    <div>
       <div class="card w-75 border-primary mb-3" style="width: 18rem;">
