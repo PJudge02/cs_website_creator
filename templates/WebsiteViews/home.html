@@ -4,55 +4,55 @@
 {{super()}}
 {% endblock head %}
 {% block main %}
-<div class="card w-75 border-primary mb-3" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title"><i class="fa fa-user"></i>About Me</h5>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item"><i class="fa-solid fa-circle-info"></i> Worked in software engineering for years, and love spending time with my dog, Turtle when not frisbee golfing or parasailing</li>
-      <li class="list-group-item"><i class="fa fa-university"></i>Grove City College, BS in Computer Science</li>
-      <li class="list-group-item"><i class="fa-solid fa-house"></i> Grove City, PA USA</li>
-      <li class="list-group-item"><a href="tel:6031112298"> <i class="fa-solid fa-phone"></i> 717-872-5681</li></a>
-      <li class="list-group-item"><a href = "mailto: johndoe@gmail.com"><i class="fa-solid fa-envelope"></i> johndoe@gmail.com</a></li>
-
-    </ul>
-    <div class="card-body">
-      <a href="https://github.com/" class="card-link"> <i class="fa fa-github" style="font-size:36px"></i>
-        Github</a>
-      <a href="https://www.instagram.com/" class="card-link"><i class="fa fa-instagram" style="font-size:36px"></i>
-        Instagram</a>
-        <a href="https://linkedin.com/" class="card-link"><i class="fa fa-linkedin" style="font-size:36px"></i>
-            LinkedIn</a>
-    </div>
-  </div>
-
-
-<div class="card w-75 border-primary mb-3" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Projects</h5>
-    </div>
-    <div>
-        <img class="card-img-top" src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"style="width:300px;height:200px;" alt="Card image cap">
-        <div class="card-body">
-        <h5 class="card-title">Super Maurice Bros</h5>
-        <p class="card-text">2D shooter game made using unity, during a college 2D games class</p>
-        <a href="https://www.coolmathgames.com/0-kitty-scramble" class="btn btn-primary">Try it out</a>
-        </div>
-    </div>
-    <div>
-        <img class="card-img-top" src="https://dzcmdx9wf5y9q.cloudfront.net/images/presets/product_page_normal/psg/products/non-rx/seal-kids-2022_2.jpg"style="width:300px;height:200px;" alt="Card image cap">
-        <div class="card-body">
-        <h5 class="card-title">Goggle</h5>
-        <p class="card-text">Search engine that I built using a HTML backend</p>
-        <a href="https://google.com" class="btn btn-primary">Try it out</a>
-        </div>
-    </div>
-</div>
-<div>
-<div class="card w-75 border-primary mb-3" style="width: 18rem;">
-    <div class="card-body">
-        <h5 class="card-title">Experience/Skills</h5>
-    </div>
-</div>
+<div id="allCards">
+   <div class="card w-75 border-primary mb-3" style="width: 18rem;">
+      <div class="card-body">
+         <h5 class="card-title"><i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+         <li class="list-group-item"><i class="fa-solid fa-circle-info"></i> {{user.about}}</li>
+         <li class="list-group-item"><i class="fa fa-university"></i> {{user.major}}, {{user.college}}</li>
+         <li class="list-group-item"><i class="fa-solid fa-house"></i> Grove City, PA USA</li>
+         <li class="list-group-item"><a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> {{user.phone}}</li>
+         </a>
+         <li class="list-group-item"><a href = "mailto: {{user.email}}"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a></li>
+      </ul>
+      <div class="card-body">
+         <a href="https://github.com/" class="card-link"> <i class="fa fa-github" style="font-size:36px"></i>
+         Github</a>
+         <a href="https://www.instagram.com/" class="card-link"><i class="fa fa-instagram" style="font-size:36px"></i>
+         Instagram</a>
+         <a href="https://linkedin.com/" class="card-link"><i class="fa fa-linkedin" style="font-size:36px"></i>
+         LinkedIn</a>
+      </div>
+   </div>
+   <div class="card w-75 border-primary mb-3" style="width: 18rem;">
+      <div class="card-body">
+         <h5 class="card-title">Projects</h5>
+      </div>
+      <div>
+         <img class="card-img-top" src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"style="width:300px;height:200px;" alt="Card image cap">
+         <div class="card-body">
+            <h5 class="card-title">Super Maurice Bros</h5>
+            <p class="card-text">2D shooter game made using unity, during a college 2D games class</p>
+            <a href="https://www.coolmathgames.com/0-kitty-scramble" class="btn btn-primary">Try it out</a>
+         </div>
+      </div>
+      <div>
+         <img class="card-img-top" src="https://dzcmdx9wf5y9q.cloudfront.net/images/presets/product_page_normal/psg/products/non-rx/seal-kids-2022_2.jpg"style="width:300px;height:200px;" alt="Card image cap">
+         <div class="card-body">
+            <h5 class="card-title">Goggle</h5>
+            <p class="card-text">Search engine that I built using a HTML backend</p>
+            <a href="https://google.com" class="btn btn-primary">Try it out</a>
+         </div>
+      </div>
+   </div>
+   <div>
+      <div class="card w-75 border-primary mb-3" style="width: 18rem;">
+         <div class="card-body">
+            <h5 class="card-title">Experience/Skills</h5>
+         </div>
+      </div>
+   </div>
 </div>
 {% endblock main %}
