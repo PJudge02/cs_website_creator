@@ -119,7 +119,7 @@ def finish():
 @app.get('/login/')
 def get_login():
     form = LoginForm()
-    return render_template('login.html', form=form)
+    return render_template('Login/login.html', form=form)
 
 @app.post('/login/')
 def post_login():
@@ -154,7 +154,7 @@ def get_logout():
 @app.get('/register/')
 def get_register():
     form = PersonalInformation()
-    return render_template('register.html', form=form)
+    return render_template('Login/register.html', form=form)
 
 @app.post('/register/')
 def post_register():
