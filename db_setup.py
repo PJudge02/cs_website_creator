@@ -92,7 +92,7 @@ def setup_web_builder_tables(
 
             pwd_hasher = UpdatedHasher(pepper_key)
 
-            user: User = User(passwordHash = pwd_hasher.hash("testingpassword"),
+            user: User = User(password = "testingpassword",
                               firstName = "John",
                               lastName = "Doe",
                               email = "DoeJoh @gsail.com",
