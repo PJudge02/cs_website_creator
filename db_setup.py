@@ -2,12 +2,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from hashing_examples import UpdatedHasher
 import os, sys
+from flask_login import UserMixin
 
 
 def setup_web_builder_tables(
     app: Flask, db: SQLAlchemy, reinitialize=False, add_data=False
 ):
-    class User(db.Model):
+    class User(UserMixin, db.Model):
         __tablename__ = "Users"
         id = db.Column(db.Integer, primary_key=True)
         password_hash = db.Column(db.LargeBinary)
