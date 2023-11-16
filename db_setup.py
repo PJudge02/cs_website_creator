@@ -27,7 +27,7 @@ def setup_web_builder_tables(
         website = db.relationship("Website", backref="user")
 
         def __str__(self):
-            return f"{self.firstName} {self.lastName}\n{self.email} | {self.phone}\n{self.major}, {self.college}\n{self.about}\n{self.github} {self.linkedIn}"
+            return f"{self.firstName=} {self.lastName=}\n{self.email=} | {self.phone=}\n{self.major=}, {self.college=}\n{self.about=}\n{self.github=} {self.linkedIn=}"
         
         def __repr__(self):
             return str(self)
@@ -53,7 +53,7 @@ def setup_web_builder_tables(
         images = db.relationship("Project_Image", backref="project")
 
         def __str__(self):
-            return f"{self.userId}\n{self.title}\n{self.description}\n{self.repositoryLink}"
+            return f"{self.userId=}\n{self.title=}\n{self.description=}\n{self.repositoryLink=}"
         
         def __repr__(self) -> str:
             return str(self)
@@ -73,7 +73,7 @@ def setup_web_builder_tables(
         position = db.Column(db.Unicode, nullable=True)
 
         def __str__(self) -> str:
-            return f"{self.userId}\n{self.title}\n{self.description}\n{self.position}"
+            return f"{self.userId=}\n{self.title=}\n{self.description=}\n{self.position=}"
         
         def __repr__(self) -> str:
             return str(self)
@@ -88,7 +88,7 @@ def setup_web_builder_tables(
         isWork = db.Column(db.Boolean, nullable=False)
 
         def __str__(self) -> str:
-            return f"{self.userId}\n{self.company}\n{self.description}\n{self.position}"
+            return f"{self.userId=}\n{self.company=}\n{self.description=}\n{self.position=}"
         
         def __repr__(self) -> str:
             return str(self)
@@ -103,6 +103,20 @@ def setup_web_builder_tables(
         workPage = db.Column(db.Unicode, nullable=True)
         projectsPage = db.Column(db.Unicode, nullable=True)
         educationPage = db.Column(db.Unicode, nullable=True)
+
+    class Programming_Language(db.Model):
+        __tablename__ = "Programming_Language"
+        id = db.Column(db.Integer, primary_key=True)
+        userId = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
+        language = db.Column(db.Unicode, nullable=False)
+        proficiency = db.Column(db.Unicode, nullable=False)
+
+        def __str__(self) -> str:
+            return f"{self.userId=}\n{self.language=}\n{self.proficiency=}"
+        
+        def __repr__(self) -> str:
+            return str(self)
+    
 
     with app.app_context():
         if reinitialize:
