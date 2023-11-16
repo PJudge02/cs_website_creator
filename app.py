@@ -146,7 +146,10 @@ def post_login():
             flash(f"{field}: {error}")
         return redirect(url_for('get_login'))
 
-
+@app.get("/logout/")
+def get_logout():
+    login_user(current_user)
+    return redirect(url_for('get_login'))
 
 ##############################################################################################################
 # User Specific Pages Editor
@@ -236,3 +239,40 @@ def view_work(userId:int):
     user: User = User.query.filter_by(id=userId).first_or_404()
     return render_template("WebsiteViews/work.html", user=user)
 
+
+##############################################################################################################
+# User Specific Website View
+##############################################################################################################
+
+@app.put("/api/project/")
+@app.put("/api/project/<int:projectId>/")
+def add_Project(projectId = None):
+    info = request.get_json()
+    title = info['title']
+    description = info['description']
+    repositoryLink = info['repositoryLink']
+
+    if(projectId):
+        # update 
+        project = Project.query.get(projectId)
+
+        if (project):
+            project.title = title
+            project.description = description
+            project.repositoryLink = repositoryLink
+
+            db.session.commit()
+            return "", 200
+        else:
+            return "", 404
+
+    userId = info['userId']
+
+    project_new = Project(userId = userId,
+                          title=title,
+                          description=description,
+                          repositoryLink=repositoryLink) #type: ignore
+    
+    db.session.add(project_new)
+    db.sessnion.commit()
+    return "", 200

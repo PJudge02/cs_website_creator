@@ -4,13 +4,12 @@ from wtforms.validators import InputRequired, Length
 
 class PersonalInformation(FlaskForm):
     title = "Personal Information"
-    firstName = StringField("First name?",  validators=[InputRequired()])
-    lastName = StringField("Last name?",  validators=[InputRequired()])
-    phoneNumber = StringField("First name?")
-    email = EmailField("Email")
-    homeAdress = StringField("Home Address")
-    about = StringField("About you",  validators=[InputRequired()])
-    submit = SubmitField("Next")
+    firstName = StringField("First Name:",  validators=[InputRequired()])
+    lastName = StringField("Last Name:",  validators=[InputRequired()])
+    phoneNumber = StringField("Phone:")
+    email = EmailField("Email:")
+    about = StringField("Personal Description:",  validators=[InputRequired()])
+    submit = SubmitField("Register")
 
 class MajorRelated(FlaskForm):
     title = "Major Related Information"
