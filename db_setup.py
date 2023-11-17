@@ -21,6 +21,7 @@ def setup_web_builder_tables(
         about = db.Column(db.Unicode, nullable=True)
         github = db.Column(db.Unicode, nullable=True)
         linkedIn = db.Column(db.Unicode, nullable=True)
+        instagram = db.Column(db.Unicode, nullable=True)
         projects = db.relationship("Project", backref="user")
         clubs = db.relationship("Club", backref="user")
         experiences = db.relationship("Experience", backref="user")
@@ -143,6 +144,10 @@ def setup_web_builder_tables(
                 major="Computer Science",
                 college="Grove City",
                 about="This is my cool about description",
+                github = "https://github.com/",
+                linkedIn="https://linkedin.com/",
+                instagram = "https://www.instagram.com/",
+
             )  # type: ignore
 
             project: Project = Project(
