@@ -178,7 +178,7 @@ def setup_web_builder_tables(
                 userId=1,
                 language = "Java",
                 proficiency="Advanced",
-            )
+            ) # type: ignore
             
             db.session.add_all((user, project, club, work_experience, programming_language))
             db.session.commit()

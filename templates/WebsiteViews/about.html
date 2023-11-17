@@ -1,9 +1,5 @@
-{% extends "WebsiteViews/base.html" %} 
-{% block title %} About {% endblock title %} 
-{% block head %} 
-{{super()}} 
-{%endblock head %} 
-{% block main %}
+{% extends "WebsiteViews/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
+{%endblock head %} {% block main %}
 <div class="card w-75 border-primary mb-3" style="width: 18rem">
   <div class="card-body">
     <h5 class="card-title"><i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}</h5>
@@ -21,6 +17,8 @@
   <div class="card-body">
     {% if user.github %}
     <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px"></i> Github</a>
+    {% endif %} {% if user.instagram %}
+    <a href="{{user.instagram}}" class="card-link"><i class="fa fa-instagram" style="font-size: 36px"></i> Instagram</a>
     {% endif %} {% if user.linkedIn %}
     <a href="{{user.linkedIn}}" class="card-link"><i class="fa fa-linkedin" style="font-size: 36px"></i> LinkedIn</a>
     {% endif %}
