@@ -14,11 +14,11 @@ async function loadAboutInfo() {
 
     const nameSplit = user_name.split(" ")
     const firstName = nameSplit[2].trim()
-    const lastName = nameSplit[3].trim()
+    const lastName = nameSplit[3]
     const college_major = user_college_major.split(", ")
     console.log(college_major)
-    const college = college_major[0].trim()
-    const major = college_major[1]
+    const college = college_major[1]
+    const major = college_major[0]
 
     document.getElementById("first-name-input").value = firstName
     document.getElementById("last-name-input").value = lastName
@@ -51,10 +51,10 @@ async function saveAbout() {
     req.setRequestHeader('Content-type','application/json; charset=utf-8');
     req.send(JSON.stringify(values))
 
-    document.getElementById("user-name").innerText = `About ${firstName} ${lastName}`
-    document.getElementById("user-about").innerText = description
-    document.getElementById("user-college-major").innerText = `${college}, ${major}`
-    document.getElementById("user-phone").innerText = `${phone}`
+    document.getElementById("user-name").innerHTML = `<i class="fa fa-user"></i> About ${firstName} ${lastName}`
+    document.getElementById("user-about").innerHTML = '<i class="fa-solid fa-circle-info"></i> ' + description
+    document.getElementById("user-college-major").innerHTML = `<i class="fa fa-university"></i> ${major}, ${college}`
+    document.getElementById("user-phone").innerHTML = `<a href="tel:${phone}"> <i class="fa-solid fa-phone"></i> ${phone}`
 }
 
 /**
