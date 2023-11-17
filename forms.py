@@ -32,6 +32,6 @@ class LoginForm(FlaskForm):
     title = "Login"
     email = StringField("Username", validators=[InputRequired()])
     password = PasswordField(
-        "Password", validators=[InputRequired(), Length(min=12, max=255)]
+        "Password", validators=[InputRequired(), Length(min=8, max=255)]
     )
     submit = SubmitField("Login")

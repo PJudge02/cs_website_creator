@@ -16,7 +16,6 @@ async function loadAboutInfo() {
     const firstName = nameSplit[2].trim()
     const lastName = nameSplit[3]
     const college_major = user_college_major.split(", ")
-    console.log(college_major)
     const college = college_major[1]
     const major = college_major[0]
 

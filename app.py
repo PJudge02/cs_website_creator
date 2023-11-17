@@ -135,7 +135,7 @@ def post_register():
             )  # type:ignore
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for("view_home", userId=1))
+            return redirect(url_for("get_login", userId=1))
         else:  # if the user already exists
             # flash a warning message and redirect to get registration form
             flash("There is already an account with that email address")
@@ -296,6 +296,8 @@ def put_Project(projectId: int | None = None):
 def put_about(userId: int):
     print("HERE")
     info = request.get_json()
+    firstName = info['firstName']
+    lastName = info['lastName']
     description = info["description"]
     college = info["college"]
     major = info["major"]
@@ -309,12 +311,14 @@ def put_about(userId: int):
     if not user:
         return "", 404
 
+    user.firstName = firstName
+    user.lastName = lastName
     user.about = description
     user.college = college
     user.major = major
     user.phone = phone
 
-    db.session.commit()
+    db.session.commit()   
     return "", 200
 
 
