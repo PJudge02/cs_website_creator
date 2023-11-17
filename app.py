@@ -16,7 +16,6 @@ from flask_login import login_user, logout_user, current_user
 import os, sys
 from forms import PersonalInformation, LoginForm
 from db_setup import setup_web_builder_tables
-from hashing_examples import UpdatedHasher
 from flask_bootstrap import Bootstrap
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
