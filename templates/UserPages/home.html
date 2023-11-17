@@ -4,4 +4,322 @@
 {{super()}}
 {% endblock head %}
 {% block main %}
+<div id="allCards">
+    <div class="card w-75 border-primary mb-3" style="width: 18rem;">
+       <div class="card-body">
+          <h5 class="card-title"><i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}</h5>
+          <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info-modal">
+             <img src="/images/pencil.png" alt="Image" style="width: 20px; height: 20px;" class="rounded-circle">
+           </button>
+       </div>
+       <ul class="list-group list-group-flush">
+          <li class="list-group-item"><i class="fa-solid fa-circle-info"></i> {{user.about}}</li>
+          <li class="list-group-item"><i class="fa fa-university"></i> {{user.major}}, {{user.college}}</li>
+          <li class="list-group-item"><i class="fa-solid fa-house"></i> Grove City, PA USA</li>
+          <li class="list-group-item"><a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> {{user.phone}}</li>
+          </a>
+          <li class="list-group-item"><a href = "mailto: {{user.email}}"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a></li>
+       </ul>
+       <div class="card-body">
+          <a href="https://github.com/" class="card-link"> <i class="fa fa-github" style="font-size:36px"></i>
+          Github</a>
+          <a href="https://www.instagram.com/" class="card-link"><i class="fa fa-instagram" style="font-size:36px"></i>
+          Instagram</a>
+          <a href="https://linkedin.com/" class="card-link"><i class="fa fa-linkedin" style="font-size:36px"></i>
+          LinkedIn</a>
+       </div>
+    </div>
+    <div class="card w-75 border-primary mb-3" style="width: 18rem;">
+       <div class="card-body">
+          <h5 class="card-title">Projects</h5>
+          <button type="button" class="btn" id="new-proj-button">
+             <img src="/images/add_new.png" alt="Image" style="width: 15px; height: 15px;" class="rounded-circle">
+           </button>
+       </div>
+       {% for project in user.projects %}
+       <div>
+          <img class="card-img-top" src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"style="width:300px;height:200px;" alt="Card image cap">
+          <div class="card-body">
+             <h5 class="card-title">{{project.title}}</h5>
+             <p class="card-text">{{project.description}}</p>
+             <a href="{{project.repositoryLink}}" class="btn btn-primary">Try it out</a>
+             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#project-modal">
+                 <img src="/images/pencil.png" alt="Image" style="width: 20px; height: 20px;" class="rounded-circle">
+             </button>
+         </div>
+       </div>
+       {%endfor%}
+    </div>
+    <div>
+       <div class="card w-75 border-primary mb-3" style="width: 18rem;">
+          <div class="card-body">
+             <h5 class="card-title"><i class="fa fa-user"></i> Skills/Experience</h5>
+          </div>
+          <h5 class="card-subtitle">Programming languages</h5>
+          <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#new-language-modal">
+             <img src="/images/add_new.png" alt="Image" style="width: 20px; height: 20px;" class="rounded-circle">
+           </button>
+          <ul class="list-group list-group-flush">
+             <li class="list-group-item"><i class="fa-brands fa-java"></i> Java, Advanced</li>
+             <li class="list-group-item"><i class="fa-brands fa-python"></i> Python, Intermediate</li>
+             <li class="list-group-item"><i class="fa-brands fa-html5"></i> Html, Beginner</li>
+             <li class="list-group-item"><i class="fa-brands fa-css3-alt"></i> CSS, Advanced</li>
+          </ul>
+          <h5 class="card-subtitle">Work Experience</h5>
+          <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#new-work-modal">
+             <img src="/images/add_new.png" alt="Image" style="width: 20px; height: 20px;" class="rounded-circle">
+           </button>
+          <ul class="list-group list-group-flush">
+             <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> Junior Software Engineer, Clark Associates 2019-2020</li>
+             <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> IT Intern, NASA 2020-2021</li>
+             <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> CEO, Apple 2021-2023</li>
+             <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> Unemployed, Home 2023-</li>
+          </ul>
+       </div>
+    </div>
+ </div>
+ 
+ <div id="allModals">
+     <!--Information Modal -->
+     <div class="modal fade" id="info-modal" tabindex="-1" aria-labelledby="info-modal" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="info-modal-title">Personal Information</h1>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+ 
+                 <div class="modal-body">
+                     <form>
+                         <div class="form-group">
+                             <label for="first-name-input">First Name</label>
+                             <input type="text" class="form-control" id="first-name-input">
+                         </div>
+         
+                         <div class ="form-group">
+                             <label for="last-name-input">Last Name</label>
+                             <input type="text" class="form-control" id="last-name-input"> 
+                         </div>
+         
+                         <div class ="form-group">
+                             <label for="description-input">Description</label>
+                             <input type="text" class="form-control" id="description-input">
+                         </div>
+         
+                         <div class="form-group">
+                             <label for="university-input">University</label>
+                             <input type="text" class="form-control" id="university-input">
+                         </div>
+         
+                         <div class="form-group">
+                             <label for="major-input">Major</label>
+                             <input type="text" class="form-control" id="major-input">
+                         </div>
+ 
+                         <div class="container">
+                             <div class="row">
+                                 <div class="col-md-4">
+                                     <div class="form-group">
+                                         <label for="city-input">City</label>
+                                         <input type="text" class="form-control" id="city-input">
+                                     </div>
+                                 </div>
+                                 <div class="col-md-4"> 
+                                     <div class="form-group">
+                                         <label for="state-input">State</label>
+                                         <select id="state-input" class="form-control">
+                                             <option selected>Choose</option>
+                                             <option>Alabama</option>
+                                             <option>Alaska</option>
+                                             <option>Arizona</option>
+                                             <option>Arkansas</option>
+                                             <option>California</option>
+                                             <option>Colorado</option>
+                                             <option>Connecticut</option>
+                                             <option>Delaware</option>
+                                             <option>Florida</option>
+                                             <option>Georgia</option>
+                                             <option>Hawaii</option>
+                                             <option>Idaho</option>
+                                             <option>Illinois</option>
+                                             <option>Indiana</option>
+                                             <option>Iowa</option>
+                                             <option>Kansas</option>
+                                             <option>Kentucky</option>
+                                             <option>Louisiana</option>
+                                             <option>Maine</option>
+                                             <option>Maryland</option>
+                                             <option>Massachusetts</option>
+                                             <option>Michigan</option>
+                                             <option>Minnesota</option>
+                                             <option>Mississippi</option>
+                                             <option>Missouri</option>
+                                             <option>Montana</option>
+                                             <option>Nebraska</option>
+                                             <option>Nevada</option>
+                                             <option>New Hampshire</option>
+                                             <option>New Jersey</option>
+                                             <option>New Mexico</option>
+                                             <option>New York</option>
+                                             <option>North Carolina</option>
+                                             <option>North Dakota</option>
+                                             <option>Ohio</option>
+                                             <option>Oklahoma</option>
+                                             <option>Oregon</option>
+                                             <option>Pennsylvania</option>
+                                             <option>Rhode Island</option>
+                                             <option>South Carolina</option>
+                                             <option>South Dakota</option>
+                                             <option>Tennessee</option>
+                                             <option>Texas</option>
+                                             <option>Utah</option>
+                                             <option>Vermont</option>
+                                             <option>Virginia</option>
+                                             <option>Washington</option>
+                                             <option>West Virginia</option>
+                                             <option>Wisconsin</option>
+                                             <option>Wyoming</option>
+                                         </select>
+                                     </div>
+                                 </div>
+         
+                                 <div class="col-md-4">
+                                     <div class="form-group">
+                                         <label for="zip-input">Zip</label>
+                                         <input type="number" class="form-control" id="zip-input">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+         
+                         <div class="form-group">
+                             <label for="phone-input">Phone Number</label>
+                             <input type="tel" class="form-control" id="phone-input">
+                         </div>
+         
+                         <div class="form-group">
+                             <label for="email-input">Email Address</label>
+                             <input type="email" class="form-control" id="email-input">
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+       
+     <!--Project Modal-->
+     <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="project-modal-label">Projects</h1>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form>
+                         <div class="form-group">
+                             <label for="project-title-input">Project Title</label>
+                             <input class="form-control" type="text" id="project-title-input">
+                         </div>
+       
+                         <div class="form-group">
+                             <label for="project-description-input">Project Description</label>
+                             <textarea class="form-control" id="project-description-input" rows="3"></textarea>
+                         </div>
+       
+                         <div class="form-group">
+                             <label for="project-image-input">Project Image</label>
+                             <input type="file" accept=".png, .jpg" class="form-control" id="project-image-input">
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+       
+     <!--New Language-->
+     <div class="modal fade" id="new-language-modal" tabindex="-1" aria-labelledby="new-language-modal" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="new-language-label">Programming Language</h1>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form>
+                         <div class="form-group">
+                             <label for="language-input">Language</label>
+                             <input class="form-control" type="text" id="language-input">
+                         </div>
+                         <h1></h1>
+                         <div class="form-group">
+                             <label for="proficiency-input">Proficiency</label>
+                             <select id="proficiency-input">
+                             <option selected>Choose</option>
+                             <option>Advanced</option>
+                             <option>Intermediate</option>
+                             <option>Beginner</option>
+                             </select>
+                         </div>
+                     </form>
+                 </div>
+                 
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+ 
+     <!--Workplace Modal-->
+     <div class="modal fade" id="new-work-modal" tabindex="-1" aria-labelledby="new-work-modal" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="new-work-label">Work Experience</h1>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form>
+                         <div class="form-group">
+                             <label for="title-input">Title</label>
+                             <input class="form-control" type="text" id="title-input">
+                         </div>
+         
+                         <div class="form-group">
+                             <label for="workplace-input">Workplace</label>
+                             <input class="form-control" type="text" id="workplace-input">
+                         </div>
+                 
+                         <div class="container">
+                             <div class="row">
+                                 <div class="col-sm-6">
+                                     <div class="form-group">
+                                         <label for="work-from-input">Start Year</label>
+                                         <input class="form-control" type="number" id="work-from-input">
+                                     </div>
+                                 </div>
+                                 <div class="col-sm-6">
+                                     <div class="form-group">
+                                         <label for="work-to-input">End Year</label>
+                                         <input class="form-control" type="number" id="work-to-input">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
 {% endblock main %}
