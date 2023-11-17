@@ -174,7 +174,13 @@ def setup_web_builder_tables(
                 isWork=True,
             ) # type: ignore
 
-            db.session.add_all((user, project, club, work_experience))
+            programming_language:Programming_Language = Programming_Language(
+                userId=1,
+                language = "Java",
+                proficiency="Advanced",
+            )
+            
+            db.session.add_all((user, project, club, work_experience, programming_language))
             db.session.commit()
 
         return (
