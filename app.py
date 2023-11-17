@@ -66,6 +66,8 @@ def load_user(uid: int) -> User:
 ##############################################################################################################
 @app.route("/")
 def index():
+    if current_user.is_authenticated: # type: ignore
+        return redirect(url_for('userHome', userId=current_user.id)) # type: ignore
     return redirect(url_for("get_login"))
 
 

@@ -6,10 +6,29 @@
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
-      <h5 id="user-name" class="card-title"><i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}</h5>
-      <button id="about-{{user.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info-modal">
-        <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
-      </button>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h5 id="user-name" class="card-title">
+              <i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
+            </h5>
+          </div>
+          <div class="col-md-3">
+            <button
+              id="about-{{user.id}}"
+              type="button"
+              class="btn"
+              data-bs-toggle="modal"
+              data-bs-target="#info-modal">
+              <img
+                src="/static/images/pencil.png"
+                alt="Image"
+                style="width: 20px; height: 20px"
+                class="rounded-circle" />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <ul class="list-group list-group-flush">
       <li id="user-about" class="list-group-item"><i class="fa-solid fa-circle-info"></i> {{user.about}}</li>
@@ -70,28 +89,30 @@
       <div class="card-body">
         <h5 class="card-title"><i class="fa fa-user"></i> Skills/Experience</h5>
       </div>
-      <h5 class="card-subtitle">Programming languages</h5>
-      <button
-        id="newLanguage-{{user.id}}"
-        type="button"
-        class="btn"
-        data-bs-toggle="modal"
-        data-bs-target="#new-language-modal">
-        <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
-      </button>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 offset-md-3">
+            <h5 class="card-subtitle">Programming languages</h5>
+          </div>
+          <div class="col-md-3">
+            <button
+              id="newLanguage-{{user.id}}"
+              type="button"
+              class="btn"
+              data-bs-toggle="modal"
+              data-bs-target="#new-language-modal">
+              <img
+                src="/static/images/add_new.png"
+                alt="Image"
+                style="width: 20px; height: 20px"
+                class="rounded-circle" />
+            </button>
+          </div>
+        </div>
+      </div>
+
       <ul id="language-list" class="list-group list-group-flush">
-        {% if not user.languages %}
-        <li>
-          <button
-            id="newLanguage-{{user.id}}"
-            type="button"
-            class="btn"
-            data-bs-toggle="modal"
-            data-bs-target="#new-language-modal">
-            Add First Language
-          </button>
-        </li>
-        {% endif %} {% for language in user.languages %}
+        {% for language in user.languages %}
         <li class="list-group-item">{{language.language}}, {{language.proficiency}}</li>
         {% endfor %}
       </ul>
