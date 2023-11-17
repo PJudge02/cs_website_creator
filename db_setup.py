@@ -140,7 +140,7 @@ def setup_web_builder_tables(
                 password="testingpassword",
                 firstName="John",
                 lastName="Doe",
-                email="DoeJoh@gsail.com",
+                email="DoeJohn@gsail.com",
                 phone="111-111-1111",
                 major="Computer Science",
                 college="Grove City",
