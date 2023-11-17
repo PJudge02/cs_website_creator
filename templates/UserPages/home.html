@@ -3,6 +3,7 @@
 {% block head %}
 {{super()}}
 <script src="/static/scripts/UserPages/about_edit.js"></script>
+<script src="/static/scripts/UserPages/languageSkills.js"></script>
 {% endblock head %}
 {% block main %}
 <div id="allCards">
@@ -62,11 +63,10 @@
           <button id="newLanguage-{{user.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#new-language-modal">
              <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px;" class="rounded-circle">
            </button>
-          <ul class="list-group list-group-flush">
-             <li class="list-group-item"><i class="fa-brands fa-java"></i> Java, Advanced</li>
-             <li class="list-group-item"><i class="fa-brands fa-python"></i> Python, Intermediate</li>
-             <li class="list-group-item"><i class="fa-brands fa-html5"></i> Html, Beginner</li>
-             <li class="list-group-item"><i class="fa-brands fa-css3-alt"></i> CSS, Advanced</li>
+          <ul id="language-list" class="list-group list-group-flush">
+            {% for language in user.languages %}
+             <li class="list-group-item">{{language.language}}, {{language.proficiency}}</li>
+             {% endfor %}
           </ul>
           <h5 class="card-subtitle">Work Experience</h5>
           <button id="newWork-{{user.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#new-work-modal">
@@ -176,13 +176,13 @@
                  <div class="modal-body">
                      <form>
                          <div class="form-group">
-                             <label for="language-input">Language</label>
-                             <input class="form-control" type="text" id="language-input">
+                             <label for="new-language-input">Language</label>
+                             <input class="form-control" type="text" id="new-language-input">
                          </div>
                          <h1></h1>
                          <div class="form-group">
-                             <label for="proficiency-input">Proficiency</label>
-                             <select id="proficiency-input">
+                             <label for="new-proficiency-input">Proficiency</label>
+                             <select id="new-proficiency-input">
                              <option selected>Choose</option>
                              <option>Advanced</option>
                              <option>Intermediate</option>
@@ -193,7 +193,7 @@
                  </div>
                  
                  <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+                     <button id="save-new-lang-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
                  </div>
              </div>
          </div>
