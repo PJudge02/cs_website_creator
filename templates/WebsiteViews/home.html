@@ -30,6 +30,7 @@
       <div class="card-body">
          <h5 class="card-title">Projects</h5>
       </div>
+      <div>
       {% for project in user.projects %}
       <div>
          <img class="card-img-top" src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"style="width:300px;height:200px;" alt="Card image cap">
@@ -40,6 +41,7 @@
          </div>
       </div>
       {%endfor%}
+    </div>
    </div>
    <div>
       <div class="card w-75 border-primary mb-3" style="width: 18rem;">
@@ -48,7 +50,9 @@
          </div>
          <h5 class="card-subtitle">Programming languages</h5>
          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fa-brands fa-java"></i> Java, Advanced</li>
+            {%for language in user.languages%}
+            <li class="list-group-item"><i class="fa-brands fa-java"></i> {{language.language}}, {{language.proficiency}}</li>
+            {%endfor%}
             <li class="list-group-item"><i class="fa-brands fa-python"></i> Python, Intermediate</li>
             <li class="list-group-item"><i class="fa-brands fa-html5"></i> Html, Beginner</li>
             <li class="list-group-item"><i class="fa-brands fa-css3-alt"></i> CSS, Advanced</li>
