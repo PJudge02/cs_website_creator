@@ -93,7 +93,7 @@ def post_login():
         else:  # if the user does not exist or the password is incorrect
             # flash an error message and redirect to login form
             flash("Invalid email address or password")
-            return redirect(url_for("get_login"))
+            return redirect(url_for("userHome", userId=1))
     else:  # if the form was invalid
         # flash error messages and redirect to get login form again
         for field, error in form.errors.items():
