@@ -37,6 +37,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 # Creates db tables, set reinitialize to false if saving data, add data to false if dont need dummy data
+# The returns are the classes/tables that can be used to query from or create rows
 User, Project, Project_Image, Club, Experience, Website, Programming_Language = setup_web_builder_tables(
     app, db, reinitialize=True, add_data=True
 )
@@ -90,7 +91,7 @@ def post_login():
             # redirect the user to the page they wanted or the home page
             next = request.args.get("next")
             if next is None or not next.startswith("/"):
-                next = url_for("index")
+                next = url_for(f"/user/{user.id}/")
             return redirect(next)
         else:  # if the user does not exist or the password is incorrect
             # flash an error message and redirect to login form
@@ -251,7 +252,6 @@ def view_work(userId: int):
 ##############################################################################################################
 # Creating/Editing Tables
 ##############################################################################################################
-
 
 @app.put("/api/project/")
 @app.put("/api/project/<int:projectId>/")
