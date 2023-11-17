@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from hashing_examples import UpdatedHasher
 import os, sys
+from dataclasses import dataclass
 from flask_login import UserMixin
 
 
@@ -21,6 +22,7 @@ def setup_web_builder_tables(
         about = db.Column(db.Unicode, nullable=True)
         github = db.Column(db.Unicode, nullable=True)
         linkedIn = db.Column(db.Unicode, nullable=True)
+        instagram = db.Column(db.Unicode, nullable=True)
         projects = db.relationship("Project", backref="user")
         clubs = db.relationship("Club", backref="user")
         experiences = db.relationship("Experience", backref="user")
@@ -89,6 +91,7 @@ def setup_web_builder_tables(
         company = db.Column(db.Unicode, nullable=False)
         description = db.Column(db.Unicode, nullable=False)
         position = db.Column(db.Unicode, nullable=False)
+        years = db.Column(db.Unicode, nullable=False)
         isWork = db.Column(db.Boolean, nullable=False)
 
         def __str__(self) -> str:
@@ -138,11 +141,15 @@ def setup_web_builder_tables(
                 password="testingpassword",
                 firstName="John",
                 lastName="Doe",
-                email="DoeJoh @gsail.com",
+                email="DoeJohn@gsail.com",
                 phone="111-111-1111",
                 major="Computer Science",
                 college="Grove City",
                 about="This is my cool about description",
+                github = "https://github.com/",
+                linkedIn="https://linkedin.com/",
+                instagram = "https://www.instagram.com/",
+
             )  # type: ignore
 
             project: Project = Project(
@@ -163,11 +170,18 @@ def setup_web_builder_tables(
                 userId=1,
                 company="Grove City",
                 description="Made my.gcc.edu worse",
-                position="Software Developer?",
+                position="Software Developer",
+                years= "2023-present",
                 isWork=True,
             ) # type: ignore
 
-            db.session.add_all((user, project, club, work_experience))
+            programming_language:Programming_Language = Programming_Language(
+                userId=1,
+                language = "Java",
+                proficiency="Advanced",
+            ) # type: ignore
+            
+            db.session.add_all((user, project, club, work_experience, programming_language))
             db.session.commit()
 
         return (

@@ -7,6 +7,7 @@ from flask import (
     abort,
     session,
     flash,
+    jsonify
 )
 
 # ethan made a comment here
@@ -16,7 +17,6 @@ from flask_login import login_user, logout_user, current_user
 import os, sys
 from forms import PersonalInformation, LoginForm
 from db_setup import setup_web_builder_tables
-from hashing_examples import UpdatedHasher
 from flask_bootstrap import Bootstrap
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
@@ -37,9 +37,16 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 # Creates db tables, set reinitialize to false if saving data, add data to false if dont need dummy data
-User, Project, Project_Image, Club, Experience, Website, Programming_Language = setup_web_builder_tables(
-    app, db, reinitialize=True, add_data=True
-)
+# The returns are the classes/tables that can be used to query from or create rows
+(
+    User,
+    Project,
+    Project_Image,
+    Club,
+    Experience,
+    Website,
+    Programming_Language,
+) = setup_web_builder_tables(app, db, reinitialize=True, add_data=True)
 
 # Prepare and connect the LoginManager to this app
 login_manager = LoginManager()
@@ -59,16 +66,7 @@ def load_user(uid: int) -> User:
 ##############################################################################################################
 @app.route("/")
 def index():
-    return redirect(url_for('get_login', step=1))
-
-@app.route("/finish/")
-def finish():
-    data = {}
-    for key in session.keys():
-        if key.startswith("step"):
-            data.update(session[key])
-    session.clear()
-    return render_template("finish.html", data=data)
+    return redirect(url_for("get_login"))
 
 
 @app.get("/login/")
@@ -138,7 +136,7 @@ def post_register():
             db.session.add(user)
             db.session.commit()
             return redirect(url_for("view_home", userId=1))
-        else: # if the user already exists
+        else:  # if the user already exists
             # flash a warning message and redirect to get registration form
             flash("There is already an account with that email address")
             return redirect(url_for("get_register"))
@@ -249,7 +247,7 @@ def view_work(userId: int):
 
 
 ##############################################################################################################
-# User Specific Website View
+# Creating/Editing Tables
 ##############################################################################################################
 
 
@@ -296,14 +294,12 @@ def put_Project(projectId: int | None = None):
 
 @app.put("/api/about/<int:userId>/")
 def put_about(userId: int):
+    print("HERE")
     info = request.get_json()
     description = info["description"]
     college = info["college"]
     major = info["major"]
     phone = info["phone"]
-    email = info["email"]
-    github = info["github"]
-    linkedIn = info["linkedIn"]
 
     if userId != current_user.id:  # type: ignore
         return "", 403
@@ -317,9 +313,6 @@ def put_about(userId: int):
     user.college = college
     user.major = major
     user.phone = phone
-    user.email = email
-    user.github = github
-    user.linkedIn = linkedIn
 
     db.session.commit()
     return "", 200
@@ -333,7 +326,7 @@ def put_work(Id: int | None = None):
     company = info["company"]
     description = info["description"]
     position = info["position"]
-    
+
     User.query.get_or_404(userId)
 
     if userId != current_user.id:  # type: ignore
@@ -359,8 +352,12 @@ def put_work(Id: int | None = None):
         description=description,
         position=position,
         isWork=True,
-    ) #type: ignore
+    )  # type: ignore
 
     db.session.add(work_experience)
 
     return "", 200
+
+##############################################################################################################
+# Getting data dynamically
+##############################################################################################################
