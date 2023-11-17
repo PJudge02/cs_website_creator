@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from hashing_examples import UpdatedHasher
 import os, sys
+from dataclasses import dataclass
 from flask_login import UserMixin
 
 

@@ -7,6 +7,7 @@ from flask import (
     abort,
     session,
     flash,
+    jsonify
 )
 
 # ethan made a comment here
@@ -293,14 +294,12 @@ def put_Project(projectId: int | None = None):
 
 @app.put("/api/about/<int:userId>/")
 def put_about(userId: int):
+    print("HERE")
     info = request.get_json()
     description = info["description"]
     college = info["college"]
     major = info["major"]
     phone = info["phone"]
-    email = info["email"]
-    github = info["github"]
-    linkedIn = info["linkedIn"]
 
     if userId != current_user.id:  # type: ignore
         return "", 403
@@ -314,9 +313,6 @@ def put_about(userId: int):
     user.college = college
     user.major = major
     user.phone = phone
-    user.email = email
-    user.github = github
-    user.linkedIn = linkedIn
 
     db.session.commit()
     return "", 200
@@ -361,3 +357,7 @@ def put_work(Id: int | None = None):
     db.session.add(work_experience)
 
     return "", 200
+
+##############################################################################################################
+# Getting data dynamically
+##############################################################################################################
