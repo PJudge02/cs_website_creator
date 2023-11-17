@@ -135,7 +135,9 @@ def post_register():
             )  # type:ignore
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for("view_home", userId=1))
+            user2: User = User.query.all()
+            print(user2)
+            return redirect(url_for("view_home", userId=id))
         else:  # if the user already exists
             # flash a warning message and redirect to get registration form
             flash("There is already an account with that email address")
