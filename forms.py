@@ -9,7 +9,7 @@ from wtforms.validators import InputRequired, Length, EqualTo, Email
 
 
 class PersonalInformation(FlaskForm):
-    title = "Personal Information"
+    title = "Register"
     email = EmailField("Email: ", validators=[InputRequired(), Email()])
     password = PasswordField(
         "Password: ", validators=[InputRequired(), Length(min=8, max=256)]
@@ -29,6 +29,7 @@ class PersonalInformation(FlaskForm):
 
 
 class LoginForm(FlaskForm):
+    title = "Login"
     email = StringField("Username", validators=[InputRequired()])
     password = PasswordField(
         "Password", validators=[InputRequired(), Length(min=12, max=255)]
