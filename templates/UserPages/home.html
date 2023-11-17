@@ -1,247 +1,281 @@
-{% extends "UserPages/base.html" %}
-{% block title %} About {% endblock title %}
-{% block head %}
-{{super()}}
+{% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
 <script src="/static/scripts/UserPages/about_edit.js"></script>
 <script src="/static/scripts/UserPages/languageSkills.js"></script>
-{% endblock head %}
-{% block main %}
+{% endblock head %} {% block main %}
 <div id="allCards">
-    <input type="hidden" value="{{user.id}}" id="user-id-info"/>
-    <div class="card w-75 border-primary mb-3" style="width: 18rem;">
-       <div class="card-body">
-          <h5 id="user-name" class="card-title"><i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}</h5>
-          <button id="about-{{user.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info-modal">
-             <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px;" class="rounded-circle">
-            </button>
-       </div>
-       <ul class="list-group list-group-flush">
-          <li id="user-about" class="list-group-item"><i class="fa-solid fa-circle-info"></i> {{user.about}}</li>
-          <li id="user-college-major" class="list-group-item"><i class="fa fa-university"></i> {{user.major}}, {{user.college}}</li>
-          <li id="user-phone" class="list-group-item"><a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a></li>
-          <li class="list-group-item"><a href = "mailto: {{user.email}}"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a></li>
-       </ul>
-       <div class="card-body">
-        {% if user.github %}
-        <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px"></i> Github</a>
-        {% endif %} {% if user.instagram %}
-        <a href="{{user.instagram}}" class="card-link"
-          ><i class="fa fa-instagram" style="font-size: 36px"></i> Instagram</a
-        >
-        {% endif %} {% if user.linkedIn %}
-        <a href="{{user.linkedIn}}" class="card-link"><i class="fa fa-linkedin" style="font-size: 36px"></i> LinkedIn</a>
-        {% endif %}
-       </div>
+  <input type="hidden" value="{{user.id}}" id="user-id-info" />
+  <div class="card w-75 border-primary mb-3" style="width: 18rem">
+    <div class="card-body">
+      <h5 id="user-name" class="card-title"><i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}</h5>
+      <button id="about-{{user.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info-modal">
+        <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
+      </button>
     </div>
-    <div class="card w-75 border-primary mb-3" style="width: 18rem;">
-       <div class="card-body">
-          <h5 class="card-title">Projects</h5>
-          <button id="newProj-{{user.id}}" type="button" class="btn" id="new-proj-button">
-             <img src="/static/images/add_new.png" alt="Image" style="width: 15px; height: 15px;" class="rounded-circle">
-           </button>
-       </div>
-       {% for project in user.projects %}
-       <div>
-          <img class="card-img-top" src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"style="width:300px;height:200px;" alt="Card image cap">
-          <div class="card-body">
-             <h5 class="card-title">{{project.title}}</h5>
-             <p class="card-text">{{project.description}}</p>
-             <a href="{{project.repositoryLink}}" class="btn btn-primary">Try it out</a>
-             <button id="project-{{user.id}}-{{project.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#project-modal">
-                 <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px;" class="rounded-circle">
-             </button>
-         </div>
-       </div>
-       {%endfor%}
+    <ul class="list-group list-group-flush">
+      <li id="user-about" class="list-group-item"><i class="fa-solid fa-circle-info"></i> {{user.about}}</li>
+      <li id="user-college-major" class="list-group-item">
+        <i class="fa fa-university"></i> {{user.major}}, {{user.college}}
+      </li>
+      <li id="user-phone" class="list-group-item">
+        <a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a>
+      </li>
+      <li class="list-group-item">
+        <a href="mailto: {{user.email}}"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
+      </li>
+    </ul>
+    <div class="card-body">
+      {% if user.github %}
+      <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px"></i> Github</a>
+      {% endif %} {% if user.instagram %}
+      <a href="{{user.instagram}}" class="card-link"
+        ><i class="fa fa-instagram" style="font-size: 36px"></i> Instagram</a
+      >
+      {% endif %} {% if user.linkedIn %}
+      <a href="{{user.linkedIn}}" class="card-link"><i class="fa fa-linkedin" style="font-size: 36px"></i> LinkedIn</a>
+      {% endif %}
     </div>
+  </div>
+  <div class="card w-75 border-primary mb-3" style="width: 18rem">
+    <div class="card-body">
+      <h5 class="card-title">Projects</h5>
+      <button id="newProj-{{user.id}}" type="button" class="btn" id="new-proj-button">
+        <img src="/static/images/add_new.png" alt="Image" style="width: 15px; height: 15px" class="rounded-circle" />
+      </button>
+    </div>
+    {% for project in user.projects %}
     <div>
-       <div class="card w-75 border-primary mb-3" style="width: 18rem;">
-          <div class="card-body">
-             <h5 class="card-title"><i class="fa fa-user"></i> Skills/Experience</h5>
-          </div>
-          <h5 class="card-subtitle">Programming languages</h5>
-          <button id="newLanguage-{{user.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#new-language-modal">
-             <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px;" class="rounded-circle">
-           </button>
-          <ul id="language-list" class="list-group list-group-flush">
-            {% for language in user.languages %}
-             <li class="list-group-item">{{language.language}}, {{language.proficiency}}</li>
-             {% endfor %}
-          </ul>
-          <h5 class="card-subtitle">Work Experience</h5>
-          <button id="newWork-{{user.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#new-work-modal">
-             <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px;" class="rounded-circle">
-           </button>
-          <ul class="list-group list-group-flush">
-             <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> Junior Software Engineer, Clark Associates 2019-2020</li>
-             <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> IT Intern, NASA 2020-2021</li>
-             <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> CEO, Apple 2021-2023</li>
-             <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> Unemployed, Home 2023-</li>
-          </ul>
-       </div>
+      <img
+        class="card-img-top"
+        src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"
+        style="width: 300px; height: 200px"
+        alt="Card image cap" />
+      <div class="card-body">
+        <h5 class="card-title">{{project.title}}</h5>
+        <p class="card-text">{{project.description}}</p>
+        <a href="{{project.repositoryLink}}" class="btn btn-primary">Try it out</a>
+        <button
+          id="project-{{user.id}}-{{project.id}}"
+          type="button"
+          class="btn"
+          data-bs-toggle="modal"
+          data-bs-target="#project-modal">
+          <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
+        </button>
+      </div>
     </div>
- </div>
- 
- <div id="allModals">
-     <!--Information Modal -->
-     <div class="modal fade" id="info-modal" tabindex="-1" aria-labelledby="info-modal-label" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h1 class="modal-title fs-5" id="info-modal-title">Personal Information</h1>
-                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                 </div>
- 
-                 <div class="modal-body">
-                     <form id="info-modal-form">
-                         <div class="form-group">
-                             <label for="first-name-input">First Name</label>
-                             <input type="text" class="form-control" id="first-name-input" name="firstName">
-                         </div>
-         
-                         <div class ="form-group">
-                             <label for="last-name-input">Last Name</label>
-                             <input type="text" class="form-control" id="last-name-input" name="lastName"> 
-                         </div>
-         
-                         <div class ="form-group">
-                             <label for="description-input">Description</label>
-                             <input type="text" class="form-control" id="description-input" name="description">
-                         </div>
-         
-                         <div class="form-group">
-                             <label for="university-input">University</label>
-                             <input type="text" class="form-control" id="university-input" name="college">
-                         </div>
-         
-                         <div class="form-group">
-                             <label for="major-input">Major</label>
-                             <input type="text" class="form-control" id="major-input" name="major">
-                         </div>
-         
-                         <div class="form-group">
-                             <label for="phone-input">Phone Number</label>
-                             <input type="tel" class="form-control" id="phone-input" name="phone">
-                         </div>
-                     </form>
-                 </div>
-                 <div class="modal-footer">
-                     <button id="info-modal-save-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
-                 </div>
-             </div>
-         </div>
-     </div>
-       
-     <!--Project Modal-->
-     <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h1 class="modal-title fs-5" id="project-modal-label">Projects</h1>
-                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                 </div>
-                 <div class="modal-body">
-                     <form>
-                         <div class="form-group">
-                             <label for="project-title-input">Project Title</label>
-                             <input class="form-control" type="text" id="project-title-input">
-                         </div>
-       
-                         <div class="form-group">
-                             <label for="project-description-input">Project Description</label>
-                             <textarea class="form-control" id="project-description-input" rows="3"></textarea>
-                         </div>
-       
-                         <div class="form-group">
-                             <label for="project-image-input">Project Image</label>
-                             <input type="file" accept=".png, .jpg" class="form-control" id="project-image-input">
-                         </div>
-                     </form>
-                 </div>
-                 <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
-                 </div>
-             </div>
-         </div>
-     </div>
-       
-     <!--New Language-->
-     <div class="modal fade" id="new-language-modal" tabindex="-1" aria-labelledby="new-language-modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h1 class="modal-title fs-5" id="new-language-label">Programming Language</h1>
-                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                 </div>
-                 <div class="modal-body">
-                     <form>
-                         <div class="form-group">
-                             <label for="new-language-input">Language</label>
-                             <input class="form-control" type="text" id="new-language-input">
-                         </div>
-                         <h1></h1>
-                         <div class="form-group">
-                             <label for="new-proficiency-input">Proficiency</label>
-                             <select id="new-proficiency-input">
-                             <option selected>Choose</option>
-                             <option>Advanced</option>
-                             <option>Intermediate</option>
-                             <option>Beginner</option>
-                             </select>
-                         </div>
-                     </form>
-                 </div>
-                 
-                 <div class="modal-footer">
-                     <button id="save-new-lang-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
-                 </div>
-             </div>
-         </div>
-     </div>
- 
-     <!--Workplace Modal-->
-     <div class="modal fade" id="new-work-modal" tabindex="-1" aria-labelledby="new-work-modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h1 class="modal-title fs-5" id="new-work-label">Work Experience</h1>
-                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                 </div>
-                 <div class="modal-body">
-                     <form>
-                         <div class="form-group">
-                             <label for="title-input">Title</label>
-                             <input class="form-control" type="text" id="title-input">
-                         </div>
-         
-                         <div class="form-group">
-                             <label for="workplace-input">Workplace</label>
-                             <input class="form-control" type="text" id="workplace-input">
-                         </div>
-                 
-                         <div class="container">
-                             <div class="row">
-                                 <div class="col-sm-6">
-                                     <div class="form-group">
-                                         <label for="work-from-input">Start Year</label>
-                                         <input class="form-control" type="number" id="work-from-input">
-                                     </div>
-                                 </div>
-                                 <div class="col-sm-6">
-                                     <div class="form-group">
-                                         <label for="work-to-input">End Year</label>
-                                         <input class="form-control" type="number" id="work-to-input">
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </form>
-                 </div>
-                 <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
+    {%endfor%}
+  </div>
+  <div>
+    <div class="card w-75 border-primary mb-3" style="width: 18rem">
+      <div class="card-body">
+        <h5 class="card-title"><i class="fa fa-user"></i> Skills/Experience</h5>
+      </div>
+      <h5 class="card-subtitle">Programming languages</h5>
+      <button
+        id="newLanguage-{{user.id}}"
+        type="button"
+        class="btn"
+        data-bs-toggle="modal"
+        data-bs-target="#new-language-modal">
+        <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
+      </button>
+      <ul id="language-list" class="list-group list-group-flush">
+        {% if not user.languages %}
+        <li>
+          <button
+            id="newLanguage-{{user.id}}"
+            type="button"
+            class="btn"
+            data-bs-toggle="modal"
+            data-bs-target="#new-language-modal">
+            Add First Language
+          </button>
+        </li>
+        {% endif %} {% for language in user.languages %}
+        <li class="list-group-item">{{language.language}}, {{language.proficiency}}</li>
+        {% endfor %}
+      </ul>
+      <h5 class="card-subtitle">Work Experience</h5>
+      <button
+        id="newWork-{{user.id}}"
+        type="button"
+        class="btn"
+        data-bs-toggle="modal"
+        data-bs-target="#new-work-modal">
+        <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
+      </button>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <i class="fa-solid fa-briefcase"></i> Junior Software Engineer, Clark Associates 2019-2020
+        </li>
+        <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> IT Intern, NASA 2020-2021</li>
+        <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> CEO, Apple 2021-2023</li>
+        <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> Unemployed, Home 2023-</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="allModals">
+  <!--Information Modal -->
+  <div class="modal fade" id="info-modal" tabindex="-1" aria-labelledby="info-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="info-modal-title">Personal Information</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form id="info-modal-form">
+            <div class="form-group">
+              <label for="first-name-input">First Name</label>
+              <input type="text" class="form-control" id="first-name-input" name="firstName" />
+            </div>
+
+            <div class="form-group">
+              <label for="last-name-input">Last Name</label>
+              <input type="text" class="form-control" id="last-name-input" name="lastName" />
+            </div>
+
+            <div class="form-group">
+              <label for="description-input">Description</label>
+              <input type="text" class="form-control" id="description-input" name="description" />
+            </div>
+
+            <div class="form-group">
+              <label for="university-input">University</label>
+              <input type="text" class="form-control" id="university-input" name="college" />
+            </div>
+
+            <div class="form-group">
+              <label for="major-input">Major</label>
+              <input type="text" class="form-control" id="major-input" name="major" />
+            </div>
+
+            <div class="form-group">
+              <label for="phone-input">Phone Number</label>
+              <input type="tel" class="form-control" id="phone-input" name="phone" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="info-modal-save-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Project Modal-->
+  <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="project-modal-label">Projects</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="project-title-input">Project Title</label>
+              <input class="form-control" type="text" id="project-title-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="project-description-input">Project Description</label>
+              <textarea class="form-control" id="project-description-input" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="project-image-input">Project Image</label>
+              <input type="file" accept=".png, .jpg" class="form-control" id="project-image-input" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--New Language-->
+  <div class="modal fade" id="new-language-modal" tabindex="-1" aria-labelledby="new-language-modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="new-language-label">Programming Language</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="new-language-input">Language</label>
+              <input class="form-control" type="text" id="new-language-input" />
+            </div>
+            <h1></h1>
+            <div class="form-group">
+              <label for="new-proficiency-input">Proficiency</label>
+              <select id="new-proficiency-input">
+                <option selected>Choose</option>
+                <option>Advanced</option>
+                <option>Intermediate</option>
+                <option>Beginner</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button id="save-new-lang-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Workplace Modal-->
+  <div class="modal fade" id="new-work-modal" tabindex="-1" aria-labelledby="new-work-modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="new-work-label">Work Experience</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="title-input">Title</label>
+              <input class="form-control" type="text" id="title-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="workplace-input">Workplace</label>
+              <input class="form-control" type="text" id="workplace-input" />
+            </div>
+
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="work-from-input">Start Year</label>
+                    <input class="form-control" type="number" id="work-from-input" />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="work-to-input">End Year</label>
+                    <input class="form-control" type="number" id="work-to-input" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock main %}
