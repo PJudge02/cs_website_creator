@@ -90,6 +90,7 @@ def setup_web_builder_tables(
         company = db.Column(db.Unicode, nullable=False)
         description = db.Column(db.Unicode, nullable=False)
         position = db.Column(db.Unicode, nullable=False)
+        years = db.Column(db.Unicode, nullable=False)
         isWork = db.Column(db.Boolean, nullable=False)
 
         def __str__(self) -> str:
@@ -168,7 +169,8 @@ def setup_web_builder_tables(
                 userId=1,
                 company="Grove City",
                 description="Made my.gcc.edu worse",
-                position="Software Developer?",
+                position="Software Developer",
+                years= "2023-present",
                 isWork=True,
             ) # type: ignore
 
