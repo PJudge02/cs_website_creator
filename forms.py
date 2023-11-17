@@ -19,7 +19,7 @@ class PersonalInformation(FlaskForm):
     )
     firstName = StringField("First Name:", validators=[InputRequired()])
     lastName = StringField("Last Name:", validators=[InputRequired()])
-    phoneNumber = StringField("Phone:")
+    phoneNumber = StringField("Phone:", validators=[Length(min=10, max=13)])
     about = StringField("Personal Description:", validators=[InputRequired()])
     college = StringField("College/University:")
     major = StringField("Major:")
