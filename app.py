@@ -38,9 +38,15 @@ db = SQLAlchemy(app)
 
 # Creates db tables, set reinitialize to false if saving data, add data to false if dont need dummy data
 # The returns are the classes/tables that can be used to query from or create rows
-User, Project, Project_Image, Club, Experience, Website, Programming_Language = setup_web_builder_tables(
-    app, db, reinitialize=True, add_data=True
-)
+(
+    User,
+    Project,
+    Project_Image,
+    Club,
+    Experience,
+    Website,
+    Programming_Language,
+) = setup_web_builder_tables(app, db, reinitialize=True, add_data=True)
 
 # Prepare and connect the LoginManager to this app
 login_manager = LoginManager()
@@ -60,16 +66,7 @@ def load_user(uid: int) -> User:
 ##############################################################################################################
 @app.route("/")
 def index():
-    return redirect(url_for('get_login', step=1))
-
-@app.route("/finish/")
-def finish():
-    data = {}
-    for key in session.keys():
-        if key.startswith("step"):
-            data.update(session[key])
-    session.clear()
-    return render_template("finish.html", data=data)
+    return redirect(url_for("get_login"))
 
 
 @app.get("/login/")
@@ -139,7 +136,7 @@ def post_register():
             db.session.add(user)
             db.session.commit()
             return redirect(url_for("view_home", userId=1))
-        else: # if the user already exists
+        else:  # if the user already exists
             # flash a warning message and redirect to get registration form
             flash("There is already an account with that email address")
             return redirect(url_for("get_register"))
@@ -253,6 +250,7 @@ def view_work(userId: int):
 # Creating/Editing Tables
 ##############################################################################################################
 
+
 @app.put("/api/project/")
 @app.put("/api/project/<int:projectId>/")
 def put_Project(projectId: int | None = None):
@@ -333,7 +331,7 @@ def put_work(Id: int | None = None):
     company = info["company"]
     description = info["description"]
     position = info["position"]
-    
+
     User.query.get_or_404(userId)
 
     if userId != current_user.id:  # type: ignore
@@ -359,7 +357,7 @@ def put_work(Id: int | None = None):
         description=description,
         position=position,
         isWork=True,
-    ) #type: ignore
+    )  # type: ignore
 
     db.session.add(work_experience)
 
