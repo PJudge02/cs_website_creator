@@ -31,11 +31,11 @@
       </div>
     </div>
     <ul class="list-group list-group-flush">
-      <li id="user-about" class="list-group-item"><i class="fa-solid fa-circle-info"></i> {{user.about}}</li>
-      <li id="user-college-major" class="list-group-item">
-        <i class="fa fa-university"></i> {{user.major}}, {{user.college}}
+      <li id="user-about"  class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)"><i class="fa-solid fa-circle-info" draggable="true"  ondragstart="drag(event)"></i> {{user.about}}</li>
+      <li id="user-college-major" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <i class="fa fa-university" draggable="true"  ondragstart="drag(event)"></i> {{user.major}}, {{user.college}}
       </li>
-      <li id="user-phone" class="list-group-item">
+      <li id="user-phone"  class="list-group-item">
         <a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a>
       </li>
       <li class="list-group-item">
