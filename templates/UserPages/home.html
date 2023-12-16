@@ -4,13 +4,21 @@
 {{super()}}
 <script src="/static/scripts/UserPages/about_edit.js"></script>
 <script src="/static/scripts/UserPages/languageSkills.js"></script>
+<script>
+  UPLOADCARE_PUBLIC_KEY = 'demopublickey';
+</script>
+<script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+
 {% endblock head %} {% block main %}
 <div id="allCards">
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
+            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
+            <label for="file" style="cursor: pointer;">Upload Image</label>
+          
       <h5 id="user-name" class="card-title">
-        <i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
+        <i id="person-photo" class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
       </h5>
     </div>
     <ul class="list-group list-group-flush">
