@@ -1,6 +1,8 @@
 {% extends "WebsiteViews/base.html" %} {% block title %} Home {% endblock title %} {% block head %} {{super()}}
+<script src="/static/scripts/WebsiteViews/homePage.js"></script>
 {% endblock head %} {% block main %}
 <div id="allCards">
+  <input type="hidden" value="{{user.id}}" id="user-id-info" />
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
       <h5 class="card-title"><i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}</h5>
@@ -53,20 +55,17 @@
         <h5 class="card-title"><i class="fa fa-user"></i> Skills/Experience</h5>
       </div>
       <h5 class="card-subtitle">Programming languages</h5>
-      <ul class="list-group list-group-flush">
+      <ul class="list-group list-group-flush" id="language-list">
         {%for language in user.languages%}
-        <li class="list-group-item">
+        <li class="list-group-item" id="lang-li-{{language.id}}">
           <i class="fa-brands fa-java"></i> {{language.language}}, {{language.proficiency}}
         </li>
         {%endfor%}
-        <li class="list-group-item"><i class="fa-brands fa-python"></i> Python, Intermediate</li>
-        <li class="list-group-item"><i class="fa-brands fa-html5"></i> Html, Beginner</li>
-        <li class="list-group-item"><i class="fa-brands fa-css3-alt"></i> CSS, Advanced</li>
       </ul>
       <h5 class="card-subtitle">Work Experience</h5>
-      <ul class="list-group list-group-flush">
+      <ul class="list-group list-group-flush" id="work-list">
         {%for job in user.experiences%}
-        <li class="list-group-item">
+        <li class="list-group-item" id="work-li-{{job.id}}">
           <i class="fa-solid fa-briefcase"></i> {{job.position}} at {{job.company}} from {{job.years}}.
           {{job.description}}
         </li>

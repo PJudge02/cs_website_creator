@@ -35,6 +35,7 @@ async function new_work() {
   work_li.classList.add("list-group-item","drag-item");
   work_li.draggable = true
   work_li.id = `work-li-${workId.id}`
+  
   const work_icon = document.createElement("i");
   work_icon.classList.add("fa-solid", "fa-briefcase");
   const work_name = document.createElement("p");
