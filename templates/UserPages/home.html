@@ -1,57 +1,72 @@
-{% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
+{% extends "UserPages/base.html" %} 
+{% block title %} About {% endblock title %} 
+{% block head %} 
+{{super()}}
 <script src="/static/scripts/UserPages/about_edit.js"></script>
 <script src="/static/scripts/UserPages/languageSkills.js"></script>
+<script src="/static/scripts/UserPages/work_add.js"></script>
+<script>
+  UPLOADCARE_PUBLIC_KEY = 'demopublickey';
+</script>
+<script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+
 {% endblock head %} {% block main %}
 <div id="allCards">
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <h5 id="user-name" class="card-title">
-              <i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
-            </h5>
-          </div>
-          <div class="col-md-3">
-            <button
-              id="about-{{user.id}}"
-              type="button"
-              class="btn"
-              data-bs-toggle="modal"
-              data-bs-target="#info-modal">
-              <img
-                src="/static/images/pencil.png"
-                alt="Image"
-                style="width: 20px; height: 20px"
-                class="rounded-circle" />
-            </button>
-          </div>
-        </div>
-      </div>
+            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
+            <label for="file" style="cursor: pointer;">Upload Image</label>
+          
+      <h5 id="user-name" class="card-title">
+        <i id="person-photo" class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
+      </h5>
     </div>
     <ul class="list-group list-group-flush">
-      <li id="user-about" class="list-group-item"><i class="fa-solid fa-circle-info"></i> {{user.about}}</li>
+      <li id="user-about" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <i class="fa-solid fa-circle-info" draggable="true" ondragstart="drag(event)"></i>
+       <div id = "about-field-about" class = "myeditablediv">{{user.about}}</div> 
+      </li>
       <li id="user-college-major" class="list-group-item">
-        <i class="fa fa-university"></i> {{user.major}}, {{user.college}}
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1">
+              <i class="fa fa-university col-md-1"></i>
+            </div>
+            <div id="about-field-major" class="myeditablediv" class="col-md-2">{{user.major}}</div>
+            <div  id="about-field-college" class="myeditablediv" class="col-md-2">{{user.college}}</div>
+          </div>
+        </div>
       </li>
       <li id="user-phone" class="list-group-item">
-        <a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a>
+        <a> <i class="fa-solid fa-phone"></i> <div class="myeditablediv"  id="about-field-phone">{{user.phone}}</div></a>
       </li>
       <li class="list-group-item">
-        <a href="mailto: {{user.email}}"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
+        <a ><i class="fa-solid fa-envelope"></i> <div class="myeditablediv"  id="about-field-email">{{user.email}}</div></a>
       </li>
     </ul>
+
     <div class="card-body">
-      {% if user.github %}
-      <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px"></i> Github</a>
-      {% endif %} {% if user.instagram %}
-      <a href="{{user.instagram}}" class="card-link"
-        ><i class="fa fa-instagram" style="font-size: 36px"></i> Instagram</a
-      >
-      {% endif %} {% if user.linkedIn %}
-      <a href="{{user.linkedIn}}" class="card-link"><i class="fa fa-linkedin" style="font-size: 36px"></i> LinkedIn</a>
-      {% endif %}
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div>Github URL</div>
+          <div id = "about-field-github" class= "myeditablediv">
+            {{user.github}}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>Instagram URL</div>
+          <div id = "about-field-instagram" class= "myeditablediv">
+            {{user.instagram}}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>LinkedIN URL</div>
+          <div id = "about-field-linkedin" class= "myeditablediv">
+            {{user.linkedIn}}
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
@@ -125,68 +140,20 @@
         data-bs-target="#new-work-modal">
         <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
       </button>
-      <ul class="list-group list-group-flush">
+      <ul class="list-group list-group-flush" id="work-list">
+        {% for work in user.experiences %}
         <li class="list-group-item">
-          <i class="fa-solid fa-briefcase"></i> Junior Software Engineer, Clark Associates 2019-2020
+          <i class="fa-solid fa-briefcase"></i>
+          {{work.position}}, {{work.company}} {{work.startYear}}-{{work.endYear}}
+          <p>{{work.description}}</p>
         </li>
-        <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> IT Intern, NASA 2020-2021</li>
-        <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> CEO, Apple 2021-2023</li>
-        <li class="list-group-item"><i class="fa-solid fa-briefcase"></i> Unemployed, Home 2023-</li>
+        {% endfor %}
       </ul>
     </div>
   </div>
 </div>
 
 <div id="allModals">
-  <!--Information Modal -->
-  <div class="modal fade" id="info-modal" tabindex="-1" aria-labelledby="info-modal-label" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="info-modal-title">Personal Information</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-
-        <div class="modal-body">
-          <form id="info-modal-form">
-            <div class="form-group">
-              <label for="first-name-input">First Name</label>
-              <input type="text" class="form-control" id="first-name-input" name="firstName" />
-            </div>
-
-            <div class="form-group">
-              <label for="last-name-input">Last Name</label>
-              <input type="text" class="form-control" id="last-name-input" name="lastName" />
-            </div>
-
-            <div class="form-group">
-              <label for="description-input">Description</label>
-              <input type="text" class="form-control" id="description-input" name="description" />
-            </div>
-
-            <div class="form-group">
-              <label for="university-input">University</label>
-              <input type="text" class="form-control" id="university-input" name="college" />
-            </div>
-
-            <div class="form-group">
-              <label for="major-input">Major</label>
-              <input type="text" class="form-control" id="major-input" name="major" />
-            </div>
-
-            <div class="form-group">
-              <label for="phone-input">Phone Number</label>
-              <input type="tel" class="form-control" id="phone-input" name="phone" />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button id="info-modal-save-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!--Project Modal-->
   <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
     <div class="modal-dialog">
@@ -265,13 +232,18 @@
         <div class="modal-body">
           <form>
             <div class="form-group">
-              <label for="title-input">Title</label>
-              <input class="form-control" type="text" id="title-input" />
+              <label for="work-title-input">Title</label>
+              <input class="form-control" type="text" id="work-title-input" />
             </div>
 
             <div class="form-group">
-              <label for="workplace-input">Workplace</label>
-              <input class="form-control" type="text" id="workplace-input" />
+              <label for="work-workplace-input">Workplace</label>
+              <input class="form-control" type="text" id="work-workplace-input" />
+            </div>
+            
+            <div class="form-group">
+              <label for="work-description-input">Description</label>
+              <input type="text" class="form-control" id="work-description-input" />
             </div>
 
             <div class="container">
@@ -293,7 +265,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="save-new-work-btn">Save</button>
         </div>
       </div>
     </div>
