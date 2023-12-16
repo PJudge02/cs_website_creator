@@ -13,29 +13,27 @@
       </button>
     </div>
     {% for project in user.projects %}
-    <div>
-      <img
-        class="card-img-top"
-        src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"
-        style="width: 300px; height: 200px"
-        alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">{{project.title}}</h5>
-        <p class="card-text">{{project.description}}</p>
-        <a href="{{project.repositoryLink}}" class="btn btn-primary">Try it out</a>
-        <button
-          id="project-{{user.id}}-{{project.id}}"
-          type="button"
-          class="btn"
-          data-bs-toggle="modal"
-          data-bs-target="#project-modal">
-          <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
-        </button>
+    
+
+    <div class="row">
+        <div class="col-md-4">
+          <img class="card-img-top" src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg" style="width: 300px; height: 200px" alt="Card image cap">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{project.title}}</h5>
+            <p class="card-text">{{project.description}}</p>
+            <a href="{{project.repositoryLink}}" class="btn btn-primary">Try it out</a>
+            <button id="project-{{user.id}}-{{project.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#project-modal">
+              <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle">
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+      
+
+
     {%endfor%}
-  </div>
-  <div>
   </div>
 </div>
 
