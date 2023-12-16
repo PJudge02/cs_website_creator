@@ -35,6 +35,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function loadFile(event) {
+  console.log(event)
   const user_id = document.getElementById("user-id-info").value;
   const icon = document.getElementById("person-photo");
   const image = document.createElement("img");
