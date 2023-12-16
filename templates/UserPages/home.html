@@ -16,7 +16,7 @@
     <ul class="list-group list-group-flush">
       <li id="user-about" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
         <i class="fa-solid fa-circle-info" draggable="true" ondragstart="drag(event)"></i>
-        <textarea> {{user.about}} </textarea>
+       <div id = "myeditablediv">{{user.about}}</div> 
       </li>
       <li id="user-college-major" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
         <div class="container">
@@ -30,10 +30,10 @@
         </div>
       </li>
       <li id="user-phone" class="list-group-item">
-        <a href="tel:{{user.phone}}" id="myeditablediv"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a>
+        <a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> <div id="myeditablediv">{{user.phone}}</div></a>
       </li>
       <li class="list-group-item">
-        <a href="mailto: {{user.email}}" id="myeditablediv"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
+        <a href="mailto: {{user.email}}"> <i class="fa-solid fa-envelope"></i> <div id="myeditablediv">{{user.email}}</div></a>
       </li>
     </ul>
 
