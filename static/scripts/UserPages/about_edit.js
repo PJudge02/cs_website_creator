@@ -3,6 +3,9 @@ window.addEventListener("DOMContentLoaded", async () => {
   const college = document.getElementById("about-field-college");
   const major = document.getElementById("about-field-major");
   const phone = document.getElementById("about-field-phone");
+  const github = document.getElementById("about-field-github")
+  const instagram = document.getElementById("about-field-instagram")
+  const linkedIn = document.getElementById("about-field-linkedin")
 
   // Options for the observer (which mutations to observe)
   const config = { attributes: true, childList: true, subtree: true };
@@ -26,6 +29,9 @@ window.addEventListener("DOMContentLoaded", async () => {
   observer.observe(college, config);
   observer.observe(major, config);
   observer.observe(phone, config);
+  observer.observe(github, config)
+  observer.observe(instagram, config)
+  observer.observe(linkedIn, config)
 });
 
 async function loadFile(event) {
@@ -55,12 +61,18 @@ async function saveAbout() {
   const college = document.getElementById("about-field-college").innerText;
   const major = document.getElementById("about-field-major").innerText;
   const phone = document.getElementById("about-field-phone").innerText;
+  const github = document.getElementById("about-field-github").innerText
+  const instagram = document.getElementById("about-field-instagram").innerText
+  const linkedIn = document.getElementById("about-field-linkedin").innerText
 
   const values = {
     description: description,
     college: college,
     major: major,
     phone: phone,
+    github: github,
+    instagram: instagram,
+    linkedin: linkedIn
   };
 
   fetch(`/api/about/${user_id}/`, {

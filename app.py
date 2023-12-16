@@ -268,6 +268,9 @@ def put_about(userId: int):
     college = info["college"]
     major = info["major"]
     phone = info["phone"]
+    github = info['github']
+    instagram = info['instagram']
+    linkedin = info['linkedin']
 
     if userId != current_user.id:  # type: ignore
         return "", 403
@@ -281,6 +284,9 @@ def put_about(userId: int):
     user.college = college
     user.major = major
     user.phone = phone
+    user.github = github
+    user.linkedIn = linkedin
+    user.instagram = instagram
 
     db.session.commit()
     return "", 200
@@ -410,26 +416,6 @@ def put_project_layout():
     db.session.commit()
     return "", 200
 
-@app.put("/api/v1/image/proj/")
-def put_proj_image_upload():
-    info = request.form
-    userId = info["userId"]
-    projId = info["projId"]
-    projectImg = Project_Image.query.get_or_404(projId)
-    image = request.files["image"]
-
-    if image and image.filename and allowed_file(image.filename):
-        filename = secure_filename(image.filename)
-        directory = os.path.join(app.config["UPLOAD_FOLDER"], userId)
-        path = os.path.join(directory, filename)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        image.save(path)
-        projectImg.imageLink = os.path.join(app.config["UPLOAD_FOLDER_RELATIVE"], userId, filename)
-        db.session.commit()
-    else:
-        return "", 400
-    return "", 200
 
 @app.put("/api/v1/image/profile/")
 def put_image_upload():
