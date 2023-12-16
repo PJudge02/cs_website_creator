@@ -21,7 +21,7 @@ from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = "/static/images/"
-ALLOWED_EXTENSIONS = set(["txt", "pdf", "png", "jpg", "jpeg", "gif"])
+ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg"])
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(script_dir)
@@ -46,7 +46,6 @@ db = SQLAlchemy(app)
     User,
     Project,
     Project_Image,
-    Club,
     Experience,
     Website,
     Programming_Language,
@@ -283,9 +282,11 @@ def put_about(userId: int):
 def put_work(Id: int | None = None):
     info = request.get_json()
     userId = info["userId"]
-    company = info["company"]
+    workplace = info["workplace"]
     description = info["description"]
-    position = info["position"]
+    title = info["title"]
+    startYear = info['startYear']
+    endYear = info['endYear']
 
     User.query.get_or_404(userId)
 
@@ -298,9 +299,11 @@ def put_work(Id: int | None = None):
             return "", 404
 
         work.userId = userId
-        work.company = company
+        work.company = workplace
         work.description = description
-        work.position = position
+        work.position = title
+        work.startYear = startYear
+        work.endYear = endYear
 
         db.session.commit()
         return "", 200
@@ -308,13 +311,15 @@ def put_work(Id: int | None = None):
     # make new
     work_experience = Experience(
         userId=userId,
-        company=company,
+        company=workplace,
         description=description,
-        position=position,
-        isWork=True,
+        position=title,
+        startYear=startYear,
+        endYear=endYear
     )  # type: ignore
 
     db.session.add(work_experience)
+    db.session.commit()
 
     return "", 200
 

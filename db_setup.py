@@ -25,7 +25,6 @@ def setup_web_builder_tables(
         instagram = db.Column(db.Unicode, nullable=True)
         imagePath = db.Column(db.Unicode, nullable=True)
         projects = db.relationship("Project", backref="user")
-        clubs = db.relationship("Club", backref="user")
         experiences = db.relationship("Experience", backref="user")
         website = db.relationship("Website", backref="user")
         languages = db.relationship("Programming_Language", backref="user")
@@ -69,22 +68,6 @@ def setup_web_builder_tables(
         projectId = db.Column(db.Integer, db.ForeignKey("Projects.id"), nullable=False)
         imageLink = db.Column(db.Unicode, nullable=False)
 
-    class Club(db.Model):
-        __tablename__ = "Clubs"
-        id = db.Column(db.Integer, primary_key=True)
-        userId = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
-        title = db.Column(db.Unicode, nullable=False)
-        description = db.Column(db.Unicode, nullable=False)
-        position = db.Column(db.Unicode, nullable=True)
-
-        def __str__(self) -> str:
-            return (
-                f"{self.userId=}\n{self.title=}\n{self.description=}\n{self.position=}"
-            )
-
-        def __repr__(self) -> str:
-            return str(self)
-
     class Experience(db.Model):
         __tablename__ = "Experiences"
         id = db.Column(db.Integer, primary_key=True)
@@ -92,8 +75,8 @@ def setup_web_builder_tables(
         company = db.Column(db.Unicode, nullable=False)
         description = db.Column(db.Unicode, nullable=False)
         position = db.Column(db.Unicode, nullable=False)
-        years = db.Column(db.Unicode, nullable=False)
-        isWork = db.Column(db.Boolean, nullable=False)
+        startYear = db.Column(db.Unicode, nullable=True)
+        endYear = db.Column(db.Unicode, nullable=True)
 
         def __str__(self) -> str:
             return f"{self.userId=}\n{self.company=}\n{self.description=}\n{self.position=}"
@@ -107,10 +90,7 @@ def setup_web_builder_tables(
         userId = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
         websiteLink = db.Column(db.Unicode, unique=True)
         homePage = db.Column(db.Unicode, nullable=False)
-        aboutPage = db.Column(db.Unicode, nullable=True)
-        workPage = db.Column(db.Unicode, nullable=True)
         projectsPage = db.Column(db.Unicode, nullable=True)
-        educationPage = db.Column(db.Unicode, nullable=True)
 
     class Programming_Language(db.Model):
         __tablename__ = "Programming_Language"
@@ -160,20 +140,31 @@ def setup_web_builder_tables(
                 repositoryLink="https://github.com/facebook/react",
             )  # type: ignore
 
-            club: Club = Club(
-                userId=1,
-                title="Fun Club",
-                description="Can't talk about it",
-                position="Grunt",
-            )  # type: ignore
-
-            work_experience: Experience = Experience(
+            work_experience1: Experience = Experience(
                 userId=1,
                 company="Grove City",
                 description="Made my.gcc.edu worse",
                 position="Software Developer",
-                years= "2023-present",
-                isWork=True,
+                startYear= "2023",
+                endYear="present"
+            ) # type: ignore
+
+            work_experience2: Experience = Experience(
+                userId=1,
+                company="NASA",
+                description="Used imperial instead of metric",
+                position="IT Intern",
+                startYear= "2023",
+                endYear= "2023",
+            ) # type: ignore
+
+            work_experience3: Experience = Experience(
+                userId=1,
+                company="Apple",
+                description="Remade the same phone again",
+                position="CEO",
+                startYear= "2021",
+                endYear= "2023",
             ) # type: ignore
 
             programming_language:Programming_Language = Programming_Language(
@@ -182,14 +173,13 @@ def setup_web_builder_tables(
                 proficiency="Advanced",
             ) # type: ignore
             
-            db.session.add_all((user, project, club, work_experience, programming_language))
+            db.session.add_all((user, project, work_experience1, work_experience2, work_experience3, programming_language))
             db.session.commit()
 
         return (
             User,
             Project,
             Project_Image,
-            Club,
             Experience,
             Website,
             Programming_Language,
