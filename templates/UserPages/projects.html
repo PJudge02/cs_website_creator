@@ -8,7 +8,8 @@
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
       <h5 class="card-title">Projects</h5>
-      <button id="newProj-{{user.id}}" type="button" class="btn" id="new-proj-button">
+      <button id="newProj-{{user.id}}" type="button" class="btn" data-bs-toggle="modal"
+      data-bs-target="#new-project-modal">
         <img src="/static/images/add_new.png" alt="Image" style="width: 15px; height: 15px" class="rounded-circle" />
       </button>
     </div>
@@ -38,56 +39,8 @@
 </div>
 
 <div id="allModals">
-  <!--Information Modal -->
-  <div class="modal fade" id="info-modal" tabindex="-1" aria-labelledby="info-modal-label" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="info-modal-title">Personal Information</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
 
-        <div class="modal-body">
-          <form id="info-modal-form">
-            <div class="form-group">
-              <label for="first-name-input">First Name</label>
-              <input type="text" class="form-control" id="first-name-input" name="firstName" />
-            </div>
-
-            <div class="form-group">
-              <label for="last-name-input">Last Name</label>
-              <input type="text" class="form-control" id="last-name-input" name="lastName" />
-            </div>
-
-            <div class="form-group">
-              <label for="description-input">Description</label>
-              <input type="text" class="form-control" id="description-input" name="description" />
-            </div>
-
-            <div class="form-group">
-              <label for="university-input">University</label>
-              <input type="text" class="form-control" id="university-input" name="college" />
-            </div>
-
-            <div class="form-group">
-              <label for="major-input">Major</label>
-              <input type="text" class="form-control" id="major-input" name="major" />
-            </div>
-
-            <div class="form-group">
-              <label for="phone-input">Phone Number</label>
-              <input type="tel" class="form-control" id="phone-input" name="phone" />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button id="info-modal-save-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!--Project Modal-->
+  <!--Project Edit Modal-->
   <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -115,6 +68,39 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--New Project Modal-->
+  <div class="modal fade" id="new-project-modal" tabindex="-1" aria-labelledby="new-project-modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="new-project-modal-label">Projects</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="project-title-input">Project Title</label>
+              <input class="form-control" type="text" id="new-project-title-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="project-description-input">Project Description</label>
+              <textarea class="form-control" id="new-project-description-input" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="project-image-input">Project Image</label>
+              <input type="file" accept=".png, .jpg" class="form-control" onchange="loadProjectFile(event)" id="new-project-image-input" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="save-new-project-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
         </div>
       </div>
     </div>
