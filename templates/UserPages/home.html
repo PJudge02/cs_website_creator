@@ -13,8 +13,6 @@
 <div id="allCards">
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
-    <div class="card-body">
-    </div>
     <ul class="list-group list-group-flush">
       <li id="user-name" class="list-group-item">
 
@@ -58,22 +56,22 @@
       </li>
     </ul>
 
-    <div class="card-body">
+    <!-- <div class="card-body"> -->
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <div>Github URL</div>
+          <h3 class="card-title">Github URL</h3>
           <div id="about-field-github" class="myeditablediv">{{user.github}}</div>
         </li>
         <li class="list-group-item">
-          <div>Instagram URL</div>
+          <h3 class="card-title">Instagram URL</h3>
           <div id="about-field-instagram" class="myeditablediv">{{user.instagram}}</div>
         </li>
         <li class="list-group-item">
-          <div>LinkedIN URL</div>
+          <h3 class="card-title">LinkedIN URL</h3>
           <div id="about-field-linkedin" class="myeditablediv">{{user.linkedIn}}</div>
         </li>
       </ul>
-    </div>
+    <!-- </div> -->
   </div>
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
