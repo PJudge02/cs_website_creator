@@ -1,6 +1,7 @@
 {% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
 <script src="/static/scripts/UserPages/about_edit.js"></script>
 <script src="/static/scripts/UserPages/languageSkills.js"></script>
+<script src="/static/scripts/UserPages/projects.js"></script>
 <script src="/static/scripts/UserPages/work_add.js"></script>
 <script>
   UPLOADCARE_PUBLIC_KEY = "demopublickey";
@@ -83,7 +84,7 @@
         <img src="/static/images/add_new.png" alt="Image" style="width: 15px; height: 15px" class="rounded-circle" />
       </button>
     </div>
-    {% for project in user.projects %}
+    <!-- {% for project in user.projects %}
     <div>
       <img
         class="card-img-top"
@@ -104,7 +105,7 @@
         </button>
       </div>
     </div>
-    {%endfor%}
+    {%endfor%} -->
   </div>
   <div>
     <div class="card w-75 border-primary mb-3" style="width: 18rem">
@@ -162,7 +163,7 @@
 
 <div id="allModals">
   <!--Project Modal-->
-  <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
+  <!-- <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -192,7 +193,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!--New Language-->
   <div class="modal fade" id="new-language-modal" tabindex="-1" aria-labelledby="new-language-modal" aria-hidden="true">

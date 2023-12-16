@@ -360,10 +360,10 @@ def put_Language(langId: int | None = None):
 
 @app.put("/api/project/")
 @app.put("/api/project/<int:projId>/")
-def put_Language(projId: int | None = None):
+def put_proj(projId: int | None = None):
     info = request.get_json()
-    title = info["title"]
-    discription = info["discription"]
+    titleText = info["title"]
+    discriptionText = info["discription"]
     img = info["img"]
     userId = info["userId"]
 
@@ -374,11 +374,12 @@ def put_Language(projId: int | None = None):
 
     if projId:
         # update
-        language = Programming_Language.query.get(langId)
+        project = Project.query.get(projId)
 
-        if language:
-            language.language = name
-            language.proficiency = proficiency
+        if project:
+            project.title = titleText
+            project.discription = discriptionText
+            project.repositoryLink = "https://github.com/PJudge02?tab=repositories"
 
             db.session.commit()
             return "", 200
@@ -386,10 +387,10 @@ def put_Language(projId: int | None = None):
             return "", 404
 
     # create new
-    lang_new = Programming_Language(
+    proj_new = Project(
         userId=userId,
-        language=name,
-        proficiency=proficiency,
+        title= titleText,
+        discription=discriptionText,
     )  # type: ignore
 
     db.session.add(lang_new)
@@ -399,7 +400,6 @@ def put_Language(projId: int | None = None):
 @app.put("/api/v1/home/layout")
 def put_home_layout():
     info = request.get_json()
-
     return "", 200
 
 
@@ -407,6 +407,26 @@ def put_home_layout():
 def put_project_layout():
     return "", 200
 
+@app.put("/api/v1/image/proj/")
+def put_proj_image_upload():
+    info = request.form
+    userId = info["userId"]
+    projId = info["projId"]
+    projectImg = Project_Image.query.get_or_404(projId)
+    image = request.files["image"]
+
+    if image and image.filename and allowed_file(image.filename):
+        filename = secure_filename(image.filename)
+        directory = os.path.join(app.config["UPLOAD_FOLDER"], userId)
+        path = os.path.join(directory, filename)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        image.save(path)
+        projectImg.imageLink = os.path.join(app.config["UPLOAD_FOLDER_RELATIVE"], userId, filename)
+        db.session.commit()
+    else:
+        return "", 400
+    return "", 200
 
 @app.put("/api/v1/image/profile/")
 def put_image_upload():
