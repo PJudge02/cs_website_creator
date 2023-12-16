@@ -19,7 +19,7 @@
     <div class="m-0" >
       {% for project in user.projects %}
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-5">
             {% if project.imagePath %}
             <img
               class="card-img-top"
@@ -28,7 +28,7 @@
               alt="Project Image" />
             {% endif %}
           </div>
-          <div class="col-md-8">
+          <div class="col-md-7">
             <div class="card-body">
               <h5 class="card-title">{{project.title}}</h5>
               <p class="card-text">{{project.description}}</p>
