@@ -31,24 +31,26 @@ async function loadProjectFile(event) {
   window.project_create.file = event.target.files[0];
 }
 
-async function loadProjectFile(event) {
-    console.log(event);
-    // const user_id = document.getElementById("user-id-info").value;
-    // // const image = document.getElementById("person-photo");
-    // const image = document.createElement("img");
-    // image.width = 250;
-    // image.height = 250;
-    // image.src = URL.createObjectURL(event.target.files[0]);
-    // image.id = "person-photo";
-    // icon.replaceWith(image);
+async function loadProjectFile2(event) {
+    // console.log(event);
+    // console.log(event.srcElement)
+    // console.log(event.srcElement.id)
+    const user_id = document.getElementById("user-id-info").value;
+    const image_original = document.getElementById(event.srcElement.id);
+    const image = document.createElement("img");
+    image.width = 250;
+    image.height = 250;
+    image.src = URL.createObjectURL(event.target.files[0]);
+    image.id = "person-photo";
+    image_original.replaceWith(image);
   
-    // const data = new FormData()
-    // data.append("userId", user_id)
-    // data.append('image', event.target.files[0])
+    const data = new FormData()
+    data.append("userId", user_id)
+    data.append('image', event.target.files[0])
   
-    // fetch('/api/v1/image/profile/', {
-    //   method: "PUT",
-    //   body: data
-    // })
-    //CREATE FETCH REQUEST WITH PROPER URL: "DONT KNOW WHAT THE URL IS"
+    fetch('/api/v1/image/profile/', {
+      method: "PUT",
+      body: data
+    })
+    // // CREATE FETCH REQUEST WITH PROPER URL: "DONT KNOW WHAT THE URL IS"
   }
