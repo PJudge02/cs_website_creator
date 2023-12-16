@@ -3,6 +3,18 @@ window.addEventListener("DOMContentLoaded", async () => {
     save_btn.addEventListener("click", saveAbout)
 })
 
+async function loadFile(event){
+  const icon = document.getElementById("person-photo");
+  const image = document.createElement('img');
+  image.width =50;
+  image.height =50; 
+  image.src = URL.createObjectURL(event.target.files[0]);
+  image.id="person-photo"
+  icon.replaceWith(image);
+  // const r = await fetch() 
+  //CREATE FETCH REQUEST WITH PROPER URL: "DONT KNOW WHAT THE URL IS"
+}
+
 async function saveAbout() {
     const user_id = document.getElementById("user-id-info").value
     const firstName = document.getElementById("first-name-input").value
