@@ -330,7 +330,7 @@ def put_work(Id: int | None = None):
     db.session.add(work_experience)
     db.session.commit()
 
-    return "", 200
+    return jsonify({"id": work_experience.id}), 200
 
 
 @app.put("/api/language/")
@@ -368,7 +368,7 @@ def put_Language(langId: int | None = None):
 
     db.session.add(lang_new)
     db.session.commit()
-    return "", 200
+    return jsonify({"id": lang_new.id}), 200
 
 
 @app.put("/api/v1/language/ordering/")
@@ -379,8 +379,6 @@ def put_home_layout():
     languageOrdering = ",".join(languageIds)
 
     ordering = Website.query.filter_by(userId=userId).first()
-
-    print(ordering)
 
     if not ordering:
         ordering = Website(userId=userId, languageOrdering=languageOrdering)  # type: ignore
@@ -454,7 +452,7 @@ def get_work_ordering(userId: int):
     if ordering.languageOrdering:
         lang_ordering = ordering.languageOrdering.split(",")
 
-    return jsonify({"work": work_ordering, "lang": lang_ordering})
+    return jsonify(ordering.to_json())
 
 
 if __name__ == "__main__":

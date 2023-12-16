@@ -83,6 +83,18 @@ def setup_web_builder_tables(
         userId = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
         languageOrdering = db.Column(db.Unicode, nullable=True)
         workOrdering = db.Column(db.Unicode, nullable=True)
+
+        def to_json(self):
+            work_ordering = None
+            lang_ordering = None
+
+            if self.workOrdering:
+                work_ordering = self.workOrdering.split(",")
+
+            if self.languageOrdering:
+                lang_ordering = self.languageOrdering.split(",")
+
+            return {"work": work_ordering, "lang": lang_ordering}
         
 
     class Programming_Language(db.Model):
