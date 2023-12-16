@@ -65,7 +65,7 @@ def load_user(uid: int) -> User:
 
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 ##############################################################################################################
@@ -231,7 +231,9 @@ def put_Project(projectId: int | None = None):
         if not os.path.exists(directory):
             os.makedirs(directory)
         image.save(path)
-        imagePath = os.path.join(app.config["UPLOAD_FOLDER_RELATIVE"], userId, "project", filename)
+        imagePath = os.path.join(
+            app.config["UPLOAD_FOLDER_RELATIVE"], userId, "project", filename
+        )
         db.session.commit()
     else:
         return "", 400
@@ -251,10 +253,7 @@ def put_Project(projectId: int | None = None):
 
     # create new
     project_new = Project(
-        userId=userId,
-        title=title,
-        description=description,
-        imagePath=imagePath
+        userId=userId, title=title, description=description, imagePath=imagePath
     )  # type: ignore
 
     db.session.add(project_new)
@@ -295,8 +294,8 @@ def put_work(Id: int | None = None):
     workplace = info["workplace"]
     description = info["description"]
     title = info["title"]
-    startYear = info['startYear']
-    endYear = info['endYear']
+    startYear = info["startYear"]
+    endYear = info["endYear"]
 
     User.query.get_or_404(userId)
 
@@ -325,7 +324,7 @@ def put_work(Id: int | None = None):
         description=description,
         position=title,
         startYear=startYear,
-        endYear=endYear
+        endYear=endYear,
     )  # type: ignore
 
     db.session.add(work_experience)
@@ -371,19 +370,20 @@ def put_Language(langId: int | None = None):
     db.session.commit()
     return "", 200
 
+
 @app.put("/api/v1/language/ordering/")
 def put_home_layout():
     info = request.get_json()
-    userId = info['userId']
-    languageIds = info['languageIds']
-    languageOrdering = ','.join(languageIds)
+    userId = info["userId"]
+    languageIds = info["languageIds"]
+    languageOrdering = ",".join(languageIds)
 
     ordering = Website.query.filter_by(userId=userId).first()
 
     print(ordering)
-    
+
     if not ordering:
-        ordering = Website(userId=userId, languageOrdering=languageOrdering) # type: ignore
+        ordering = Website(userId=userId, languageOrdering=languageOrdering)  # type: ignore
 
         db.session.add(ordering)
     else:
@@ -396,14 +396,14 @@ def put_home_layout():
 @app.put("/api/v1/work/ordering/")
 def put_project_layout():
     info = request.get_json()
-    userId = info['userId']
-    workIds = info['workIds']
-    workOrdering = ','.join(workIds)
+    userId = info["userId"]
+    workIds = info["workIds"]
+    workOrdering = ",".join(workIds)
 
     ordering = Website.query.filter_by(userId=userId).first()
-    
+
     if not ordering:
-        ordering = Website(userId=userId, workOrdering=workOrdering) # type: ignore
+        ordering = Website(userId=userId, workOrdering=workOrdering)  # type: ignore
 
         db.session.add(ordering)
     else:
@@ -427,7 +427,9 @@ def put_image_upload():
         if not os.path.exists(directory):
             os.makedirs(directory)
         image.save(path)
-        user.imagePath = os.path.join(app.config["UPLOAD_FOLDER_RELATIVE"], userId, filename)
+        user.imagePath = os.path.join(
+            app.config["UPLOAD_FOLDER_RELATIVE"], userId, filename
+        )
         db.session.commit()
     else:
         return "", 400
@@ -438,23 +440,21 @@ def put_image_upload():
 # Getting data dynamically
 ##############################################################################################################
 
+
 @app.get("/api/v1/ordering/<int:userId>/")
-def get_work_ordering(userId: int): 
+def get_work_ordering(userId: int):
     ordering: Website = Website.query.filter_by(userId=userId).first_or_404()
 
     work_ordering = None
     lang_ordering = None
 
     if ordering.workOrdering:
-        work_ordering = ordering.workOrdering.split(',')
-    
-    if ordering.languageOrdering:
-        lang_ordering = ordering.languageOrdering.split(',')
+        work_ordering = ordering.workOrdering.split(",")
 
-    return jsonify({
-        "work": work_ordering,
-        "lang": lang_ordering
-    })
+    if ordering.languageOrdering:
+        lang_ordering = ordering.languageOrdering.split(",")
+
+    return jsonify({"work": work_ordering, "lang": lang_ordering})
 
 
 if __name__ == "__main__":
