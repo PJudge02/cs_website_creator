@@ -16,7 +16,7 @@
     <ul class="list-group list-group-flush">
       <li id="user-about" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
         <i class="fa-solid fa-circle-info" draggable="true" ondragstart="drag(event)"></i>
-       <div id = "myeditablediv">{{user.about}}</div> 
+       <div id = "about-field-about" class = "myeditablediv">{{user.about}}</div> 
       </li>
       <li id="user-college-major" class="list-group-item">
         <div class="container">
@@ -24,29 +24,40 @@
             <div class="col-md-1">
               <i class="fa fa-university col-md-1"></i>
             </div>
-            <div id="myeditablediv" class="col-md-2">{{user.major}}</div>
-            <div id="myeditablediv" class="col-md-2">{{user.college}}</div>
+            <div id="about-field-major" class="myeditablediv" class="col-md-2">{{user.major}}</div>
+            <div  id="about-field-college" class="myeditablediv" class="col-md-2">{{user.college}}</div>
           </div>
         </div>
       </li>
       <li id="user-phone" class="list-group-item">
-        <a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> <div id="myeditablediv">{{user.phone}}</div></a>
+        <a> <i class="fa-solid fa-phone"></i> <div class="myeditablediv"  id="about-field-phone">{{user.phone}}</div></a>
       </li>
       <li class="list-group-item">
-        <a href="mailto: {{user.email}}" id="myeditablediv"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
+        <a ><i class="fa-solid fa-envelope"></i> <div class="myeditablediv"  id="about-field-email">{{user.email}}</div></a>
       </li>
     </ul>
 
     <div class="card-body">
-      {% if user.github %}
-      <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px"></i> Github</a>
-      {% endif %} {% if user.instagram %}
-      <a href="{{user.instagram}}" class="card-link"
-        ><i class="fa fa-instagram" style="font-size: 36px"></i> Instagram</a
-      >
-      {% endif %} {% if user.linkedIn %}
-      <a href="{{user.linkedIn}}" class="card-link"><i class="fa fa-linkedin" style="font-size: 36px"></i> LinkedIn</a>
-      {% endif %}
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div>Github URL</div>
+          <div id = "about-field-github" class= "myeditablediv">
+            {{user.github}}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>Instagram URL</div>
+          <div id = "about-field-instagram" class= "myeditablediv">
+            {{user.instagram}}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>LinkedIN URL</div>
+          <div id = "about-field-linkedin" class= "myeditablediv">
+            {{user.linkedIn}}
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
