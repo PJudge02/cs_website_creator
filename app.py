@@ -10,7 +10,6 @@ from flask import (
     jsonify,
 )
 
-# ethan made a comment here
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required
 from flask_login import login_user, logout_user, current_user
@@ -19,6 +18,7 @@ from forms import PersonalInformation, LoginForm
 from db_setup import setup_web_builder_tables
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
+import json
 
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg"])
 
@@ -359,15 +359,45 @@ def put_Language(langId: int | None = None):
     return "", 200
 
 
-@app.put("/api/v1/home/layout")
+@app.put("/api/v1/language/ordering/")
 def put_home_layout():
     info = request.get_json()
+    userId = info['userId']
+    languageIds = info['languageIds']
+    languageOrdering = ','.join(languageIds)
 
+    ordering = Website.query.filter_by(userId=userId).first()
+
+    print(ordering)
+    
+    if not ordering:
+        ordering = Website(userId=userId, languageOrdering=languageOrdering) # type: ignore
+
+        db.session.add(ordering)
+    else:
+        ordering.languageOrdering = languageOrdering
+
+    db.session.commit()
     return "", 200
 
 
-@app.put("/api/v1/project/layout")
+@app.put("/api/v1/work/ordering/")
 def put_project_layout():
+    info = request.get_json()
+    userId = info['userId']
+    workIds = info['workIds']
+    workOrdering = ','.join(workIds)
+
+    ordering = Website.query.filter_by(userId=userId).first()
+    
+    if not ordering:
+        ordering = Website(userId=userId, workOrdering=workOrdering) # type: ignore
+
+        db.session.add(ordering)
+    else:
+        ordering.workOrdering = workOrdering
+
+    db.session.commit()
     return "", 200
 
 
@@ -395,5 +425,25 @@ def put_image_upload():
 ##############################################################################################################
 # Getting data dynamically
 ##############################################################################################################
+
+@app.get("/api/v1/ordering/<int:userId>/")
+def get_work_ordering(userId: int): 
+    ordering: Website = Website.query.filter_by(userId=userId).first_or_404()
+
+    work_ordering = None
+    lang_ordering = None
+
+    if ordering.workOrdering:
+        work_ordering = ordering.workOrdering.split(',')
+    
+    if ordering.languageOrdering:
+        lang_ordering = ordering.languageOrdering.split(',')
+
+    return jsonify({
+        "work": work_ordering,
+        "lang": lang_ordering
+    })
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

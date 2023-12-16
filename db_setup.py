@@ -88,9 +88,9 @@ def setup_web_builder_tables(
         __tablename__ = "Websites"
         id = db.Column(db.Integer, primary_key=True)
         userId = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
-        websiteLink = db.Column(db.Unicode, unique=True)
-        homePage = db.Column(db.Unicode, nullable=False)
-        projectsPage = db.Column(db.Unicode, nullable=True)
+        languageOrdering = db.Column(db.Unicode, nullable=True)
+        workOrdering = db.Column(db.Unicode, nullable=True)
+        
 
     class Programming_Language(db.Model):
         __tablename__ = "Programming_Language"
