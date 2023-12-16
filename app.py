@@ -10,7 +10,6 @@ from flask import (
     jsonify,
 )
 
-# ethan made a comment here
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required
 from flask_login import login_user, logout_user, current_user
@@ -19,6 +18,7 @@ from forms import PersonalInformation, LoginForm
 from db_setup import setup_web_builder_tables
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
+import json
 
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg"])
 
@@ -46,7 +46,6 @@ db = SQLAlchemy(app)
 (
     User,
     Project,
-    Project_Image,
     Experience,
     Website,
     Programming_Language,
@@ -66,7 +65,7 @@ def load_user(uid: int) -> User:
 
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 ##############################################################################################################
@@ -210,17 +209,34 @@ def view_projects(userId: int):
 
 @app.put("/api/project/")
 @app.put("/api/project/<int:projectId>/")
+@login_required
 def put_Project(projectId: int | None = None):
-    info = request.get_json()
+    info = request.form
     title = info["title"]
     description = info["description"]
-    repositoryLink = info["repositoryLink"]
     userId = info["userId"]
+
+    image = request.files["image"]
+    imagePath = ""
 
     User.query.get_or_404(userId)
 
-    if userId != current_user.id:  # type: ignore
+    if int(userId) != current_user.id:  # type: ignore
         return "", 403
+
+    if image and image.filename and allowed_file(image.filename):
+        filename = secure_filename(image.filename)
+        directory = os.path.join(app.config["UPLOAD_FOLDER"], userId, "project")
+        path = os.path.join(directory, filename)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        image.save(path)
+        imagePath = os.path.join(
+            app.config["UPLOAD_FOLDER_RELATIVE"], userId, "project", filename
+        )
+        db.session.commit()
+    else:
+        return "", 400
 
     if projectId:
         # update
@@ -229,8 +245,7 @@ def put_Project(projectId: int | None = None):
         if project:
             project.title = title
             project.description = description
-            project.repositoryLink = repositoryLink
-
+            project.imagePath = imagePath
             db.session.commit()
             return "", 200
         else:
@@ -238,10 +253,7 @@ def put_Project(projectId: int | None = None):
 
     # create new
     project_new = Project(
-        userId=userId,
-        title=title,
-        description=description,
-        repositoryLink=repositoryLink,
+        userId=userId, title=title, description=description, imagePath=imagePath
     )  # type: ignore
 
     db.session.add(project_new)
@@ -282,8 +294,8 @@ def put_work(Id: int | None = None):
     workplace = info["workplace"]
     description = info["description"]
     title = info["title"]
-    startYear = info['startYear']
-    endYear = info['endYear']
+    startYear = info["startYear"]
+    endYear = info["endYear"]
 
     User.query.get_or_404(userId)
 
@@ -312,13 +324,13 @@ def put_work(Id: int | None = None):
         description=description,
         position=title,
         startYear=startYear,
-        endYear=endYear
+        endYear=endYear,
     )  # type: ignore
 
     db.session.add(work_experience)
     db.session.commit()
 
-    return "", 200
+    return jsonify({"id": work_experience.id}), 200
 
 
 @app.put("/api/language/")
@@ -356,55 +368,46 @@ def put_Language(langId: int | None = None):
 
     db.session.add(lang_new)
     db.session.commit()
-    return "", 200
+    return jsonify({"id": lang_new.id}), 200
 
-@app.put("/api/project/")
-@app.put("/api/project/<int:projId>/")
-def put_proj(projId: int | None = None):
+
+@app.put("/api/v1/language/ordering/")
+def put_home_layout():
     info = request.get_json()
-    titleText = info["title"]
-    discriptionText = info["discription"]
-    img = info["img"]
     userId = info["userId"]
+    languageIds = info["languageIds"]
+    languageOrdering = ",".join(languageIds)
 
-    User.query.get_or_404(userId)
+    ordering = Website.query.filter_by(userId=userId).first()
 
-    if userId != current_user.id:  # type: ignore
-        return "", 403
+    if not ordering:
+        ordering = Website(userId=userId, languageOrdering=languageOrdering)  # type: ignore
 
-    if projId:
-        # update
-        project = Project.query.get(projId)
+        db.session.add(ordering)
+    else:
+        ordering.languageOrdering = languageOrdering
 
-        if project:
-            project.title = titleText
-            project.discription = discriptionText
-            project.repositoryLink = "https://github.com/PJudge02?tab=repositories"
-
-            db.session.commit()
-            return "", 200
-        else:
-            return "", 404
-
-    # create new
-    proj_new = Project(
-        userId=userId,
-        title= titleText,
-        discription=discriptionText,
-    )  # type: ignore
-
-    db.session.add(lang_new)
     db.session.commit()
     return "", 200
 
-@app.put("/api/v1/home/layout")
-def put_home_layout():
-    info = request.get_json()
-    return "", 200
 
-
-@app.put("/api/v1/project/layout")
+@app.put("/api/v1/work/ordering/")
 def put_project_layout():
+    info = request.get_json()
+    userId = info["userId"]
+    workIds = info["workIds"]
+    workOrdering = ",".join(workIds)
+
+    ordering = Website.query.filter_by(userId=userId).first()
+
+    if not ordering:
+        ordering = Website(userId=userId, workOrdering=workOrdering)  # type: ignore
+
+        db.session.add(ordering)
+    else:
+        ordering.workOrdering = workOrdering
+
+    db.session.commit()
     return "", 200
 
 @app.put("/api/v1/image/proj/")
@@ -442,7 +445,9 @@ def put_image_upload():
         if not os.path.exists(directory):
             os.makedirs(directory)
         image.save(path)
-        user.imagePath = os.path.join(app.config["UPLOAD_FOLDER_RELATIVE"], userId, filename)
+        user.imagePath = os.path.join(
+            app.config["UPLOAD_FOLDER_RELATIVE"], userId, filename
+        )
         db.session.commit()
     else:
         return "", 400
@@ -452,5 +457,23 @@ def put_image_upload():
 ##############################################################################################################
 # Getting data dynamically
 ##############################################################################################################
+
+
+@app.get("/api/v1/ordering/<int:userId>/")
+def get_work_ordering(userId: int):
+    ordering: Website = Website.query.filter_by(userId=userId).first_or_404()
+
+    work_ordering = None
+    lang_ordering = None
+
+    if ordering.workOrdering:
+        work_ordering = ordering.workOrdering.split(",")
+
+    if ordering.languageOrdering:
+        lang_ordering = ordering.languageOrdering.split(",")
+
+    return jsonify(ordering.to_json())
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

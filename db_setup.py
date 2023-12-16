@@ -53,20 +53,13 @@ def setup_web_builder_tables(
         userId = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
         title = db.Column(db.Unicode, nullable=False)
         description = db.Column(db.Unicode, nullable=False)
-        repositoryLink = db.Column(db.Unicode, nullable=True)
-        images = db.relationship("Project_Image", backref="project")
+        imagePath = db.Column(db.Unicode, nullable=False)
 
         def __str__(self):
-            return f"{self.userId=}\n{self.title=}\n{self.description=}\n{self.repositoryLink=}"
+            return f"{self.userId=}\n{self.title=}\n{self.description=}"
 
         def __repr__(self) -> str:
             return str(self)
-
-    class Project_Image(db.Model):
-        __tablename__ = "Project_Images"
-        id = db.Column(db.Integer, primary_key=True)
-        projectId = db.Column(db.Integer, db.ForeignKey("Projects.id"), nullable=False)
-        imageLink = db.Column(db.Unicode, nullable=False)
 
     class Experience(db.Model):
         __tablename__ = "Experiences"
@@ -88,9 +81,21 @@ def setup_web_builder_tables(
         __tablename__ = "Websites"
         id = db.Column(db.Integer, primary_key=True)
         userId = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
-        websiteLink = db.Column(db.Unicode, unique=True)
-        homePage = db.Column(db.Unicode, nullable=False)
-        projectsPage = db.Column(db.Unicode, nullable=True)
+        languageOrdering = db.Column(db.Unicode, nullable=True)
+        workOrdering = db.Column(db.Unicode, nullable=True)
+
+        def to_json(self):
+            work_ordering = None
+            lang_ordering = None
+
+            if self.workOrdering:
+                work_ordering = self.workOrdering.split(",")
+
+            if self.languageOrdering:
+                lang_ordering = self.languageOrdering.split(",")
+
+            return {"work": work_ordering, "lang": lang_ordering}
+        
 
     class Programming_Language(db.Model):
         __tablename__ = "Programming_Language"
@@ -137,7 +142,7 @@ def setup_web_builder_tables(
                 userId=1,
                 title="My First Project",
                 description="Little Project I made",
-                repositoryLink="https://github.com/facebook/react",
+                imagePath="/static/images/pencil.png"
             )  # type: ignore
 
             work_experience1: Experience = Experience(
@@ -179,7 +184,6 @@ def setup_web_builder_tables(
         return (
             User,
             Project,
-            Project_Image,
             Experience,
             Website,
             Programming_Language,

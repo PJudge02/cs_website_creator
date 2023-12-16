@@ -19,18 +19,22 @@ async function new_work() {
   values.startYear = startYear;
   values.endYear = endYear;
 
-  fetch(`/api/work/`, {
+  const workId = await fetch(`/api/work/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(values),
+  }).then(validateJSON)
+  .catch((error) => {
+    console.log("Error Creating Language Data: ", error);
   });
 
   const work_list = document.getElementById("work-list");
   const work_li = document.createElement("li");
-  work_li.classList.add("list-group-item");
-
+  work_li.classList.add("list-group-item","drag-item");
+  work_li.draggable = true
+  work_li.id = `work-li-${workId.id}`
   const work_icon = document.createElement("i");
   work_icon.classList.add("fa-solid", "fa-briefcase");
   const work_name = document.createElement("p");

@@ -2,19 +2,23 @@
 <script src="/static/scripts/UserPages/about_edit.js"></script>
 <script src="/static/scripts/UserPages/languageSkills.js"></script>
 <script src="/static/scripts/UserPages/projects.js"></script>
+<script src="/static/scripts/UserPages/language_drag.js"></script>
 <script src="/static/scripts/UserPages/work_add.js"></script>
+<script src="/static/scripts/UserPages/work_drag.js"></script>
 <script>
   UPLOADCARE_PUBLIC_KEY = "demopublickey";
 </script>
 <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
-
+<link rel="stylesheet" href="/static/styles/draggable.css">
 {% endblock head %} {% block main %}
 <div id="allCards">
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
-            
-          
+    </div>
+    <ul class="list-group list-group-flush">
+      <li id="user-name" class="list-group-item">
+
       <h5 id="user-name" class="card-title">
         <i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
       </h5>
@@ -29,21 +33,16 @@
               >
               
             </label>
-    </div>
-    <ul class="list-group list-group-flush">
+            </li>
       <li id="user-about" class="list-group-item">
         <i class="fa-solid fa-circle-info"></i>
         <div id="about-field-about" class="myeditablediv">{{user.about}}</div>
       </li>
       <li id="user-college-major" class="list-group-item">
-        <div class="container">
           <div class="row">
-            <div class="col-md-1">
               <i class="fa fa-university col-md-1"></i>
-            </div>
             <div id="about-field-major" class="myeditablediv" class="col-md-2">{{user.major}}</div>
             <div id="about-field-college" class="myeditablediv" class="col-md-2">{{user.college}}</div>
-          </div>
         </div>
       </li>
       <li id="user-phone" class="list-group-item">
@@ -80,29 +79,12 @@
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
       <h5 class="card-title">Projects</h5>
-      <button id="newProj-{{user.id}}" type="button" class="btn" id="new-proj-button">
-        <img src="/static/images/add_new.png" alt="Image" style="width: 15px; height: 15px" class="rounded-circle" />
-      </button>
     </div>
     <!-- {% for project in user.projects %}
     <div>
-      <img
-        class="card-img-top"
-        src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"
-        style="width: 300px; height: 200px"
-        alt="Card image cap" />
       <div class="card-body">
         <h5 class="card-title">{{project.title}}</h5>
         <p class="card-text">{{project.description}}</p>
-        <a href="{{project.repositoryLink}}" class="btn btn-primary">Try it out</a>
-        <button
-          id="project-{{user.id}}-{{project.id}}"
-          type="button"
-          class="btn"
-          data-bs-toggle="modal"
-          data-bs-target="#project-modal">
-          <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
-        </button>
       </div>
     </div>
     {%endfor%} -->
@@ -134,9 +116,9 @@
         </div>
       </div>
 
-      <ul id="language-list" class="list-group list-group-flush">
+      <ul id="language-list" class="list-group list-group-flush drag-list">
         {% for language in user.languages %}
-        <li class="list-group-item">{{language.language}}, {{language.proficiency}}</li>
+        <li class="list-group-item drag-item" draggable="true" id="lang-li-{{language.id}}">{{language.language}}, {{language.proficiency}}</li>
         {% endfor %}
       </ul>
       <h5 class="card-subtitle">Work Experience</h5>
@@ -148,9 +130,9 @@
         data-bs-target="#new-work-modal">
         <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
       </button>
-      <ul class="list-group list-group-flush" id="work-list">
+      <ul class="list-group list-group-flush drag-list" id="work-list">
         {% for work in user.experiences %}
-        <li class="list-group-item">
+        <li class="list-group-item drag-item" draggable="true" id="work-li-{{work.id}}">
           <i class="fa-solid fa-briefcase"></i>
           {{work.position}}, {{work.company}} {{work.startYear}}-{{work.endYear}}
           <p>{{work.description}}</p>

@@ -1,49 +1,52 @@
-{% extends "UserPages/base.html" %}
-
-{% block title %} About {% endblock title %}
-{% block head %}
-{{super()}}
+{% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
 <script src="/static/scripts/UserPages/projects.js"></script>
-{% endblock head %}
-{% block main %}
+{% endblock head %} {% block main %}
 <div id="allCards">
-  <input type="hidden" value="{{user.id}}" id="user-id-info" />
+  <input type="hidden" value="{{user.id}}" id="user-id-info" id="project-card-holder"/>
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
       <h5 class="card-title">Projects</h5>
-      <button id="newProj-{{user.id}}" type="button" class="btn" data-bs-toggle="modal"
+      <button
+        id="newProj-{{user.id}}"
+        type="button"
+        class="btn"
+        data-bs-toggle="modal"
         data-bs-target="#new-project-modal">
         <img src="/static/images/add_new.png" alt="Image" style="width: 15px; height: 15px" class="rounded-circle" />
       </button>
     </div>
-
-    
-    <div id="project-list" class="m-0" >
-      {% for project in user.projects %}
-        <div class="row">
-          <div class="col-md-4">
-            <img class="card-img-top" src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg" style="width: 300px; height: 200px" alt="Card image cap">
-          </div>
-          <div class="col-md-4">
-            <div class="card-body">
-              <h5 class="card-title">{{ project.title }}</h5>
-              <p class="card-text">{{ project.description }}</p>
-              <a href="{{ project.repositoryLink }}" class="btn btn-primary">Try it out</a>
-              <button id="project-{{ user.id }}-{{ project.id }}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#project-modal">
-                <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle">
-              </button>
-            </div>
-          </div>
+    {% for project in user.projects %}
+    <div class="row">
+      <div class="col-md-4">
+        {% if project.imagePath %}
+        <img
+          class="card-img-top"
+          src="{{project.imagePath}}"
+          style="width: 300px; height: 200px"
+          alt="Project Image" />
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{project.title}}</h5>
+          <p class="card-text">{{project.description}}</p>
+          <button
+            id="project-{{user.id}}-{{project.id}}"
+            type="button"
+            class="btn"
+            data-bs-toggle="modal"
+            data-bs-target="#project-modal">
+            <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
+          </button>
         </div>
-      {% endfor %}
+      </div>
     </div>
-    
-    
+
+    {%endfor%}
   </div>
 </div>
 
 <div id="allModals">
-
   <!--Project Edit Modal-->
   <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
     <div class="modal-dialog">
@@ -99,14 +102,19 @@
 
             <div class="form-group">
               <label for="project-image-input">Project Image</label>
-              <input type="file" accept=".png, .jpg" class="form-control" 
+              <input
+                type="file"
+                accept=".png, .jpg"
+                class="form-control"
+                onchange="loadProjectFile(event)"
                 id="new-project-image-input" />
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button id="save-new-project-btn" type="button" class="btn btn-secondary"
-            data-bs-dismiss="modal">Save</button>
+          <button id="save-new-project-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Save
+          </button>
         </div>
       </div>
     </div>
