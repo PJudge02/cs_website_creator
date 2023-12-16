@@ -31,17 +31,19 @@
       </div>
     </div>
     <ul class="list-group list-group-flush">
-      <li id="user-about" class="list-group-item"><i class="fa-solid fa-circle-info"></i> {{user.about}}</li>
-      <li id="user-college-major" class="list-group-item">
-        <i class="fa fa-university"></i> {{user.major}}, {{user.college}}
+      <li id="user-about"  class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)"><i class="fa-solid fa-circle-info" draggable="true"  ondragstart="drag(event)"></i>     <textarea>
+        {{user.about}} </textarea></li>  
+      <li id="user-college-major" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <i class="fa fa-university" draggable="true"  ondragstart="drag(event)"></i> <div id = 'myeditablediv'>{{user.major}}, {{user.college}}</div>
       </li>
-      <li id="user-phone" class="list-group-item">
-        <a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a>
+      <li id="user-phone"  class="list-group-item">
+        <a href="tel:{{user.phone}}" id = "myeditablediv"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a>
       </li>
       <li class="list-group-item">
-        <a href="mailto: {{user.email}}"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
+        <a href="mailto: {{user.email}}" id= 'myeditablediv'> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
       </li>
     </ul>
+
     <div class="card-body">
       {% if user.github %}
       <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px"></i> Github</a>
