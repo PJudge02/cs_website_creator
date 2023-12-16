@@ -361,6 +361,43 @@ def put_Language(langId: int | None = None):
     db.session.commit()
     return "", 200
 
+@app.put("/api/project/")
+@app.put("/api/project/<int:projId>/")
+def put_Language(projId: int | None = None):
+    info = request.get_json()
+    title = info["title"]
+    discription = info["discription"]
+    img = info["img"]
+    userId = info["userId"]
+
+    User.query.get_or_404(userId)
+
+    if userId != current_user.id:  # type: ignore
+        return "", 403
+
+    if projId:
+        # update
+        language = Programming_Language.query.get(langId)
+
+        if language:
+            language.language = name
+            language.proficiency = proficiency
+
+            db.session.commit()
+            return "", 200
+        else:
+            return "", 404
+
+    # create new
+    lang_new = Programming_Language(
+        userId=userId,
+        language=name,
+        proficiency=proficiency,
+    )  # type: ignore
+
+    db.session.add(lang_new)
+    db.session.commit()
+    return "", 200
 
 @app.put("/api/v1/home/layout")
 def put_home_layout():
