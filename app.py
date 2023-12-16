@@ -166,29 +166,6 @@ def userHome(userId: int):
         return redirect(url_for("view_home", userId=userId))
 
 
-@app.get("/user/<int:userId>/about/")
-@login_required
-def userAbout(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:  # type: ignore
-        # render editor for page
-        return render_template("UserPages/about.html", user=user)
-    else:
-        return redirect(url_for("view_about", userId=userId))
-
-
-@app.get("/user/<int:userId>/education/")
-@login_required
-def userEducation(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:  # type: ignore
-        # render editor for page
-        return render_template("UserPages/education.html", user=user)
-    else:
-        # redirect to view page
-        return redirect(url_for("view_education", userId=userId))
-
-
 @app.get("/user/<int:userId>/projects/")
 @login_required
 def userProjects(userId: int):
@@ -200,17 +177,6 @@ def userProjects(userId: int):
         # redirect to view page
         return redirect(url_for("view_projects", userId=userId))
 
-
-@app.get("/user/<int:userId>/work/")
-@login_required
-def userWork(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:  # type: ignore
-        # render editor for page
-        return render_template("UserPages/work.html", user=user)
-    else:
-        # redirect to view page
-        return redirect(url_for("view_work", userId=userId))
 
 
 ##############################################################################################################
@@ -224,28 +190,10 @@ def view_home(userId: int):
     return render_template("WebsiteViews/home.html", user=user)
 
 
-@app.get("/view/<int:userId>/about/")
-def view_about(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    return render_template("WebsiteViews/about.html", user=user)
-
-
-@app.get("/view/<int:userId>/education/")
-def view_education(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    return render_template("WebsiteViews/education.html", user=user)
-
-
 @app.get("/view/<int:userId>/projects/")
 def view_projects(userId: int):
     user: User = User.query.filter_by(id=userId).first_or_404()
     return render_template("WebsiteViews/projects.html", user=user)
-
-
-@app.get("/view/<int:userId>/work/")
-def view_work(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    return render_template("WebsiteViews/work.html", user=user)
 
 
 ##############################################################################################################
@@ -399,6 +347,17 @@ def put_Language(langId: int | None = None):
     db.session.add(lang_new)
     db.session.commit()
     return "", 200
+
+@app.put("/api/v1/home/layout")
+def put_home_layout():
+    info = request.get_json()
+
+    return "", 200
+
+@app.put("/api/v1/project/layout")
+def put_project_layout():
+    return "", 200
+
 
 ##############################################################################################################
 # Getting data dynamically
