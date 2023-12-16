@@ -7,7 +7,7 @@ from flask import (
     abort,
     session,
     flash,
-    jsonify
+    jsonify,
 )
 
 # ethan made a comment here
@@ -18,6 +18,10 @@ import os, sys
 from forms import PersonalInformation, LoginForm
 from db_setup import setup_web_builder_tables
 from flask_bootstrap import Bootstrap
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = "/static/images/"
+ALLOWED_EXTENSIONS = set(["txt", "pdf", "png", "jpg", "jpeg", "gif"])
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(script_dir)
@@ -30,7 +34,7 @@ app.secret_key = "secret"
 bootstrap = Bootstrap(app)
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["SECRET_KEY"] = "correcthorsebatterystaple"
-
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{dbpath}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -61,13 +65,17 @@ def load_user(uid: int) -> User:
     return User.query.get(int(uid))  # type: ignore
 
 
+def allowed_file(file: str) -> bool:
+    return file.split(".")[1] in ALLOWED_EXTENSIONS
+
+
 ##############################################################################################################
 # Forms
 ##############################################################################################################
 @app.route("/")
 def index():
-    if current_user.is_authenticated: # type: ignore
-        return redirect(url_for('userHome', userId=current_user.id)) # type: ignore
+    if current_user.is_authenticated:  # type: ignore
+        return redirect(url_for("userHome", userId=current_user.id))  # type: ignore
     return redirect(url_for("get_login"))
 
 
@@ -166,29 +174,6 @@ def userHome(userId: int):
         return redirect(url_for("view_home", userId=userId))
 
 
-@app.get("/user/<int:userId>/about/")
-@login_required
-def userAbout(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:  # type: ignore
-        # render editor for page
-        return render_template("UserPages/about.html", user=user)
-    else:
-        return redirect(url_for("view_about", userId=userId))
-
-
-@app.get("/user/<int:userId>/education/")
-@login_required
-def userEducation(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:  # type: ignore
-        # render editor for page
-        return render_template("UserPages/education.html", user=user)
-    else:
-        # redirect to view page
-        return redirect(url_for("view_education", userId=userId))
-
-
 @app.get("/user/<int:userId>/projects/")
 @login_required
 def userProjects(userId: int):
@@ -199,18 +184,6 @@ def userProjects(userId: int):
     else:
         # redirect to view page
         return redirect(url_for("view_projects", userId=userId))
-
-
-@app.get("/user/<int:userId>/work/")
-@login_required
-def userWork(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    if current_user.id == userId:  # type: ignore
-        # render editor for page
-        return render_template("UserPages/work.html", user=user)
-    else:
-        # redirect to view page
-        return redirect(url_for("view_work", userId=userId))
 
 
 ##############################################################################################################
@@ -224,28 +197,10 @@ def view_home(userId: int):
     return render_template("WebsiteViews/home.html", user=user)
 
 
-@app.get("/view/<int:userId>/about/")
-def view_about(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    return render_template("WebsiteViews/about.html", user=user)
-
-
-@app.get("/view/<int:userId>/education/")
-def view_education(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    return render_template("WebsiteViews/education.html", user=user)
-
-
 @app.get("/view/<int:userId>/projects/")
 def view_projects(userId: int):
     user: User = User.query.filter_by(id=userId).first_or_404()
     return render_template("WebsiteViews/projects.html", user=user)
-
-
-@app.get("/view/<int:userId>/work/")
-def view_work(userId: int):
-    user: User = User.query.filter_by(id=userId).first_or_404()
-    return render_template("WebsiteViews/work.html", user=user)
 
 
 ##############################################################################################################
@@ -297,8 +252,8 @@ def put_Project(projectId: int | None = None):
 @app.put("/api/about/<int:userId>/")
 def put_about(userId: int):
     info = request.get_json()
-    firstName = info['firstName']
-    lastName = info['lastName']
+    firstName = info["firstName"]
+    lastName = info["lastName"]
     description = info["description"]
     college = info["college"]
     major = info["major"]
@@ -319,7 +274,7 @@ def put_about(userId: int):
     user.major = major
     user.phone = phone
 
-    db.session.commit()   
+    db.session.commit()
     return "", 200
 
 
@@ -363,6 +318,7 @@ def put_work(Id: int | None = None):
 
     return "", 200
 
+
 @app.put("/api/language/")
 @app.put("/api/language/<int:langId>/")
 def put_Language(langId: int | None = None):
@@ -400,8 +356,40 @@ def put_Language(langId: int | None = None):
     db.session.commit()
     return "", 200
 
+
+@app.put("/api/v1/home/layout")
+def put_home_layout():
+    info = request.get_json()
+
+    return "", 200
+
+
+@app.put("/api/v1/project/layout")
+def put_project_layout():
+    return "", 200
+
+
+@app.put("/api/vi/image/profile/")
+def put_image_upload():
+    info = request.get_json()
+    userId = info["userId"]
+    user = User.query.get_or_404(userId)
+    image = request.files["image"]
+
+    if image and image.filename and allowed_file(image.filename):
+        filename = secure_filename(image.filename)
+        path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        image.save(path)
+        user.imagePath = path
+
+        db.session.commit()
+    else:
+        return "", 400
+    return "", 200
+
+
 ##############################################################################################################
 # Getting data dynamically
 ##############################################################################################################
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True, port=5000)

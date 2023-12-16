@@ -23,6 +23,7 @@ def setup_web_builder_tables(
         github = db.Column(db.Unicode, nullable=True)
         linkedIn = db.Column(db.Unicode, nullable=True)
         instagram = db.Column(db.Unicode, nullable=True)
+        imagePath = db.Column(db.Unicode, nullable=True)
         projects = db.relationship("Project", backref="user")
         clubs = db.relationship("Club", backref="user")
         experiences = db.relationship("Experience", backref="user")

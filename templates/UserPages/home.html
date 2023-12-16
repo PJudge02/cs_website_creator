@@ -1,4 +1,7 @@
-{% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
+{% extends "UserPages/base.html" %} 
+{% block title %} About {% endblock title %} 
+{% block head %} 
+{{super()}}
 <script src="/static/scripts/UserPages/about_edit.js"></script>
 <script src="/static/scripts/UserPages/languageSkills.js"></script>
 <script>
@@ -11,44 +14,34 @@
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
             <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
             <label for="file" style="cursor: pointer;">Upload Image</label>
           
-            <h5 id="user-name" class="card-title">
-              <i id="person-photo" class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
-            </h5>
-          </div>
-          <div class="col-md-3">
-            <button
-              id="about-{{user.id}}"
-              type="button"
-              class="btn"
-              data-bs-toggle="modal"
-              data-bs-target="#info-modal">
-              <img
-                src="/static/images/pencil.png"
-                alt="Image"
-                style="width: 20px; height: 20px"
-                class="rounded-circle" />
-            </button>
-          </div>
-        </div>
-      </div>
+      <h5 id="user-name" class="card-title">
+        <i id="person-photo" class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
+      </h5>
     </div>
     <ul class="list-group list-group-flush">
-      <li id="user-about"  class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)"><i class="fa-solid fa-circle-info" draggable="true"  ondragstart="drag(event)"></i>     <textarea>
-        {{user.about}} </textarea></li>  
-      <li id="user-college-major" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <i class="fa fa-university" draggable="true"  ondragstart="drag(event)"></i> <div id = 'myeditablediv'>{{user.major}}, {{user.college}}</div>
+      <li id="user-about" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <i class="fa-solid fa-circle-info" draggable="true" ondragstart="drag(event)"></i>
+       <div id = "myeditablediv">{{user.about}}</div> 
       </li>
-      <li id="user-phone"  class="list-group-item">
-        <a href="tel:{{user.phone}}" id = "myeditablediv"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a>
+      <li id="user-college-major" class="list-group-item">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1">
+              <i class="fa fa-university col-md-1"></i>
+            </div>
+            <div id="myeditablediv" class="col-md-2">{{user.major}}</div>
+            <div id="myeditablediv" class="col-md-2">{{user.college}}</div>
+          </div>
+        </div>
+      </li>
+      <li id="user-phone" class="list-group-item">
+        <a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> <div id="myeditablediv">{{user.phone}}</div></a>
       </li>
       <li class="list-group-item">
-        <a href="mailto: {{user.email}}" id= 'myeditablediv'> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
+        <a href="mailto: {{user.email}}" id="myeditablediv"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
       </li>
     </ul>
 

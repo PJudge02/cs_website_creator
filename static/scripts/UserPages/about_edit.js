@@ -1,7 +1,4 @@
 window.addEventListener("DOMContentLoaded", async () => {
-    const user_id = document.getElementById("user-id-info").value
-    const about_modal_btn = document.getElementById(`about-${user_id}`)
-    about_modal_btn.addEventListener("click", loadAboutInfo)
     const save_btn = document.getElementById("info-modal-save-btn")
     save_btn.addEventListener("click", saveAbout)
 })
@@ -16,27 +13,6 @@ async function loadFile(event){
   icon.replaceWith(image);
   // const r = await fetch() 
   //CREATE FETCH REQUEST WITH PROPER URL: "DONT KNOW WHAT THE URL IS"
-}
-
-async function loadAboutInfo() {
-    const user_name = document.getElementById("user-name").innerText
-    const user_about = document.getElementById("user-about").innerText.trim()
-    const user_college_major = document.getElementById("user-college-major").innerText
-    const user_phone = document.getElementById("user-phone").innerText.trim()
-
-    const nameSplit = user_name.split(" ")
-    const firstName = nameSplit[2].trim()
-    const lastName = nameSplit[3]
-    const college_major = user_college_major.split(", ")
-    const college = college_major[1]
-    const major = college_major[0]
-
-    document.getElementById("first-name-input").value = firstName
-    document.getElementById("last-name-input").value = lastName
-    document.getElementById("description-input").value = user_about
-    document.getElementById("university-input").value = college
-    document.getElementById("major-input").value = major
-    document.getElementById("phone-input").value = user_phone
 }
 
 async function saveAbout() {
