@@ -12,11 +12,14 @@
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
-      <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none" />
-      <label for="file" style="cursor: pointer">Upload Image</label>
+            
+          
       <h5 id="user-name" class="card-title">
-        <i id="person-photo" class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
+        <i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
       </h5>
+      <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
+            <label for="file" style="cursor: pointer;"><img id="person-photo" src="/static/images/saveImage.png">
+            </label>
     </div>
     <ul class="list-group list-group-flush">
       <li id="user-about" class="list-group-item">
