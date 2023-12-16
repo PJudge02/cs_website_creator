@@ -20,7 +20,6 @@ from db_setup import setup_web_builder_tables
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = "/static/images/"
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg"])
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
@@ -28,6 +27,7 @@ sys.path.append(script_dir)
 
 dbpath = os.path.join(script_dir, "WebsiteCreator.sqlite3")
 pepfile = os.path.join(script_dir, "pepper.bin")
+UPLOAD_FOLDER = os.path.join(script_dir, "static\\upload_images")
 
 app = Flask(__name__)
 app.secret_key = "secret"
@@ -35,6 +35,7 @@ bootstrap = Bootstrap(app)
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["SECRET_KEY"] = "correcthorsebatterystaple"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["UPLOAD_FOLDER_RELATIVE"] = "\\static\\upload_images"
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{dbpath}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -64,8 +65,8 @@ def load_user(uid: int) -> User:
     return User.query.get(int(uid))  # type: ignore
 
 
-def allowed_file(file: str) -> bool:
-    return file.split(".")[1] in ALLOWED_EXTENSIONS
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 ##############################################################################################################
@@ -251,8 +252,6 @@ def put_Project(projectId: int | None = None):
 @app.put("/api/about/<int:userId>/")
 def put_about(userId: int):
     info = request.get_json()
-    firstName = info["firstName"]
-    lastName = info["lastName"]
     description = info["description"]
     college = info["college"]
     major = info["major"]
@@ -266,8 +265,6 @@ def put_about(userId: int):
     if not user:
         return "", 404
 
-    user.firstName = firstName
-    user.lastName = lastName
     user.about = description
     user.college = college
     user.major = major
@@ -411,19 +408,21 @@ def put_project_layout():
     return "", 200
 
 
-@app.put("/api/vi/image/profile/")
+@app.put("/api/v1/image/profile/")
 def put_image_upload():
-    info = request.get_json()
+    info = request.form
     userId = info["userId"]
     user = User.query.get_or_404(userId)
     image = request.files["image"]
 
     if image and image.filename and allowed_file(image.filename):
         filename = secure_filename(image.filename)
-        path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        directory = os.path.join(app.config["UPLOAD_FOLDER"], userId)
+        path = os.path.join(directory, filename)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
         image.save(path)
-        user.imagePath = path
-
+        user.imagePath = os.path.join(app.config["UPLOAD_FOLDER_RELATIVE"], userId, filename)
         db.session.commit()
     else:
         return "", 400

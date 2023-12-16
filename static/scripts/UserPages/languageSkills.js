@@ -13,14 +13,17 @@ async function new_lang() {
   values.proficiency = lange_prof;
   values.userId = user_id;
 
-  const req = new XMLHttpRequest();
-  req.open("PUT", `/api/language/`, true);
-  req.setRequestHeader("Content-type", "application/json; charset=utf-8");
-  req.send(JSON.stringify(values));
+  fetch(`/api/language/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  });
 
   const lang_list = document.getElementById("language-list");
   const lang_li = document.createElement("li");
-  lang_li.classList.add("list-group-item")
+  lang_li.classList.add("list-group-item");
   lang_li.innerText = `${lang_name}, ${lange_prof}`;
   lang_list.appendChild(lang_li);
 }

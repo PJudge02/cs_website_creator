@@ -1,12 +1,9 @@
-{% extends "UserPages/base.html" %} 
-{% block title %} About {% endblock title %} 
-{% block head %} 
-{{super()}}
+{% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
 <script src="/static/scripts/UserPages/about_edit.js"></script>
 <script src="/static/scripts/UserPages/languageSkills.js"></script>
 <script src="/static/scripts/UserPages/work_add.js"></script>
 <script>
-  UPLOADCARE_PUBLIC_KEY = 'demopublickey';
+  UPLOADCARE_PUBLIC_KEY = "demopublickey";
 </script>
 <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
@@ -15,18 +12,27 @@
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
   <div class="card w-75 border-primary mb-3" style="width: 18rem">
     <div class="card-body">
-            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
-            <label for="file" style="cursor: pointer;">Upload Image</label>
+            
           
       <h5 id="user-name" class="card-title">
         <i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
       </h5>
-      <img id="person-photo" src="/static/images/saveImage.png">
+      <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
+            <label for="file" style="cursor: pointer;"><img id="person-photo" 
+              {% if user.imagePath %}
+              src="{{user.imagePath}}"
+              {% else %}
+              src="/static/images/saveImage.png"
+              {% endif %}
+              width="250" height="250"
+              >
+              
+            </label>
     </div>
     <ul class="list-group list-group-flush">
-      <li id="user-about" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <i class="fa-solid fa-circle-info" draggable="true" ondragstart="drag(event)"></i>
-       <div id = "about-field-about" class = "myeditablediv">{{user.about}}</div> 
+      <li id="user-about" class="list-group-item">
+        <i class="fa-solid fa-circle-info"></i>
+        <div id="about-field-about" class="myeditablediv">{{user.about}}</div>
       </li>
       <li id="user-college-major" class="list-group-item">
         <div class="container">
@@ -35,15 +41,21 @@
               <i class="fa fa-university col-md-1"></i>
             </div>
             <div id="about-field-major" class="myeditablediv" class="col-md-2">{{user.major}}</div>
-            <div  id="about-field-college" class="myeditablediv" class="col-md-2">{{user.college}}</div>
+            <div id="about-field-college" class="myeditablediv" class="col-md-2">{{user.college}}</div>
           </div>
         </div>
       </li>
       <li id="user-phone" class="list-group-item">
-        <a> <i class="fa-solid fa-phone"></i> <div class="myeditablediv"  id="about-field-phone">{{user.phone}}</div></a>
+        <a>
+          <i class="fa-solid fa-phone"></i>
+          <div class="myeditablediv" id="about-field-phone">{{user.phone}}</div></a
+        >
       </li>
       <li class="list-group-item">
-        <a ><i class="fa-solid fa-envelope"></i> <div class="myeditablediv"  id="about-field-email">{{user.email}}</div></a>
+        <a
+          ><i class="fa-solid fa-envelope"></i>
+          <div>{{user.email}}</div></a
+        >
       </li>
     </ul>
 
@@ -51,21 +63,15 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <div>Github URL</div>
-          <div id = "about-field-github" class= "myeditablediv">
-            {{user.github}}
-          </div>
+          <div id="about-field-github" class="myeditablediv">{{user.github}}</div>
         </li>
         <li class="list-group-item">
           <div>Instagram URL</div>
-          <div id = "about-field-instagram" class= "myeditablediv">
-            {{user.instagram}}
-          </div>
+          <div id="about-field-instagram" class="myeditablediv">{{user.instagram}}</div>
         </li>
         <li class="list-group-item">
           <div>LinkedIN URL</div>
-          <div id = "about-field-linkedin" class= "myeditablediv">
-            {{user.linkedIn}}
-          </div>
+          <div id="about-field-linkedin" class="myeditablediv">{{user.linkedIn}}</div>
         </li>
       </ul>
     </div>
@@ -242,7 +248,7 @@
               <label for="work-workplace-input">Workplace</label>
               <input class="form-control" type="text" id="work-workplace-input" />
             </div>
-            
+
             <div class="form-group">
               <label for="work-description-input">Description</label>
               <input type="text" class="form-control" id="work-description-input" />
