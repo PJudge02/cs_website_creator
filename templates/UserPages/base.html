@@ -51,12 +51,26 @@
       </script>
     <header>
       {% block header %}
-      <nav class="navbar">
-        <div class="navitem">
-          <a href="/user/{{user.id}}/">Home</a>
-        </div>
-        <div class="navitem">
-          <a href="/user/{{user.id}}/projects/">Projects</a>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <img src = "/static/images/WebFolio.png" style="width:150px;height:75px;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/user/{{user.id}}/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user/{{user.id}}/projects/">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout" >
+                Logout
+              </a>
+            </li>
+          </ul>
         </div>
       </nav>
       {% endblock header%}
