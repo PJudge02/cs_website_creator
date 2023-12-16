@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       if (mutation.type === "childList") {
         console.log("A child node has been added or removed.");
       } else if (mutation.type === "attributes") {
-        saveAbout()
+        saveAbout();
       }
     }
   };
@@ -29,6 +29,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function loadFile(event) {
+  const user_id = document.getElementById("user-id-info").value;
   const icon = document.getElementById("person-photo");
   const image = document.createElement("img");
   image.width = 250;
@@ -36,7 +37,15 @@ async function loadFile(event) {
   image.src = URL.createObjectURL(event.target.files[0]);
   image.id = "person-photo";
   icon.replaceWith(image);
-  // const r = await fetch()
+
+  const data = new FormData()
+  data.append("userId", user_id)
+  data.append('image', event.target.files[0])
+
+  fetch('/api/v1/image/profile/', {
+    method: "PUT",
+    body: data
+  })
   //CREATE FETCH REQUEST WITH PROPER URL: "DONT KNOW WHAT THE URL IS"
 }
 
@@ -54,7 +63,7 @@ async function saveAbout() {
     phone: phone,
   };
 
-  fetch(`/api/about/${user_id}`, {
+  fetch(`/api/about/${user_id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

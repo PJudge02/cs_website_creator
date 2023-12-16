@@ -18,7 +18,15 @@
         <i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}
       </h5>
       <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
-            <label for="file" style="cursor: pointer;"><img id="person-photo" src="/static/images/saveImage.png">
+            <label for="file" style="cursor: pointer;"><img id="person-photo" 
+              {% if user.imagePath %}
+              src="{{user.imagePath}}"
+              {% else %}
+              src="/static/images/saveImage.png"
+              {% endif %}
+              width="250" height="250"
+              >
+              
             </label>
     </div>
     <ul class="list-group list-group-flush">
