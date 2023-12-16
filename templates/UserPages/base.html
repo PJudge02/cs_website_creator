@@ -11,24 +11,7 @@
       rel="stylesheet"
       crossorigin="anonymous"
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" />
-      <script src="https://cdn.tiny.cloud/1/uttqglcizqx2ssq32kn3n14ivvdgjz49592j335qxmgn602w/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
-      <script>
-        function allowDrop(ev) {
-          ev.preventDefault();
-        }
-        
-        function drag(ev) {
-          ev.dataTransfer.setData("text", ev.target.id);
-        }
-        
-        function drop(ev) {
-          ev.preventDefault();
-          var data = ev.dataTransfer.getData("text");
-          ev.target.appendChild(document.getElementById(data));
-        }
-        </script>
-        
+    <script src="https://cdn.tiny.cloud/1/uttqglcizqx2ssq32kn3n14ivvdgjz49592j335qxmgn602w/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script
       defer

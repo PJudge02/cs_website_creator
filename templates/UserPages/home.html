@@ -14,15 +14,15 @@
       </h5>
     </div>
     <ul class="list-group list-group-flush">
-      <li id="user-about" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <i class="fa-solid fa-circle-info" draggable="true" ondragstart="drag(event)"></i>
+      <li id="user-about" class="list-group-item">
+        <i class="fa-solid fa-circle-info"></i>
         <textarea> {{user.about}} </textarea>
       </li>
-      <li id="user-college-major" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <li id="user-college-major" class="list-group-item">
         <div class="container">
           <div class="row">
             <div class="col-md-1">
-              <i class="fa fa-university col-md-1" draggable="true" ondragstart="drag(event)"></i>
+              <i class="fa fa-university col-md-1"></i>
             </div>
             <div id="myeditablediv" class="col-md-2">{{user.major}}</div>
             <div id="myeditablediv" class="col-md-2">{{user.college}}</div>
@@ -33,7 +33,7 @@
         <a href="tel:{{user.phone}}" id="myeditablediv"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a>
       </li>
       <li class="list-group-item">
-        <a href="mailto: {{user.email}}" id="myeditablediv"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
+        <a href="mailto:{{user.email}}" id="myeditablediv"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
       </li>
     </ul>
 
