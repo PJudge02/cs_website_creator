@@ -1,59 +1,64 @@
 window.addEventListener("DOMContentLoaded", async () => {
-    const save_btn = document.getElementById("info-modal-save-btn")
-    save_btn.addEventListener("click", saveAbout)
-})
+  const about = document.getElementById("about-field-about");
+  const college = document.getElementById("about-field-college");
+  const major = document.getElementById("about-field-major");
+  const phone = document.getElementById("about-field-phone");
 
-async function loadFile(event){
+  // Options for the observer (which mutations to observe)
+  const config = { attributes: true, childList: true, subtree: true };
+
+  // Callback function to execute when mutations are observed
+  const callback = (mutationList, observer) => {
+    for (const mutation of mutationList) {
+      if (mutation.type === "childList") {
+        console.log("A child node has been added or removed.");
+      } else if (mutation.type === "attributes") {
+        saveAbout()
+      }
+    }
+  };
+
+  // Create an observer instance linked to the callback function
+  const observer = new MutationObserver(callback);
+
+  // Start observing the target node for configured mutations
+  observer.observe(about, config);
+  observer.observe(college, config);
+  observer.observe(major, config);
+  observer.observe(phone, config);
+});
+
+async function loadFile(event) {
   const icon = document.getElementById("person-photo");
-  const image = document.createElement('img');
-  image.width =50;
-  image.height =50; 
+  const image = document.createElement("img");
+  image.width = 250;
+  image.height = 250;
   image.src = URL.createObjectURL(event.target.files[0]);
-  image.id="person-photo"
+  image.id = "person-photo";
   icon.replaceWith(image);
-  // const r = await fetch() 
+  // const r = await fetch()
   //CREATE FETCH REQUEST WITH PROPER URL: "DONT KNOW WHAT THE URL IS"
 }
 
 async function saveAbout() {
-    const user_id = document.getElementById("user-id-info").value
-    const firstName = document.getElementById("first-name-input").value
-    const lastName = document.getElementById("last-name-input").value
-    const description = document.getElementById("description-input").value
-    const college = document.getElementById("university-input").value
-    const major = document.getElementById("major-input").value
-    const phone = document.getElementById("phone-input").value
+  const user_id = document.getElementById("user-id-info").value;
+  const description = document.getElementById("about-field-about").innerText;
+  const college = document.getElementById("about-field-college").innerText;
+  const major = document.getElementById("about-field-major").innerText;
+  const phone = document.getElementById("about-field-phone").innerText;
 
-    const values = {
-        "firstName":firstName,
-        "lastName":lastName,
-        "description":description,
-        "college":college,
-        "major":major,
-        "phone":phone
-    }
+  const values = {
+    description: description,
+    college: college,
+    major: major,
+    phone: phone,
+  };
 
-    const req = new XMLHttpRequest()
-    req.open("PUT", `/api/about/${user_id}/`, true)
-    req.setRequestHeader('Content-type','application/json; charset=utf-8');
-    req.send(JSON.stringify(values))
-
-    document.getElementById("user-name").innerHTML = `<i class="fa fa-user"></i> About ${firstName} ${lastName}`
-    document.getElementById("user-about").innerHTML = '<i class="fa-solid fa-circle-info"></i> ' + description
-    document.getElementById("user-college-major").innerHTML = `<i class="fa fa-university"></i> ${major}, ${college}`
-    document.getElementById("user-phone").innerHTML = `<a href="tel:${phone}"> <i class="fa-solid fa-phone"></i> ${phone}`
+  fetch(`/api/about/${user_id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  });
 }
-
-/**
- * Validate a response to ensure the HTTP status code indcates success.
- *
- * @param {Response} response HTTP response to be checked
- * @returns {object} object encoded by JSON in the response
- */
-function validateJSON(response) {
-    if (response.ok) {
-      return response.json();
-    } else {
-      return Promise.reject(response);
-    }
-  }

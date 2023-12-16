@@ -251,8 +251,6 @@ def put_Project(projectId: int | None = None):
 @app.put("/api/about/<int:userId>/")
 def put_about(userId: int):
     info = request.get_json()
-    firstName = info["firstName"]
-    lastName = info["lastName"]
     description = info["description"]
     college = info["college"]
     major = info["major"]
@@ -266,8 +264,6 @@ def put_about(userId: int):
     if not user:
         return "", 404
 
-    user.firstName = firstName
-    user.lastName = lastName
     user.about = description
     user.college = college
     user.major = major
