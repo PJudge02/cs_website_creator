@@ -1,6 +1,7 @@
 {% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
 <script src="/static/scripts/UserPages/about_edit.js"></script>
 <script src="/static/scripts/UserPages/languageSkills.js"></script>
+<script src="/static/scripts/UserPages/projects.js"></script>
 <script src="/static/scripts/UserPages/language_drag.js"></script>
 <script src="/static/scripts/UserPages/work_add.js"></script>
 <script src="/static/scripts/UserPages/work_drag.js"></script>
@@ -77,14 +78,14 @@
     <div class="card-body">
       <h5 class="card-title">Projects</h5>
     </div>
-    {% for project in user.projects %}
+    <!-- {% for project in user.projects %}
     <div>
       <div class="card-body">
         <h5 class="card-title">{{project.title}}</h5>
         <p class="card-text">{{project.description}}</p>
       </div>
     </div>
-    {%endfor%}
+    {%endfor%} -->
   </div>
   <div>
     <div class="card w-75 border-primary mb-3" style="width: 18rem">
@@ -142,7 +143,7 @@
 
 <div id="allModals">
   <!--Project Modal-->
-  <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
+  <!-- <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -172,7 +173,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!--New Language-->
   <div class="modal fade" id="new-language-modal" tabindex="-1" aria-labelledby="new-language-modal" aria-hidden="true">

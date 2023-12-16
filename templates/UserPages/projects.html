@@ -15,34 +15,37 @@
         <img src="/static/images/add_new.png" alt="Image" style="width: 15px; height: 15px" class="rounded-circle" />
       </button>
     </div>
-    {% for project in user.projects %}
-    <div class="row">
-      <div class="col-md-4">
-        {% if project.imagePath %}
-        <img
-          class="card-img-top"
-          src="{{project.imagePath}}"
-          style="width: 300px; height: 200px"
-          alt="Project Image" />
-        {% endif %}
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{project.title}}</h5>
-          <p class="card-text">{{project.description}}</p>
-          <button
-            id="project-{{user.id}}-{{project.id}}"
-            type="button"
-            class="btn"
-            data-bs-toggle="modal"
-            data-bs-target="#project-modal">
-            <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
-          </button>
+
+    <div class="m-0" >
+      {% for project in user.projects %}
+        <div class="row w-100 center m-auto">
+          <div class="col-md-5 p-0 d-flex justify-content-center align-items-center">
+            {% if project.imagePath %}
+            <img
+              class="card-img-top"
+              src="{{project.imagePath}}"
+              style="width: 300px; height: 200px"
+              alt="Project Image" />
+            {% endif %}
+          </div>
+          <div class="col-md-7 p-0">
+            <div class="card-body">
+              <h5 class="card-title">{{project.title}}</h5>
+              <p class="card-text">{{project.description}}</p>
+              <button
+                id="project-{{user.id}}-{{project.id}}"
+                type="button"
+                class="btn"
+                data-bs-toggle="modal"
+                data-bs-target="#project-modal">
+                <img src="/static/images/pencil.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      {%endfor%}
     </div>
 
-    {%endfor%}
   </div>
 </div>
 
@@ -94,12 +97,10 @@
               <label for="project-title-input">Project Title</label>
               <input class="form-control" type="text" id="new-project-title-input" />
             </div>
-
             <div class="form-group">
               <label for="project-description-input">Project Description</label>
               <textarea class="form-control" id="new-project-description-input" rows="3"></textarea>
             </div>
-
             <div class="form-group">
               <label for="project-image-input">Project Image</label>
               <input
