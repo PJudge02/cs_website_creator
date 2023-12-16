@@ -439,6 +439,29 @@ def put_image_upload():
         return "", 400
     return "", 200
 
+@app.put("/api/v1/image/project/")
+def put_project_image_upload():
+    info = request.form
+    userId = info["userId"]
+    projId = info["projId"]
+    project = Project.query.get_or_404(projId)
+    image = request.files["image"]
+
+    if image and image.filename and allowed_file(image.filename):
+        filename = secure_filename(image.filename)
+        directory = os.path.join(app.config["UPLOAD_FOLDER"], userId,"project")
+        path = os.path.join(directory, filename)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        image.save(path)
+        project.imagePath = os.path.join(
+            app.config["UPLOAD_FOLDER_RELATIVE"], userId, "project", filename
+        )
+        db.session.commit()
+    else:
+        return "", 400
+    return "", 200
+
 
 ##############################################################################################################
 # Getting data dynamically

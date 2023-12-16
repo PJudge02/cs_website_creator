@@ -31,12 +31,10 @@ async function loadProjectFile(event) {
   window.project_create.file = event.target.files[0];
 }
 
-async function loadProjectFile2(event) {
-    // console.log(event);
-    // console.log(event.srcElement)
-    // console.log(event.srcElement.id)
+async function loadProjectFile2(event) {    
     const user_id = document.getElementById("user-id-info").value;
-    const image_original = document.getElementById(event.srcElement.id);
+    const proj_id = event.srcElement.id.split('-')[1]
+    const image_original = document.getElementById(proj_id);
     const image = document.createElement("img");
     image.width = 250;
     image.height = 250;
@@ -46,9 +44,10 @@ async function loadProjectFile2(event) {
   
     const data = new FormData()
     data.append("userId", user_id)
+    data.append('projId', proj_id)
     data.append('image', event.target.files[0])
   
-    fetch('/api/v1/image/profile/', {
+    fetch('/api/v1/image/project/', {
       method: "PUT",
       body: data
     })
