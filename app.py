@@ -268,6 +268,9 @@ def put_about(userId: int):
     college = info["college"]
     major = info["major"]
     phone = info["phone"]
+    github = info['github']
+    instagram = info['instagram']
+    linkedin = info['linkedin']
 
     if userId != current_user.id:  # type: ignore
         return "", 403
@@ -281,6 +284,9 @@ def put_about(userId: int):
     user.college = college
     user.major = major
     user.phone = phone
+    user.github = github
+    user.linkedIn = linkedin
+    user.instagram = instagram
 
     db.session.commit()
     return "", 200
