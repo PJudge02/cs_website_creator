@@ -46,7 +46,6 @@ db = SQLAlchemy(app)
 (
     User,
     Project,
-    Project_Image,
     Experience,
     Website,
     Programming_Language,
@@ -210,17 +209,32 @@ def view_projects(userId: int):
 
 @app.put("/api/project/")
 @app.put("/api/project/<int:projectId>/")
+@login_required
 def put_Project(projectId: int | None = None):
-    info = request.get_json()
+    info = request.form
     title = info["title"]
     description = info["description"]
-    repositoryLink = info["repositoryLink"]
     userId = info["userId"]
+
+    image = request.files["image"]
+    imagePath = ""
 
     User.query.get_or_404(userId)
 
-    if userId != current_user.id:  # type: ignore
+    if int(userId) != current_user.id:  # type: ignore
         return "", 403
+
+    if image and image.filename and allowed_file(image.filename):
+        filename = secure_filename(image.filename)
+        directory = os.path.join(app.config["UPLOAD_FOLDER"], userId, "project")
+        path = os.path.join(directory, filename)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        image.save(path)
+        imagePath = os.path.join(app.config["UPLOAD_FOLDER_RELATIVE"], userId, "project", filename)
+        db.session.commit()
+    else:
+        return "", 400
 
     if projectId:
         # update
@@ -229,8 +243,7 @@ def put_Project(projectId: int | None = None):
         if project:
             project.title = title
             project.description = description
-            project.repositoryLink = repositoryLink
-
+            project.imagePath = imagePath
             db.session.commit()
             return "", 200
         else:
@@ -241,7 +254,7 @@ def put_Project(projectId: int | None = None):
         userId=userId,
         title=title,
         description=description,
-        repositoryLink=repositoryLink,
+        imagePath=imagePath
     )  # type: ignore
 
     db.session.add(project_new)
@@ -335,44 +348,6 @@ def put_Language(langId: int | None = None):
         return "", 403
 
     if langId:
-        # update
-        language = Programming_Language.query.get(langId)
-
-        if language:
-            language.language = name
-            language.proficiency = proficiency
-
-            db.session.commit()
-            return "", 200
-        else:
-            return "", 404
-
-    # create new
-    lang_new = Programming_Language(
-        userId=userId,
-        language=name,
-        proficiency=proficiency,
-    )  # type: ignore
-
-    db.session.add(lang_new)
-    db.session.commit()
-    return "", 200
-
-@app.put("/api/project/")
-@app.put("/api/project/<int:projId>/")
-def put_Language(projId: int | None = None):
-    info = request.get_json()
-    title = info["title"]
-    discription = info["discription"]
-    img = info["img"]
-    userId = info["userId"]
-
-    User.query.get_or_404(userId)
-
-    if userId != current_user.id:  # type: ignore
-        return "", 403
-
-    if projId:
         # update
         language = Programming_Language.query.get(langId)
 

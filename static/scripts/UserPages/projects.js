@@ -1,44 +1,32 @@
 window.addEventListener("DOMContentLoaded", async () => {
-    const new_proj_btn = document.getElementById("save-new-project-btn");
-    new_proj_btn.addEventListener("click", new_proj);
-  });
+  const new_proj_btn = document.getElementById("save-new-project-btn");
+  new_proj_btn.addEventListener("click", new_proj);
 
-  async function new_lang() {
+  window.project_create = {}
+  window.project_create.file = null;
+});
+
+async function new_proj() {
   const user_id = parseInt(document.getElementById("user-id-info").value);
   const proj_title = document.getElementById("new-project-title-input").value;
   const proj_discription = document.getElementById("new-project-description-input").value;
-  const proj_img = document.getElementById("new-project-image-input").value
+  
+  const data = new FormData();
+  data.append("userId", user_id);
+  data.append("title", proj_title)
+  data.append("description", proj_discription)
+  data.append('image', window.project_create.file)
 
-  const image = document.createElement('img');
-  image.width = 150;
-  image.height = 150; 
+  fetch('/api/project/', {
+    method: "PUT",
+    body: data
+  }).catch((error) => {
+    console.log("Erro creating project: ", error)
+  })
 
-  const values = {};
-  values.title = proj_title;
-  values.discription = proj_discription;
-//   values.img = proj_img
-  values.userId = user_id;
-
-  const req = new XMLHttpRequest();
-  req.open("PUT", `/api/language/`, true);
-  req.setRequestHeader("Content-type", "application/json; charset=utf-8");
-  req.send(JSON.stringify(values));
-
-  const lang_list = document.getElementById("language-list");
-  const lang_li = document.createElement("li");
-  lang_li.classList.add("list-group-item")
-  lang_li.innerText = `${lang_name}, ${lange_prof}`;
-  lang_list.appendChild(lang_li);
+  location.reload()
 }
 
-async function loadProjectFile(event){
-    const icon = document.getElementById("person-photo");
-    const image = document.createElement('img');
-    image.width =50;
-    image.height =50; 
-    image.src = URL.createObjectURL(event.target.files[0]);
-    image.id="person-photo"
-    icon.replaceWith(image);
-    // const r = await fetch() 
-    //CREATE FETCH REQUEST WITH PROPER URL: "DONT KNOW WHAT THE URL IS"
-  }
+async function loadProjectFile(event) {
+  window.project_create.file = event.target.files[0];
+}
