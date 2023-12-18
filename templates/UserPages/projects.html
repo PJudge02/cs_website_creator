@@ -1,4 +1,4 @@
-{% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
+{% extends "UserPages/base.html" %} {% block title %} Edit Projects {{user.firstName}} {{user.lastName}} | WebFolio{% endblock title %} {% block head %} {{super()}}
 <script src="/static/scripts/UserPages/projects.js"></script>
 <script src="/static/scripts/UserPages/project_edit.js"></script>
 {% endblock head %} {% block main %}
@@ -28,7 +28,7 @@
           <label for="file-{{project.id}}" style="cursor: pointer;">
             {% if project.imagePath %}
             <img class="pt-2 pb-2" src="{{project.imagePath}}" style="width: 350px; height: 350px" alt="Project Image"
-              id="{{project.id}}" />
+              id="{{project.id}}"/>
             {% endif %}
           </label>
         </div>

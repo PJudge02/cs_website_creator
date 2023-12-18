@@ -1,4 +1,4 @@
-{% extends "WebsiteViews/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
+{% extends "WebsiteViews/base.html" %} {% block title %} View {{user.firstName}} {{user.lastName}} | WebFolio{% endblock title %} {% block head %} {{super()}}
 <script src="/static/scripts/UserPages/about_edit.js"></script>
 <script src="/static/scripts/UserPages/languageSkills.js"></script>
 <script src="/static/scripts/UserPages/language_drag.js"></script>
@@ -67,9 +67,9 @@
           <!-- <div class="row"> -->
             <!-- <div class="col-md-4"> -->
               {% if user.github %}
-              <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px"></i></a>
+              <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px; padding:10px"></i>GitHub</a>
               {% endif %} {% if user.linkedIn %}
-              <a href="{{user.linkedIn}}" class="card-link"><i class="fa fa-linkedin" style="font-size: 36px"></i></a>
+              <a href="{{user.linkedIn}}" class="card-link"><i class="fa fa-linkedin" style="font-size: 36px; padding:10px"></i>LinkedIn</a>
               {% endif %}
           <!-- </div> -->
 
