@@ -4,7 +4,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   const major = document.getElementById("about-field-major");
   const phone = document.getElementById("about-field-phone");
   const github = document.getElementById("about-field-github")
-  const instagram = document.getElementById("about-field-instagram")
   const linkedIn = document.getElementById("about-field-linkedin")
 
   // Options for the observer (which mutations to observe)
@@ -30,7 +29,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   observer.observe(major, config);
   observer.observe(phone, config);
   observer.observe(github, config)
-  observer.observe(instagram, config)
   observer.observe(linkedIn, config)
 });
 
@@ -63,7 +61,6 @@ async function saveAbout() {
   const major = document.getElementById("about-field-major").innerText;
   const phone = document.getElementById("about-field-phone").innerText;
   const github = document.getElementById("about-field-github").innerText
-  const instagram = document.getElementById("about-field-instagram").innerText
   const linkedIn = document.getElementById("about-field-linkedin").innerText
 
   const values = {
@@ -72,7 +69,6 @@ async function saveAbout() {
     major: major,
     phone: phone,
     github: github,
-    instagram: instagram,
     linkedin: linkedIn
   };
 
