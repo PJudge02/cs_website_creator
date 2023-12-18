@@ -3,7 +3,7 @@
 {% endblock head %} {% block main %}
 <div id="" style="min-height: 100vh; background-image:url('/static/images/CodeBackground.png'); background-attachment: fixed !important;">
   <input type="hidden" value="{{user.id}}" id="user-id-info" id="project-card-holder" />
-  <div class="w-75 pt-4" style="width: 18rem;">
+  <div class="w-75 pt-4 pb-4" style="width: 18rem;">
     <div class="text-center pb-5">
       <h1 class="display-4 text-white " style="font-weight: bold !important;">Projects</h1>
       <hr class=" w-25 m-auto" style="border-top: 2px solid white; opacity: .9;">
@@ -22,7 +22,7 @@
             style="display: none;">
           <label for="file-{{project.id}}" style="cursor: pointer;">
             {% if project.imagePath %}
-            <img class="" src="{{project.imagePath}}" style="width: 200px; height: 200px" alt="Project Image"
+            <img class="pt-2 pb-2" src="{{project.imagePath}}" style="width: 200px; height: 200px" alt="Project Image"
               id="{{project.id}}" />
             {% endif %}
           </label>
