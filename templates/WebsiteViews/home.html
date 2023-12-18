@@ -34,6 +34,7 @@
     <div class="card-body">
       <h5 class="card-title">Projects</h5>
     </div>
+    {% if user.projects %}
     {% for project in user.projects %}
     <div style="text-align: center">
       <img
@@ -48,6 +49,12 @@
       </div>
     </div>
     {%endfor%}
+    {% else %}
+    <div style="text-align: center">
+      <h5 class="card-title">No Projects given yet.</h5>
+    </div>
+
+    {% endif %}
   </div>
   <div>
     <div class="card w-75 border-primary mb-3" style="width: 18rem">
