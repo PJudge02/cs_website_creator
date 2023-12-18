@@ -18,10 +18,12 @@
 
       <div class="row pt-5">
         <div class="col-md-6">
+          {% if user.imagePath %}
           <div class="user-image text-center">
-              <img id="person-photo" {% if user.imagePath %} src="{{user.imagePath}}" {% else %}
-                src="/static/images/saveImage.png" {% endif %} width="300" height="300">
+              <img id="person-photo" src="{{user.imagePath}}"
+              width="300" height="300">
           </div>
+          {% endif %}
         </div>
         <div class="col-md-6">
           <div class="user-info mx-auto">
