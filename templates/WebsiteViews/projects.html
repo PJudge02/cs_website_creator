@@ -14,14 +14,10 @@
             {% for project in user.projects %}
             <div class="row w-100 center m-auto">
                 <div class="col-md-5 p-0 d-flex justify-content-center align-items-center">
-                    <input type="file" accept="image/*" name="image" id="file-{{project.id}}"
-                        onchange="loadProjectFile2(event)" style="display: none;">
-                    <label for="file-{{project.id}}" style="cursor: pointer;">
                         {% if project.imagePath %}
                         <img class="pt-2 pb-2" src="{{project.imagePath}}" style="width: 200px; height: 200px"
                             alt="Project Image" id="{{project.id}}" />
                         {% endif %}
-                    </label>
 
                 </div>
                 <div class="col-md-7 p-0">
