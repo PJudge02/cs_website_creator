@@ -22,7 +22,7 @@
             style="display: none;">
           <label for="file-{{project.id}}" style="cursor: pointer;">
             {% if project.imagePath %}
-            <img class="pt-2 pb-2" src="{{project.imagePath}}" style="width: 200px; height: 200px" alt="Project Image"
+            <img class="pt-2 pb-2" src="{{project.imagePath}}" style="width: 350px; height: 350px" alt="Project Image"
               id="{{project.id}}" />
             {% endif %}
           </label>
@@ -30,7 +30,7 @@
         </div>
         <div class="col-md-7 p-0">
           <div class="">
-            <h3 class="text-white myeditablediv " style="font-weight: bold !important;">{{project.title}}</h3>
+            <h2 class="text-white myeditablediv " style="font-weight: bold !important;">{{project.title}}</h2>
             <p class="text-white myeditablediv ">{{project.description}}</p>
 
           </div>
