@@ -18,7 +18,6 @@ from forms import PersonalInformation, LoginForm
 from db_setup import setup_web_builder_tables
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
-import json
 
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg"])
 
