@@ -56,20 +56,28 @@
       </div>
       <h5 class="card-subtitle">Programming languages</h5>
       <ul class="list-group list-group-flush" id="language-list">
+        {% if user.languages %}
         {%for language in user.languages%}
         <li class="list-group-item" id="lang-li-{{language.id}}">
           <i class="fa-solid fa-code"></i> {{language.language}}, {{language.proficiency}}
         </li>
         {%endfor%}
+        {% else %}
+        <li class="list-group-item">No languages given yet.</li>
+        {% endif %}
       </ul>
       <h5 class="card-subtitle">Work Experience</h5>
       <ul class="list-group list-group-flush" id="work-list">
+        {% if user.experiences %}
         {%for job in user.experiences%}
         <li class="list-group-item" id="work-li-{{job.id}}">
           <i class="fa-solid fa-briefcase"></i> {{job.position}} at {{job.company}} from {{job.years}}.
           {{job.description}}
         </li>
         {%endfor%}
+        {% else %}
+        <li class="list-group-item">No work experience given yet.</li>
+        {% endif %}
       </ul>
     </div>
   </div>
