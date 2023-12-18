@@ -10,135 +10,152 @@
 <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 <link rel="stylesheet" href="/static/styles/draggable.css">
 {% endblock head %} {% block main %}
-<div id="allCards">
+<div id="allCards" style="background-image:url('../../static/images/CodeBackground.png'); background-attachment: fixed;">
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
-  <div class="card w-75 border-primary mb-3" style="width: 18rem">
-    <div class="card-body">
-      <h3 id="user-name" class="card-title">About {{user.firstName}} {{user.lastName}}</h3>
-      <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
-            <label for="file" style="cursor: pointer;"><img id="person-photo" 
-              {% if user.imagePath %}
-              src="{{user.imagePath}}"
-              {% else %}
-              src="/static/images/saveImage.png"
-              {% endif %}
-              width="250" height="250"
-              >
-              
-            </label>
-          </div>    
-    <ul class="list-group list-group-flush">
-      <li id="user-name" class="list-group-item">
-        <div class="card-body">
-        </div>
-      
-      </li>
-      <li id="user-about" class="list-group-item">
-        <i class="fa-solid fa-circle-info"></i>
-        <div id="about-field-about" class="myeditablediv">{{user.about}}</div>
-      </li>
-      <li id="user-college-major" class="list-group-item">
-          <div class="row">
-              <i class="fa fa-university col-md-1"></i>
-            <div id="about-field-major" class="myeditablediv" class="col-md-2">{{user.major}}</div>
-            <div id="about-field-college" class="myeditablediv" class="col-md-2">{{user.college}}</div>
-        </div>
-      </li>
-      <li id="user-phone" class="list-group-item">
-        <a>
-          <i class="fa-solid fa-phone"></i>
-          <div class="myeditablediv" id="about-field-phone">{{user.phone}}</div></a
-        >
-      </li>
-      <li class="list-group-item">
-        <a
-          ><i class="fa-solid fa-envelope"></i>
-          <div>{{user.email}}</div></a
-        >
-      </li>
-    </ul>
+  <div class="" style="">
+    <div class=" w-100"
+      style="padding: 2rem 4rem 5rem 4rem !important; margin: 0 !important">
 
-    <!-- <div class="card-body"> -->
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <h3 class="card-title">Github URL</h3>
-          <div id="about-field-github" class="myeditablediv">{{user.github}}</div>
-        </li>
-        <li class="list-group-item">
-          <h3 class="card-title">Instagram URL</h3>
-          <div id="about-field-instagram" class="myeditablediv">{{user.instagram}}</div>
-        </li>
-        <li class="list-group-item">
-          <h3 class="card-title">LinkedIN URL</h3>
-          <div id="about-field-linkedin" class="myeditablediv">{{user.linkedIn}}</div>
-        </li>
-      </ul>
+      <div class="row pt-5">
+        <div class="col-md-6">
+          <div class="user-image text-center">
+            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)"
+              style="display: none;">
+            <label for="file" style="cursor: pointer;">
+              <img id="person-photo" {% if user.imagePath %} src="{{user.imagePath}}" {% else %}
+                src="/static/images/saveImage.png" {% endif %} width="300" height="300">
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="user-info mx-auto">
+            <h1 id="user-name" class="myeditablediv display-4 text-white" style="font-weight: bold !important;">
+              {{user.firstName}}
+              {{user.lastName}}</h1>
+            <hr class=" w-75 mt-2" style="border-top: 2px solid white; opacity: .9;">
+            <div class="row">
+              <!-- <i class="fa fa-university col-md-1"></i> -->
+              <div>
+                <i>
+                  <div id="about-field-major" class="myeditablediv list-group-item text-white fs-4" class="col-md-2">
+                    {{user.major}}
+                  </div>
+                  <div id="about-field-college" class="myeditablediv list-group-item text-white fs-4" class="col-md-2">
+                    {{user.college}}
+                  </div>
+                  <!-- <div class="myeditablediv list-group-item" id="about-field-phone ">{{user.phone}}</div> -->
+                  <div class="list-group-item myeditablediv text-white fs-4" id="about-field-phone ">{{user.email}} |
+                    {{user.phone}}</div>
+                </i>
+
+              </div>
+
+
+            </div>
+            <hr class=" w-75 mt-2" style="border-top: 2px solid white; opacity: .9;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="about-section" class="text-center pt-4" style="background-color:white;">
+      <h1 style="font-weight: bold !important;">ABOUT ME</h1>
+      <hr class=" w-25 m-auto" style="border-top: 2px solid black; opacity: .9;">
+      <div id="about-field-about list-group-item" class="myeditablediv mt-2 w-75">{{user.about}}</div>
+
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-4">
+              <div id="about-field-github" class="myeditablediv">{{user.github}}</div>
+
+            </div>
+            <div class="col-md-4">
+              <div id="about-field-instagram" class="myeditablediv">{{user.instagram}}</div>
+
+            </div>
+            <div class="col-md-4">
+              <div id="about-field-linkedin" class="myeditablediv">{{user.linkedIn}}</div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-3"></div>
+        <!-- <div class="col-md-2">
+            <div id="about-field-github" class="myeditablediv">{{user.github}}</div>
+        </div>
+        <div class="col-md-2">
+            <div id="about-field-instagram" class="myeditablediv">{{user.instagram}}</div>
+        </div>
+        <div class="col-md-2">
+            <div id="about-field-linkedin" class="myeditablediv">{{user.linkedIn}}</div>
+        </div>
+        <div class="col-md-3"></div> -->
+
+      </div>
+
+
+    </div>
     <!-- </div> -->
   </div>
-  <div class="card w-75 border-primary mb-3" style="width: 18rem">
-    <div class="card-body">
-      <h3 class="card-title"  class="card-title">Projects</h3>
-    </div>
-    {% for project in user.projects %}
-    <div>
-      <div class="card-body">
-        <h5 class="card-title">{{project.title}}</h5>
-        <p class="card-text">{{project.description}}</p>
+  <div class="w-100 border-primary pb-4" style="width: 18rem;">
+    <div class="row">
+      <div class="col-m-2"></div>
+      <div class="col-md-4">
+        <div class="text-left pt-4 pb-3">
+          <h1 class="text-white" style="font-weight: bold !important;">PROJECTS</h1>
+          <hr class=" w-100 m-auto" style="border-top: 2px solid white; opacity: .9;">
+        </div>
+        {% for project in user.projects %}
+        <div>
+          <div class="w-100">
+            <h5 class="text-white">{{project.title}}</h5>
+            <p class="text-white">{{project.description}}</p>
+          </div>
+        </div>
+        {%endfor%}
       </div>
-    </div>
-    {%endfor%}
-  </div>
-  <div>
-    <div class="card w-75 border-primary mb-3" style="width: 18rem">
-      <div class="card-body">
-        <h5 class="card-title">Skills/Experience</h5>
-      </div>
-      <!-- <div class="container"> -->
-        <!-- <div class="row"> -->
-          <!-- <div class="col-md-3 offset-md-3"> -->
-            <h5 class="card-subtitle">Programming languages</h5>
-          <!-- </div> -->
-          <!-- <div class="col-md-3"> -->
-            <button
-              id="newLanguage-{{user.id}}"
-              type="button"
-              class="btn"
-              data-bs-toggle="modal"
-              data-bs-target="#new-language-modal">
-              <img
-                src="/static/images/add_new.png"
-                alt="Image"
-                style="width: 20px; height: 20px"
-                class="rounded-circle" />
-            </button>
-          <!-- </div> -->
-        <!-- </div> -->
-      <!-- </div> -->
+      <div class="col-md-4">
+        <div class="text-left pt-4 pb-3">
+          <h1 class="text-white" style="font-weight: bold !important;">SKILLS/EXPERIENCE</h1>
+          <hr class=" w-100 m-auto" style="border-top: 2px solid white; opacity: .9;">
 
-      <ul id="language-list" class="list-group list-group-flush drag-list">
-        {% for language in user.languages %}
-        <li class="list-group-item drag-item" draggable="true" id="lang-li-{{language.id}}"><i class="fa-solid fa-code"></i> {{language.language}}, {{language.proficiency}}</li>
-        {% endfor %}
-      </ul>
-      <h5 class="card-title"></i>Work Experience</h5>
-      <button
-        id="newWork-{{user.id}}"
-        type="button"
-        class="btn"
-        data-bs-toggle="modal"
-        data-bs-target="#new-work-modal">
-        <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
-      </button>
-      <ul class="list-group list-group-flush drag-list" id="work-list">
-        {% for work in user.experiences %}
-        <li class="list-group-item drag-item" draggable="true" id="work-li-{{work.id}}">
-          <i class="fa-solid fa-briefcase"></i>
-          {{work.position}}, {{work.company}} {{work.startYear}}-{{work.endYear}}
-          <p>{{work.description}}</p>
-        </li>
-        {% endfor %}
-      </ul>
+        </div>
+        <h5 class="text-white">Programming languages</h5>
+        <button id="newLanguage-{{user.id}}" type="button" class="btn" data-bs-toggle="modal"
+          data-bs-target="#new-language-modal">
+          <img src="/static/images/addNew.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
+        </button>
+
+        <ul id="language-list" class="list-group list-group-flush drag-list">
+          {% for language in user.languages %}
+          <li class="text-white list-group-item drag-item" draggable="true" id="lang-li-{{language.id}}" style="background-color: rgba(255, 255, 255, 0);"><i
+              class="text-white fa-solid fa-code"></i> {{language.language}}, {{language.proficiency}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-m-2"></div>
+
     </div>
+
+  </div>         
+
+  <div class="w-100 border-primary pt-4 pb-2" style="width: 18rem;  background-color: white; padding-right: 4rem !important; padding-left: 4rem !important;">
+    <h1 class="text-black" style="font-weight: bold !important;"></i>WORK EXPERIENCE</h1>
+    <button style="" id="newWork-{{user.id}}" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#new-work-modal">
+      <img src="/static/images/add_new.png" alt="Image" style="width: 20px; height: 20px" class="rounded-circle" />
+    </button>
+    <ul class="list-group list-group-flush drag-list" id="work-list">
+      {% for work in user.experiences %}
+      <li class="list-group-item drag-item" draggable="true" id="work-li-{{work.id}}">
+        <i class="fa-solid fa-briefcase"></i>
+        {{work.position}}, {{work.company}} {{work.startYear}}-{{work.endYear}}
+        <p>{{work.description}}</p>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
 
