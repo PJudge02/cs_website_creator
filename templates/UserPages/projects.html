@@ -1,46 +1,41 @@
 {% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
 <script src="/static/scripts/UserPages/projects.js"></script>
 {% endblock head %} {% block main %}
-<div id="allCards">
-  <input type="hidden" value="{{user.id}}" id="user-id-info" id="project-card-holder"/>
-  <div class="card w-75 border-primary mb-3" style="width: 18rem">
-    <div class="card-body">
-      <h5 class="card-title">Projects</h5>
-      <button
-        id="newProj-{{user.id}}"
-        type="button"
-        class="btn"
-        data-bs-toggle="modal"
+<div id="" style="min-height: 100vh; background-image:url('/static/images/CodeBackground.png'); background-attachment: fixed !important;">
+  <input type="hidden" value="{{user.id}}" id="user-id-info" id="project-card-holder" />
+  <div class="w-75 pt-4" style="width: 18rem;">
+    <div class="text-center pb-3">
+      <h1 class="display-4 text-white " style="font-weight: bold !important;">Projects</h1>
+      <hr class=" w-25 m-auto" style="border-top: 2px solid white; opacity: .9;">
+
+      <button id="newProj-{{user.id}}" type="button" class="btn" data-bs-toggle="modal"
         data-bs-target="#new-project-modal">
-        <img src="/static/images/add_new.png" alt="Image" style="width: 15px; height: 15px" class="rounded-circle" />
+        <img src="/static/images/addNew.png" alt="Image" style="width: 15px; height: 15px" class="rounded-circle" />
       </button>
     </div>
 
-    <div class="m-0" >
+    <div class="m-0 pt-2 pb-2">
       {% for project in user.projects %}
-        <div class="row w-100 center m-auto">
-          <div class="col-md-5 p-0 d-flex justify-content-center align-items-center">
-            <input type="file" accept="image/*" name="image" id="file-{{project.id}}" onchange="loadProjectFile2(event)" style="display: none;">
-            <label for="file-{{project.id}}" style="cursor: pointer;">
+      <div class="row w-100 center m-auto">
+        <div class="col-md-5 p-0 d-flex justify-content-center align-items-center">
+          <input type="file" accept="image/*" name="image" id="file-{{project.id}}" onchange="loadProjectFile2(event)"
+            style="display: none;">
+          <label for="file-{{project.id}}" style="cursor: pointer;">
             {% if project.imagePath %}
-            <img
-              class="card-img-top"
-              src="{{project.imagePath}}"
-              style="width: 300px; height: 200px"
-              alt="Project Image" 
-              id="{{project.id}}"/>
+            <img class="" src="{{project.imagePath}}" style="width: 200px; height: 200px" alt="Project Image"
+              id="{{project.id}}" />
             {% endif %}
-            </label>
-            
-          </div>
-          <div class="col-md-7 p-0">
-            <div class="card-body">
-              <h5 class="card-title myeditablediv">{{project.title}}</h5>
-              <p class="card-text myeditablediv">{{project.description}}</p>
-              
-            </div>
+          </label>
+
+        </div>
+        <div class="col-md-7 p-0">
+          <div class="">
+            <h3 class="text-white myeditablediv " style="font-weight: bold !important;">{{project.title}}</h3>
+            <p class="text-white myeditablediv ">{{project.description}}</p>
+
           </div>
         </div>
+      </div>
       {%endfor%}
     </div>
 
@@ -101,11 +96,7 @@
             </div>
             <div class="form-group">
               <label for="project-image-input">Project Image</label>
-              <input
-                type="file"
-                accept=".png, .jpg"
-                class="form-control"
-                onchange="loadProjectFile(event)"
+              <input type="file" accept=".png, .jpg" class="form-control" onchange="loadProjectFile(event)"
                 id="new-project-image-input" />
             </div>
           </form>
