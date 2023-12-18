@@ -59,33 +59,31 @@
       <hr class=" w-25 m-auto" style="border-top: 2px solid black; opacity: .9;">
       <div id="about-field-about list-group-item" class=" mt-2 w-75">{{user.about}}</div>
 
-      <div class="row pt-2">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-4">
-              <div id="about-field-github" class="">{{user.github}}</div>
+      <!-- <div class="row pt-2"> -->
+        <!-- <div class="col-md-3"></div> -->
+        <!-- <div class="col-md-6"> -->
+          <!-- <div class="row"> -->
+            <!-- <div class="col-md-4"> -->
+              {% if user.github %}
+              <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px"></i> Github</a>
+              {% endif %} {% if user.instagram %}
+              <a href="{{user.instagram}}" class="card-link"
+                ><i class="fa fa-instagram" style="font-size: 36px"></i> Instagram</a
+              >
+              {% endif %} {% if user.linkedIn %}
+              <a href="{{user.linkedIn}}" class="card-link"><i class="fa fa-linkedin" style="font-size: 36px"></i> LinkedIn</a>
+              {% endif %}
+          <!-- </div> -->
 
-            </div>
-            <div class="col-md-4">
-              <div id="about-field-instagram" class="">{{user.instagram}}</div>
-
-            </div>
-            <div class="col-md-4">
-              <div id="about-field-linkedin" class="">{{user.linkedIn}}</div>
-
-            </div>
-          </div>
-
-        </div>
+        <!-- </div> -->
         <div class="col-md-3"></div>
 
-      </div>
+      <!-- </div> -->
 
 
-    </div>
     <!-- </div> -->
-  </div>
+    <!-- </div> -->
+  <!-- </div> -->
   <div class="w-100 border-primary pb-4" style="width: 18rem; background-color: #929292;">
     <div class="row">
       <div class="col-m-1"></div>
