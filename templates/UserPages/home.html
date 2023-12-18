@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-6">
           <div class="user-info mx-auto">
-            <h1 id="user-name" class="myeditablediv display-4 text-white" style="font-weight: bold !important;">
+            <h1 id="user-name" class="display-4 text-white" style="font-weight: bold !important;">
               {{user.firstName}}
               {{user.lastName}}</h1>
             <hr class=" w-75 mt-2" style="border-top: 2px solid white; opacity: .9;">
@@ -44,8 +44,8 @@
                     {{user.college}}
                   </div>
                   <!-- <div class="myeditablediv list-group-item" id="about-field-phone ">{{user.phone}}</div> -->
-                  <div class="list-group-item myeditablediv text-white fs-4" id="about-field-phone ">{{user.email}} |
-                    {{user.phone}}</div>
+                  <div class="list-group-item text-white fs-4" id="about-field-email">{{user.email}}</div>
+                  <div class="list-group-item myeditablediv text-white fs-4" id="about-field-phone">{{user.phone}} </div>
                 </i>
 
               </div>
@@ -69,10 +69,6 @@
           <div class="row">
             <div class="col-md-4">
               <div id="about-field-github" class="myeditablediv">{{user.github}}</div>
-
-            </div>
-            <div class="col-md-4">
-              <div id="about-field-instagram" class="myeditablediv">{{user.instagram}}</div>
 
             </div>
             <div class="col-md-4">
