@@ -68,10 +68,12 @@
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-4">
+              <i class="fa-brands fa-github"></i>
               <div id="about-field-github" class="myeditablediv">{{user.github}}</div>
 
             </div>
             <div class="col-md-4">
+              <i class="fa-brands fa-linkedin"></i>
               <div id="about-field-linkedin" class="myeditablediv">{{user.linkedIn}}</div>
 
             </div>
@@ -94,6 +96,8 @@
           <h1 class="text-white" style="font-weight: bold !important;">PROJECTS</h1>
           <hr class=" w-100 m-auto" style="border-top: 2px solid white; opacity: .9;">
         </div>
+        
+        <a type="button" class="btn btn-light" href = "/user/{{user.id}}/projects/">Create new project</a>
         {% for project in user.projects %}
         <div>
           <div class="w-100">

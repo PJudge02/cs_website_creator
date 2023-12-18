@@ -26,9 +26,15 @@ async function new_lang() {
 
   const lang_list = document.getElementById("language-list");
   const lang_li = document.createElement("li");
-  lang_li.classList.add("list-group-item", "drag-item");
+  lang_li.classList.add("list-group-item", "drag-item", "text-white");
+  lang_li.style = "background-color: rgba(255, 255, 255, 0);";
   lang_li.draggable = true
-  lang_li.id = `lang-li-${langId.id}`
-  lang_li.innerText = `${lang_name}, ${lange_prof}`;
+  lang_li.id = `lang-li-${langId.id}`;
+  const i = document.createElement("i");
+  i.classList.add("text-white", "fa-solid", "fa-code");
+  lang_li.appendChild(i);
+  const textNode = document.createTextNode(` ${lang_name}, ${lange_prof}`);
+  lang_li.appendChild(textNode);
+
   lang_list.appendChild(lang_li);
 }
