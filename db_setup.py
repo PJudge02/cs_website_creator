@@ -53,7 +53,7 @@ def setup_web_builder_tables(
         title = db.Column(db.Unicode, nullable=False)
         description = db.Column(db.Unicode, nullable=False)
         imagePath = db.Column(db.Unicode, nullable=False)
-
+        link = db.Column(db.Unicode, nullable=True)
         def __str__(self):
             return f"{self.userId=}\n{self.title=}\n{self.description=}"
 
@@ -139,7 +139,8 @@ def setup_web_builder_tables(
                 userId=1,
                 title="My First Project",
                 description="Little Project I made",
-                imagePath="/static/images/pencil.png"
+                imagePath="/static/images/pencil.png",
+                link = "https://www.google.com/"
             )  # type: ignore
 
             work_experience1: Experience = Experience(
