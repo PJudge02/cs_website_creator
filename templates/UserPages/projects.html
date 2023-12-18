@@ -15,6 +15,10 @@
     </div>
 
     <div class="m-0 pt-2 pb-2">
+      {%if user.projects|length%}
+      {%else%}
+      <h1 style="color:white">No projects yet! Click the + button to create a new project</h1>
+      {%endif%}
       {% for project in user.projects %}
       <div class="row w-100 center m-auto">
         <div class="col-md-5 p-0 d-flex justify-content-center align-items-center">
