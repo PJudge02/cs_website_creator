@@ -1,91 +1,261 @@
-{% extends "WebsiteViews/base.html" %} {% block title %} Home {% endblock title %} {% block head %} {{super()}}
-<script src="/static/scripts/WebsiteViews/homePage.js"></script>
+{% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
+<script src="/static/scripts/UserPages/about_edit.js"></script>
+<script src="/static/scripts/UserPages/languageSkills.js"></script>
+<script src="/static/scripts/UserPages/language_drag.js"></script>
+<script src="/static/scripts/UserPages/work_add.js"></script>
+<script src="/static/scripts/UserPages/work_drag.js"></script>
+<script>
+  UPLOADCARE_PUBLIC_KEY = "demopublickey";
+</script>
+<script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+<link rel="stylesheet" href="/static/styles/draggable.css">
 {% endblock head %} {% block main %}
-<div id="allCards">
+<div id="allCards" style="background-image:url('../../static/images/CodeBackground.png'); background-attachment: fixed;">
   <input type="hidden" value="{{user.id}}" id="user-id-info" />
-  <div class="card w-75 border-primary mb-3" style="width: 18rem">
-    <div class="card-body">
-      <h5 class="card-title"><i class="fa fa-user"></i> About {{user.firstName}} {{user.lastName}}</h5>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item"><i class="fa-solid fa-circle-info"></i> {{user.about}}</li>
-      <li class="list-group-item"><i class="fa fa-university"></i> {{user.major}}, {{user.college}}</li>
-      <li class="list-group-item">
-        <a href="tel:{{user.phone}}"> <i class="fa-solid fa-phone"></i> {{user.phone}}</a>
-      </li>
+  <div class="" style="">
+    <div class=" w-100"
+      style="padding: 2rem 4rem 5rem 4rem !important; margin: 0 !important">
 
-      <li class="list-group-item">
-        <a href="mailto: {{user.email}}"> <i class="fa-solid fa-envelope"></i> {{user.email}}</a>
+      <div class="row pt-5">
+        <div class="col-md-6">
+          <div class="user-image text-center">
+              <img id="person-photo" {% if user.imagePath %} src="{{user.imagePath}}" {% else %}
+                src="/static/images/saveImage.png" {% endif %} width="300" height="300">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="user-info mx-auto">
+            <h1 id="user-name" class=" display-4 text-white" style="font-weight: bold !important;">
+              {{user.firstName}}
+              {{user.lastName}}</h1>
+            <hr class=" w-75 mt-2" style="border-top: 2px solid white; opacity: .9;">
+            <div class="row">
+              <!-- <i class="fa fa-university col-md-1"></i> -->
+              <div>
+                <i>
+                  <div id="about-field-major" class=" list-group-item text-white fs-4" class="col-md-2">
+                    {{user.major}}
+                  </div>
+                  <div id="about-field-college" class=" list-group-item text-white fs-4" class="col-md-2">
+                    {{user.college}}
+                  </div>
+                  <!-- <div class="myeditablediv list-group-item" id="about-field-phone ">{{user.phone}}</div> -->
+                  <div class="list-group-item  text-white fs-4" id="about-field-phone ">{{user.email}} |
+                    {{user.phone}}</div>
+                </i>
+
+              </div>
+
+
+            </div>
+            <hr class=" w-75 mt-2" style="border-top: 2px solid white; opacity: .9;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="about-section" class="text-center pt-4 pb-4" style="background-color:white;">
+      <h1 style="font-weight: bold !important;">ABOUT ME</h1>
+      <hr class=" w-25 m-auto" style="border-top: 2px solid black; opacity: .9;">
+      <div id="about-field-about list-group-item" class=" mt-2 w-75">{{user.about}}</div>
+
+      <div class="row pt-2">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-4">
+              <div id="about-field-github" class="">{{user.github}}</div>
+
+            </div>
+            <div class="col-md-4">
+              <div id="about-field-instagram" class="">{{user.instagram}}</div>
+
+            </div>
+            <div class="col-md-4">
+              <div id="about-field-linkedin" class="">{{user.linkedIn}}</div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-3"></div>
+
+      </div>
+
+
+    </div>
+    <!-- </div> -->
+  </div>
+  <div class="w-100 border-primary pb-4" style="width: 18rem;">
+    <div class="row">
+      <div class="col-m-1"></div>
+      <div class="col-md-5">
+        <div class="text-left pt-4 pb-3">
+          <h1 class="text-white" style="font-weight: bold !important;">PROJECTS</h1>
+          <hr class=" w-100 m-auto" style="border-top: 2px solid white; opacity: .9;">
+        </div>
+        {% for project in user.projects %}
+        <div>
+          <div class="w-100">
+            <h5 class="text-white">{{project.title}}</h5>
+            <p class="text-white">{{project.description}}</p>
+          </div>
+        </div>
+        {%endfor%}
+      </div>
+      <div class="col-md-5">
+        <div class="text-left pt-4 pb-3">
+          <h1 class="text-white" style="font-weight: bold !important;">SKILLS/EXPERIENCE</h1>
+          <hr class=" w-100 m-auto" style="border-top: 2px solid white; opacity: .9;">
+
+        </div>
+        <h5 class="text-white">Programming languages</h5>
+
+        <ul id="language-list" class="list-group list-group-flush drag-list">
+          {% for language in user.languages %}
+          <li class="text-white list-group-item drag-item" draggable="true" id="lang-li-{{language.id}}" style="background-color: rgba(255, 255, 255, 0);"><i
+              class="text-white fa-solid fa-code"></i> {{language.language}}, {{language.proficiency}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-m-1"></div>
+
+    </div>
+
+  </div>         
+
+  <div class="w-100 border-primary pt-4 pb-2" style="width: 18rem;  background-color: white; padding-right: 3.5rem !important; padding-left: 3.5rem !important;">
+    <h1 class="text-black" style="font-weight: bold !important;"></i>WORK EXPERIENCE</h1>
+    <hr class="text-left" style="width: 33%; border-top: 2px solid black; opacity: .9;">
+
+    <ul class="list-group list-group-flush drag-list" id="work-list">
+      {% for work in user.experiences %}
+      <li class="list-group-item drag-item" draggable="true" id="work-li-{{work.id}}">
+        <i class="fa-solid fa-briefcase"></i>
+        {{work.position}}, {{work.company}} {{work.startYear}}-{{work.endYear}}
+        <p>{{work.description}}</p>
       </li>
+      {% endfor %}
     </ul>
-    <div class="card-body">
-      {% if user.github %}
-      <a href="{{user.github}}" class="card-link"> <i class="fa fa-github" style="font-size: 36px"></i> Github</a>
-      {% endif %} {% if user.instagram %}
-      <a href="{{user.instagram}}" class="card-link"
-        ><i class="fa fa-instagram" style="font-size: 36px"></i> Instagram</a
-      >
-      {% endif %} {% if user.linkedIn %}
-      <a href="{{user.linkedIn}}" class="card-link"><i class="fa fa-linkedin" style="font-size: 36px"></i> LinkedIn</a>
-      {% endif %}
-    </div>
   </div>
-  <div class="card w-75 border-primary mb-3" style="width: 18rem">
-    <div class="card-body">
-      <h5 class="card-title">Projects</h5>
-    </div>
-    {% if user.projects %}
-    {% for project in user.projects %}
-    <div style="text-align: center">
-      <img
-        class="card-img-top"
-        src="https://i.ytimg.com/vi/oDPhsO2lspA/maxresdefault.jpg"
-        style="width: 300px; height: 200px"
-        alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">{{project.title}}</h5>
-        <p class="card-text">{{project.description}}</p>
-        <a href="{{project.repositoryLink}}" class="btn btn-primary">Try it out</a>
-      </div>
-    </div>
-    {%endfor%}
-    {% else %}
-    <div style="text-align: center">
-      <h5 class="card-title">No Projects given yet.</h5>
-    </div>
+</div>
 
-    {% endif %}
-  </div>
-  <div>
-    <div class="card w-75 border-primary mb-3" style="width: 18rem">
-      <div class="card-body">
-        <h5 class="card-title"><i class="fa fa-user"></i> Skills/Experience</h5>
+<div id="allModals">
+  <!--Project Modal-->
+  <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="project-modal-label">Projects</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="project-title-input">Project Title</label>
+              <input class="form-control" type="text" id="project-title-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="project-description-input">Project Description</label>
+              <textarea class="form-control" id="project-description-input" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="project-image-input">Project Image</label>
+              <input type="file" accept=".png, .jpg" class="form-control" id="project-image-input" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+        </div>
       </div>
-      <h5 class="card-subtitle">Programming languages</h5>
-      <ul class="list-group list-group-flush" id="language-list">
-        {% if user.languages %}
-        {%for language in user.languages%}
-        <li class="list-group-item" id="lang-li-{{language.id}}">
-          <i class="fa-solid fa-code"></i> {{language.language}}, {{language.proficiency}}
-        </li>
-        {%endfor%}
-        {% else %}
-        <li class="list-group-item">No languages given yet.</li>
-        {% endif %}
-      </ul>
-      <h5 class="card-subtitle">Work Experience</h5>
-      <ul class="list-group list-group-flush" id="work-list">
-        {% if user.experiences %}
-        {%for job in user.experiences%}
-        <li class="list-group-item" id="work-li-{{job.id}}">
-          <i class="fa-solid fa-briefcase"></i> {{job.position}} at {{job.company}} from {{job.years}}.
-          {{job.description}}
-        </li>
-        {%endfor%}
-        {% else %}
-        <li class="list-group-item">No work experience given yet.</li>
-        {% endif %}
-      </ul>
+    </div>
+  </div>
+
+  <!--New Language-->
+  <div class="modal fade" id="new-language-modal" tabindex="-1" aria-labelledby="new-language-modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="
+          modal-title fs-5" id="new-language-label">Programming Language</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="new-language-input">Language</label>
+              <input class="form-control" type="text" id="new-language-input" />
+            </div>
+            <h1></h1>
+            <div class="form-group">
+              <label for="new-proficiency-input">Proficiency</label>
+              <select id="new-proficiency-input">
+                <option selected>Choose</option>
+                <option>Advanced</option>
+                <option>Intermediate</option>
+                <option>Beginner</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button id="save-new-lang-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Workplace Modal-->
+  <div class="modal fade" id="new-work-modal" tabindex="-1" aria-labelledby="new-work-modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="new-work-label">Work Experience</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="work-title-input">Title</label>
+              <input class="form-control" type="text" id="work-title-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="work-workplace-input">Workplace</label>
+              <input class="form-control" type="text" id="work-workplace-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="work-description-input">Description</label>
+              <input type="text" class="form-control" id="work-description-input" />
+            </div>
+
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="work-from-input">Start Year</label>
+                    <input class="form-control" type="number" id="work-from-input" />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="work-to-input">End Year</label>
+                    <input class="form-control" type="number" id="work-to-input" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="save-new-work-btn">Save</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

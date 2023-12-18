@@ -1,7 +1,110 @@
-{% extends "WebsiteViews/base.html" %}
-{% block title %} Projects {% endblock title %}
-{% block head %}
-{{super()}}
-{% endblock head %}
-{% block main %}
+{% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
+<script src="/static/scripts/UserPages/projects.js"></script>
+{% endblock head %} {% block main %}
+<div id=""
+    style="min-height: 100vh; background-image:url('/static/images/CodeBackground.png'); background-attachment: fixed !important;">
+    <input type="hidden" value="{{user.id}}" id="user-id-info" id="project-card-holder" />
+    <div class="w-75 pt-4 " style="width: 18rem;">
+        <div class="text-center pb-5">
+            <h1 class="display-4 text-white " style="font-weight: bold !important;">Projects</h1>
+            <hr class=" w-25 m-auto" style="border-top: 2px solid white; opacity: .9;">
+        </div>
+
+        <div class="m-0 pt-2 pb-2">
+            {% for project in user.projects %}
+            <div class="row w-100 center m-auto">
+                <div class="col-md-5 p-0 d-flex justify-content-center align-items-center">
+                    <input type="file" accept="image/*" name="image" id="file-{{project.id}}"
+                        onchange="loadProjectFile2(event)" style="display: none;">
+                    <label for="file-{{project.id}}" style="cursor: pointer;">
+                        {% if project.imagePath %}
+                        <img class="" src="{{project.imagePath}}" style="width: 200px; height: 200px"
+                            alt="Project Image" id="{{project.id}}" />
+                        {% endif %}
+                    </label>
+
+                </div>
+                <div class="col-md-7 p-0">
+                    <div class="">
+                        <h3 class="text-white myeditablediv " style="font-weight: bold !important;">{{project.title}}
+                        </h3>
+                        <p class="text-white myeditablediv ">{{project.description}}</p>
+
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+
+    </div>
+</div>
+
+<div id="allModals">
+    <!--Project Edit Modal-->
+    <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="project-modal-label">Projects</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="project-title-input">Project Title</label>
+                            <input class="form-control" type="text" id="project-title-input" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="project-description-input">Project Description</label>
+                            <textarea class="form-control" id="project-description-input" rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="project-image-input">Project Image</label>
+                            <input type="file" accept=".png, .jpg" class="form-control" id="project-image-input" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--New Project Modal-->
+    <div class="modal fade" id="new-project-modal" tabindex="-1" aria-labelledby="new-project-modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="new-project-modal-label">Projects</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="project-title-input">Project Title</label>
+                            <input class="form-control" type="text" id="new-project-title-input" />
+                        </div>
+                        <div class="form-group">
+                            <label for="project-description-input">Project Description</label>
+                            <textarea class="form-control" id="new-project-description-input" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="project-image-input">Project Image</label>
+                            <input type="file" accept=".png, .jpg" class="form-control"
+                                onchange="loadProjectFile(event)" id="new-project-image-input" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="save-new-project-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock main %}
