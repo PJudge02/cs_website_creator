@@ -10,14 +10,18 @@ async function new_proj() {
   const user_id = parseInt(document.getElementById("user-id-info").value);
   const proj_title = document.getElementById("new-project-title-input").value;
   const proj_discription = document.getElementById("new-project-description-input").value;
+  const proj_link = document.getElementById("new-project-title-input").value;
   
   const data = new FormData();
   data.append("userId", user_id);
   data.append("title", proj_title)
   data.append("description", proj_discription)
   data.append('image', window.project_create.file)
+  data.append('link', proj_link)
 
-  fetch('/api/project/', {
+  console.log(data)
+
+  await fetch('/api/project/', {
     method: "PUT",
     body: data
   }).catch((error) => {

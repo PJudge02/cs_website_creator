@@ -213,10 +213,16 @@ def put_Project(projectId: int | None = None):
     info = request.form
     title = info["title"]
     description = info["description"]
+    link = info['link']
     userId = info["userId"]
 
-    image = request.files["image"]
-    imagePath = ""
+    image = None
+    try:
+        image = request.files["image"]
+    except Exception:
+        pass
+    
+    imagePath = None
 
     User.query.get_or_404(userId)
 
@@ -234,8 +240,6 @@ def put_Project(projectId: int | None = None):
             app.config["UPLOAD_FOLDER_RELATIVE"], userId, "project", filename
         )
         db.session.commit()
-    else:
-        return "", 400
 
     if projectId:
         # update
@@ -244,7 +248,11 @@ def put_Project(projectId: int | None = None):
         if project:
             project.title = title
             project.description = description
-            project.imagePath = imagePath
+            project.link = link
+
+            if imagePath:
+                project.imagePath = imagePath
+
             db.session.commit()
             return "", 200
         else:
@@ -252,7 +260,7 @@ def put_Project(projectId: int | None = None):
 
     # create new
     project_new = Project(
-        userId=userId, title=title, description=description, imagePath=imagePath
+        userId=userId, title=title, description=description, imagePath=imagePath, link=link
     )  # type: ignore
 
     db.session.add(project_new)

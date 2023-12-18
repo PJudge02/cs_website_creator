@@ -1,5 +1,6 @@
 {% extends "UserPages/base.html" %} {% block title %} About {% endblock title %} {% block head %} {{super()}}
 <script src="/static/scripts/UserPages/projects.js"></script>
+<script src="/static/scripts/UserPages/project_edit.js"></script>
 {% endblock head %} {% block main %}
 <div id="" style="min-height: 100vh; background-image:url('/static/images/CodeBackground.png'); background-attachment: fixed !important;">
   <input type="hidden" value="{{user.id}}" id="user-id-info" id="project-card-holder" />
@@ -20,7 +21,7 @@
       <h1 style="color:white">No projects yet! Click the + button to create a new project</h1>
       {%endif%}
       {% for project in user.projects %}
-      <div class="row w-100 center m-auto">
+      <div class="row w-100 center m-auto project-container"  id="project-container-{{project.id}}">
         <div class="col-md-5 p-0 d-flex justify-content-center align-items-center">
           <input type="file" accept="image/*" name="image" id="file-{{project.id}}" onchange="loadProjectFile2(event)"
             style="display: none;">
@@ -30,16 +31,13 @@
               id="{{project.id}}" />
             {% endif %}
           </label>
-
         </div>
         <div class="col-md-7 p-0">
           <div class="">
-            <h2 class="text-white myeditablediv "id="project-title" style="font-weight: bold !important;">{{project.title}}</h2>
-            <p class="text-white myeditablediv " id= "project-description">{{project.description}}</p>
-
+            <h2 class="text-white myeditablediv "id="project-title-{{project.id}}" style="font-weight: bold !important;">{{project.title}}</h2>
+            <p class="text-white myeditablediv " id= "project-description-{{project.id}}">{{project.description}}</p>
           </div>
-          <div class = "myeditablediv text-white" id="project-link" >{{project.link}}</div>
-          <input type="hidden" value ="{{project.id}}" id ="project-id">
+          <div class = "myeditablediv text-white" id="project-link-{{project.id}}" >{{project.link}}</div>
         </div>
       </div>
       {%endfor%}
@@ -49,39 +47,6 @@
 </div>
 
 <div id="allModals">
-  <!--Project Edit Modal-->
-  <div class="modal fade" id="project-modal" tabindex="-1" aria-labelledby="project-modal" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="project-modal-label">Projects</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="project-title-input">Project Title</label>
-              <input class="form-control" type="text" id="project-title-input" />
-            </div>
-
-            <div class="form-group">
-              <label for="project-description-input">Project Description</label>
-              <textarea class="form-control" id="project-description-input" rows="3"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="project-image-input">Project Image</label>
-              <input type="file" accept=".png, .jpg" class="form-control" id="project-image-input" />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!--New Project Modal-->
   <div class="modal fade" id="new-project-modal" tabindex="-1" aria-labelledby="new-project-modal" aria-hidden="true">
     <div class="modal-dialog">
@@ -98,7 +63,11 @@
             </div>
             <div class="form-group">
               <label for="project-description-input">Project Description</label>
-              <textarea class="form-control" id="new-project-description-input" rows="3"></textarea>
+              <input class="form-control" type="text" id="new-project-description-input"/>
+            </div>
+            <div class="form-group">
+              <label for="project-link-input">Project Link</label>
+              <input class="form-control" type="text" id="new-project-link-input"/>
             </div>
             <div class="form-group">
               <label for="project-image-input">Project Image</label>
