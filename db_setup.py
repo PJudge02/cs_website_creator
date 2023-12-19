@@ -7,7 +7,7 @@ from flask_login import UserMixin
 
 
 def setup_web_builder_tables(
-    app: Flask, db: SQLAlchemy, reinitialize=False, add_data=False
+    app: Flask, db: SQLAlchemy, reinitialize=False, add_data=True
 ):
     class User(UserMixin, db.Model):
         __tablename__ = "Users"
