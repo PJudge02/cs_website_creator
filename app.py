@@ -96,7 +96,7 @@ def post_login():
             # redirect the user to the page they wanted or the home page
             next = request.args.get("next")
             if next is None or not next.startswith("/"):
-                next = url_for("userHome")
+                next = url_for("userHome", userId=user.id)
             return redirect(next)
         else:  # if the user does not exist or the password is incorrect
             # flash an error message and redirect to login form
