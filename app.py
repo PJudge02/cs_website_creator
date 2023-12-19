@@ -101,7 +101,7 @@ def post_login():
         else:  # if the user does not exist or the password is incorrect
             # flash an error message and redirect to login form
             flash("Invalid email address or password")
-            return redirect(url_for("userHome", userId=1))
+            return redirect(url_for("index"))
     else:  # if the form was invalid
         # flash error messages and redirect to get login form again
         for field, error in form.errors.items():
@@ -143,7 +143,7 @@ def post_register():
             )  # type:ignore
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for("get_login", userId=user.id))
+            return redirect(url_for("get_login"))
         else:  # if the user already exists
             # flash a warning message and redirect to get registration form
             flash("There is already an account with that email address")
